@@ -10,37 +10,24 @@
 #ifndef WMOEVIEWBASE_H
 #define WMOEVIEWBASE_H
 
+
 #include <qvariant.h>
 #include <qdialog.h>
 #include "ownerror.h"
 #include "widgeom.h"
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class QSpacerItem;
-class QLabel;
+
+namespace Ui {
+    class WMOeViewBase;
+}
 
 class WMOeViewBase : public QDialog
 {
     Q_OBJECT
 
 public:
-    WMOeViewBase( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    explicit WMOeViewBase( QWidget* parent = 0);
     ~WMOeViewBase();
-
-    QLabel* WandlerLabel;
-    QLabel* PrimLabel;
-    QLabel* SecLabel;
-    QLabel* LoadpointLabel;
-    QLabel* AmplLabel;
-    QLabel* PhaseLabel;
-    QLabel* WandlerName;
-    QLabel* PrimDisp;
-    QLabel* SekDisp;
-    QLabel* LoadpointDisp;
-    QLabel* AmplDisp;
-    QLabel* PhaseDisp;
 
 public slots:
     virtual void ReceiveOEViewDataSlot( cOwnErrorViewData * oe );
@@ -54,15 +41,8 @@ signals:
 protected:
     virtual void closeEvent( QCloseEvent * ce );
 
-    QHBoxLayout* WMOeViewBaseLayout;
-    QSpacerItem* spacer4;
-    QVBoxLayout* layout3;
-    QVBoxLayout* layout4;
-
-protected slots:
-    virtual void languageChange();
-
 private:
+    Ui::WMOeViewBase *ui;
     cWidgetGeometry m_widGeometry;
     cOwnErrorViewData m_OwnErrorView;
 

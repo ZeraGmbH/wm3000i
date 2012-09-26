@@ -20,32 +20,17 @@
 #include "wmmeasconfigbase.h"
 #include "formatinfo.h"
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class QSpacerItem;
-class CBigLetter;
+namespace Ui {
+    class WMMeasValuesBase;
+}
 
 class WMMeasValuesBase : public QDialog
 {
     Q_OBJECT
 
 public:
-    WMMeasValuesBase( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    explicit WMMeasValuesBase( QWidget* parent = 0);
     ~WMMeasValuesBase();
-
-    CBigLetter* cBigLetter4;
-    CBigLetter* cBigLetter1;
-    CBigLetter* cBigLetter2;
-    CBigLetter* mBigAngleName;
-    CBigLetter* mBigLoadpointX;
-    CBigLetter* mBigLoadpointN;
-    CBigLetter* mBigAmplError;
-    CBigLetter* mBigAngleError;
-    CBigLetter* mBigLPXUnit;
-    CBigLetter* mBigLPNUnit;
-    CBigLetter* mBigErrorUnit;
-    CBigLetter* mBigAngleUnit;
 
 public slots:
     virtual void ShowHideMVSlot( bool b );
@@ -66,15 +51,8 @@ protected:
     virtual void resizeEvent( QResizeEvent * e );
     virtual void contextMenuEvent( QContextMenuEvent * );
 
-    QHBoxLayout* WMMeasValuesBaseLayout;
-    QVBoxLayout* layout6;
-    QVBoxLayout* layout7;
-    QVBoxLayout* layout8;
-
-protected slots:
-    virtual void languageChange();
-
 private:
+    Ui::WMMeasValuesBase *ui;
     cWidgetGeometry m_widGeometry;
     cwmActValues m_ActValues;
     cConfData m_ConfData;

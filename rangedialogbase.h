@@ -12,37 +12,31 @@
 
 #include <qvariant.h>
 #include <qdialog.h>
+#include <QComboBox>
+#include <QGridLayout>
+#include <QLabel>
 #include "wmglobal.h"
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class QSpacerItem;
-class QComboBox;
-class QLabel;
+
+namespace Ui {
+    class RangeDialogBase;
+}
 
 class RangeDialogBase : public QDialog
 {
     Q_OBJECT
 
 public:
-    RangeDialogBase( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    explicit RangeDialogBase( QWidget* parent = 0);
     ~RangeDialogBase();
 
-    QComboBox* RangeNComboBox;
-    QComboBox* RangeECTComboBox;
-    QLabel* RangeXTextLabel;
-    QComboBox* RangeXComboBox;
-    QLabel* RangeECTTextLabel;
-    QLabel* RangeNTextLabel;
-
 public slots:
-    virtual void SetRangeListSlot( cWMRangeList & nx, cWMRangeList & ect );
+    virtual void SetRangeListSlot( cWMRangeList & nx, cWMRangeList & evt );
     void SetConfInfoSlot( cConfData * cd );
     void SetNRangeSlot( const QString & nr );
     void SetXRangeSlot( const QString & xr );
-    virtual void SetECTRangeSlot( const QString & er );
-    virtual void RemoteCtrlInfoSlot( bool remote );
+    void SetECTRangeSlot( const QString & er );
+    virtual void RemoteCtrlInfoSlot( bool );
 
 signals:
     void SendRange(cConfData*);
@@ -52,15 +46,12 @@ signals:
 protected:
     virtual void showEvent( QShowEvent * );
 
-    QGridLayout* RangeDialogBaseLayout;
-
-protected slots:
-    virtual void languageChange();
 
 private:
-    QStringList m_sECTItemList;
-    QStringList m_sNXItemList;
+    Ui::RangeDialogBase *ui;
     cConfData m_ConfData;
+    QStringList m_sNXItemList;
+    QStringList m_sECTItemList;
 
     void ActualizeDialog();
 

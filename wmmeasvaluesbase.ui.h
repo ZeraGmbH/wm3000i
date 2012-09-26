@@ -1,3 +1,8 @@
+//Added by qt3to4:
+#include <QContextMenuEvent>
+#include <QCloseEvent>
+#include <Q3BoxLayout>
+#include <QResizeEvent>
 /****************************************************************************
 ** ui.h extension file, included from the uic-generated form implementation.
 **
@@ -57,9 +62,9 @@ void WMMeasValuesBase::resizeEvent(QResizeEvent * e)
 	int  w;
 	bool test;
 	while ( (child = it.current()) != 0 ) {
-	    QBoxLayout *l = (QBoxLayout*) child->layout();
+	    Q3BoxLayout *l = (Q3BoxLayout*) child->layout();
 	    w = l->minimumSize().width();
-	    test =((QBoxLayout*) lay)->setStretchFactor(l,w);
+	    test =((Q3BoxLayout*) lay)->setStretchFactor(l,w);
 	    ++it;
 	}
     }
@@ -165,7 +170,7 @@ bool WMMeasValuesBase::LoadSession(QString session)
     QFileInfo fi(session);
     QString ls = QString(".%1%2").arg(name()).arg(fi.fileName());
     QFile file(ls); 
-    if ( file.open( IO_ReadOnly ) ) {
+    if ( file.open( QIODevice::ReadOnly ) ) {
 	QDataStream stream( &file );
 	stream >> m_widGeometry;
 
@@ -200,7 +205,7 @@ void WMMeasValuesBase::SaveSession(QString session)
     QString ls = QString(".%1%2").arg(name()).arg(fi.fileName());
     QFile file(ls); 
 //    file.remove();
-    if ( file.open( IO_Raw | IO_WriteOnly ) ) {
+    if ( file.open( QIODevice::Unbuffered | QIODevice::WriteOnly ) ) {
 	file.at(0);
 	int vi;
 	vi = (isVisible()) ? 1 : 0;

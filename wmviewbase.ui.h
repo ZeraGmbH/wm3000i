@@ -1,3 +1,7 @@
+//Added by qt3to4:
+#include <Q3TextStream>
+#include <QCloseEvent>
+#include <QLabel>
 /****************************************************************************
 ** ui.h extension file, included from the uic-generated form implementation.
 **
@@ -93,9 +97,9 @@ void WMViewBase::ActualizeStates()
 
 void WMViewBase::OpenOETFileSlot() // zum laden einer eigenfehlertabelle
 {
-   QFileDialog *OETFileDialog=new QFileDialog ( ".",tr("Eigenfehlertabellen (*.oet)"),this); 
+   Q3FileDialog *OETFileDialog=new Q3FileDialog ( ".",tr("Eigenfehlertabellen (*.oet)"),this); 
    OETFileDialog->setCaption(tr("Eigenfehlertabellen"));
-   OETFileDialog->setMode( QFileDialog::AnyFile);
+   OETFileDialog->setMode( Q3FileDialog::AnyFile);
    OETFileDialog->setSelection("./Transformer.oet");
    if ( OETFileDialog->exec() == QDialog::Accepted ) {
        QString OETFile = OETFileDialog->selectedFile();
@@ -222,9 +226,9 @@ void WMViewBase::EditOETFileSlot()
 
     wmEdit->setCaption(strippedName(m_ConfData.m_sOETFile));
     QFile file(m_ConfData.m_sOETFile); // text einlesen 
-    if ( file.open( IO_ReadWrite ) ) {
-	QTextStream stream( &file );
-	wmEdit->setTextFormat(PlainText);
+    if ( file.open( QIODevice::ReadWrite ) ) {
+	Q3TextStream stream( &file );
+	wmEdit->setTextFormat(Qt::PlainText);
 	QString text = stream.read();
 	if (text.isEmpty())
 	    text = "100A;5A;100%;0.01%;0.0grad";
@@ -239,7 +243,7 @@ void WMViewBase::ReceiveOETFileSlot(QString nText)
 {
     wmEdit->hide();
     if (wmEdit->isModified()) { // der text hat sich geändert
-	m_ConfData.m_sOETFile = QFileDialog::getSaveFileName( m_ConfData.m_sOETFile,
+	m_ConfData.m_sOETFile = Q3FileDialog::getSaveFileName( m_ConfData.m_sOETFile,
 							      tr("Eigenfehlertabelle (*oet)"),
 							      this,
 							      "",
@@ -249,8 +253,8 @@ void WMViewBase::ReceiveOETFileSlot(QString nText)
         
     QFile file(m_ConfData.m_sOETFile); 
     file.remove();
-    if ( file.open( IO_WriteOnly ) ) {
-	QTextStream stream( &file );
+    if ( file.open( QIODevice::WriteOnly ) ) {
+	Q3TextStream stream( &file );
 	stream << nText;
 	file.close();
 	emit SendConfDataSignal(&m_ConfData);
@@ -260,11 +264,11 @@ void WMViewBase::ReceiveOETFileSlot(QString nText)
 
 void WMViewBase::OpenResultFileSlot()
 {
-    QFileDialog *ResultFileDialog=new QFileDialog ( ".",tr("Ergebnisdateien (*.xml)"),this); 
+    Q3FileDialog *ResultFileDialog=new Q3FileDialog ( ".",tr("Ergebnisdateien (*.xml)"),this); 
     ResultFileDialog->setDir(QDir("./results"));
     ResultFileDialog->setCaption(tr("Ergebnisdateien"));
     ResultFileDialog->setSelection("results.xml");
-    ResultFileDialog->setMode( QFileDialog::AnyFile);
+    ResultFileDialog->setMode( Q3FileDialog::AnyFile);
     if ( ResultFileDialog->exec() == QDialog::Accepted ) {
 	QString rFile;
 	rFile=ResultFileDialog->selectedFile();
@@ -284,9 +288,9 @@ void WMViewBase::EditResultFileSlot()
 
     wmEdit2->setCaption(strippedName(m_ConfData.m_sResultFile));
     QFile file(m_ConfData.m_sResultFile); // text einlesen 
-    if ( file.open( IO_ReadOnly ) ) {
-	QTextStream stream( &file );
-	wmEdit2->setTextFormat(PlainText);
+    if ( file.open( QIODevice::ReadOnly ) ) {
+	Q3TextStream stream( &file );
+	wmEdit2->setTextFormat(Qt::PlainText);
 	wmEdit2->setText( stream.read() );
 	file.close();
 	wmEdit2->show();
@@ -299,8 +303,8 @@ void WMViewBase::ReceiveResultFileSlot(QString nText)
     wmEdit2->hide();
     QFile file(m_ConfData.m_sResultFile); 
     file.remove();
-    if ( file.open( IO_WriteOnly ) ) {
-	QTextStream stream( &file );
+    if ( file.open( QIODevice::WriteOnly ) ) {
+	Q3TextStream stream( &file );
 	stream << nText;
 	file.close();
     }
@@ -317,7 +321,7 @@ void WMViewBase::CloseResultFileSlot()
 void WMViewBase::StoreResultSlot()
 {
     if (m_ConfData.m_sResultFile=="") { // wir haben noch keine ergebnisdatei geöffnet
-	QString s = QFileDialog::getSaveFileName(
+	QString s = Q3FileDialog::getSaveFileName(
 		"./results/results.xml",
 		"Ergebnisdateien (*.xml)",
 		this,
@@ -345,7 +349,7 @@ bool WMViewBase::LoadSession(QString session)
     QFileInfo fi(session);
     QString ls = QString(".%1%2").arg(name()).arg(fi.fileName());
     QFile file(ls); 
-    if ( file.open( IO_ReadOnly ) ) {
+    if ( file.open( QIODevice::ReadOnly ) ) {
 	QDataStream stream( &file );
 	int mA, iA, dA, eA;
 	stream >> mA >> iA >> dA >> eA;
@@ -378,7 +382,7 @@ void WMViewBase::SaveSession(QString session)
     QString ls = QString(".%1%2").arg(name()).arg(fi.fileName());
     QFile file(ls); 
 //    file.remove();
-    if ( file.open( IO_Raw | IO_WriteOnly ) ) {
+    if ( file.open( QIODevice::Unbuffered | QIODevice::WriteOnly ) ) {
 	file.at(0);
 	
 	int vi;
@@ -400,13 +404,13 @@ void WMViewBase::SaveSession(QString session)
 
 void WMViewBase::StoreSessionSlot()
 {
-    SessionName = QFileDialog::getSaveFileName( "./Session.ses",
+    SessionName = Q3FileDialog::getSaveFileName( "./Session.ses",
 		  			  tr("Sitzung Name (*.ses)"),
 					  this,
 					  "",
 					  tr("Sitzung speichern"));
     QFile file(SessionName); 
-    if ( file.open( IO_WriteOnly ) ) {
+    if ( file.open( QIODevice::WriteOnly ) ) {
 	file.close();
 	SaveSession(SessionName); // eigene session speichern
 	emit SaveSessionSignal(SessionName); // die anderen
@@ -416,9 +420,9 @@ void WMViewBase::StoreSessionSlot()
 
 void WMViewBase::LoadSessionSlot()
 {
-    QFileDialog *SessionFileDialog=new QFileDialog ( ".",tr("Sitzung Name (*.ses)"),this); 
+    Q3FileDialog *SessionFileDialog=new Q3FileDialog ( ".",tr("Sitzung Name (*.ses)"),this); 
     SessionFileDialog->setCaption(tr("Sitzung laden"));
-    SessionFileDialog->setMode( QFileDialog::ExistingFile);
+    SessionFileDialog->setMode( Q3FileDialog::ExistingFile);
     if ( SessionFileDialog->exec() == QDialog::Accepted ) {
 	SessionName = SessionFileDialog->selectedFile();
 	UpdateRecentSESList(SessionName);
@@ -499,7 +503,7 @@ void WMViewBase::JustFlashProgSlot()
 
 void WMViewBase::JustFlashExportSlot()
 {
-    QString File = QFileDialog::getSaveFileName( "./JData.xml",
+    QString File = Q3FileDialog::getSaveFileName( "./JData.xml",
 					tr("Datei Name (*.xml)"),
 					 this,
 					"",
@@ -512,7 +516,7 @@ void WMViewBase::JustFlashExportSlot()
 
 void WMViewBase::JustFlashImportSlot()
 {
-    QString File = QFileDialog::getOpenFileName("./JData.xml",
+    QString File = Q3FileDialog::getOpenFileName("./JData.xml",
 					 tr("Datei Name (*.xml)"),
 					 this,
 					 "",

@@ -13,33 +13,17 @@
 #include <qvariant.h>
 #include <qdialog.h>
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class QSpacerItem;
-class QButtonGroup;
-class QRadioButton;
-class QPushButton;
+namespace Ui {
+    class WMRawActualConfigBase;
+}
 
 class WMRawActualConfigBase : public QDialog
 {
     Q_OBJECT
 
 public:
-    WMRawActualConfigBase( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    explicit WMRawActualConfigBase( QWidget* parent = 0);
     ~WMRawActualConfigBase();
-
-    QButtonGroup* AmplitudebuttonGroup;
-    QRadioButton* Amplx1radioButton;
-    QRadioButton* Amplx1_sqrt2radioButton;
-    QButtonGroup* PrimSekbuttonGroup;
-    QRadioButton* PrimradioButton;
-    QRadioButton* SekradioButton;
-    QButtonGroup* WinkelbuttonGroup;
-    QRadioButton* MathradioButton;
-    QRadioButton* TechradioButton;
-    QPushButton* buttonOk;
-    QPushButton* buttonCancel;
 
 public slots:
     virtual void ReceiveDisplayConfSlot( int m, int m2, int m3 );
@@ -47,19 +31,8 @@ public slots:
 signals:
     void SendVektorDisplayFormat(int,int,int);
 
-protected:
-    QVBoxLayout* WMRawActualConfigBaseLayout;
-    QHBoxLayout* layout4;
-    QVBoxLayout* AmplitudebuttonGroupLayout;
-    QVBoxLayout* PrimSekbuttonGroupLayout;
-    QVBoxLayout* WinkelbuttonGroupLayout;
-    QHBoxLayout* Layout1;
-    QSpacerItem* Horizontal_Spacing2;
-
-protected slots:
-    virtual void languageChange();
-
 private:
+    Ui::WMRawActualConfigBase *ui;
     int AmplDisplayMode;
     int WinkelDisplayMode;
     int AmplPrimSekMode;

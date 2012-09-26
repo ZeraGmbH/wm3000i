@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <QCloseEvent>
 /****************************************************************************
 ** ui.h extension file, included from the uic-generated form implementation.
 **
@@ -64,7 +66,7 @@ void WMOeViewBase::SaveSession(QString session)
     QString ls = QString(".%1%2").arg(name()).arg(fi.fileName());
     QFile file(ls); 
  //   file.remove();
-    if ( file.open( IO_Raw | IO_WriteOnly ) ) {
+    if ( file.open( QIODevice::Unbuffered | QIODevice::WriteOnly ) ) {
 	file.at(0);
 	
 	int vi;
@@ -85,7 +87,7 @@ bool WMOeViewBase::LoadSession(QString session)
     QFileInfo fi(session);
     QString ls = QString(".%1%2").arg(name()).arg(fi.fileName());
     QFile file(ls); 
-    if ( file.open( IO_ReadOnly ) ) {
+    if ( file.open( QIODevice::ReadOnly ) ) {
 	QDataStream stream( &file );
 	stream >> m_widGeometry;
 	file.close();

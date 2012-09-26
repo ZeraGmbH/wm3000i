@@ -14,51 +14,24 @@
 #include <qdialog.h>
 #include "wmglobal.h"
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class QSpacerItem;
-class QLabel;
+namespace Ui {
+    class VersionViewBase;
+}
 
 class VersionsViewBase : public QDialog
 {
     Q_OBJECT
 
 public:
-    VersionsViewBase( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+    explicit VersionsViewBase( QWidget* parent = 0);
     ~VersionsViewBase();
-
-    QLabel* DeviceLabel;
-    QLabel* DevVersionLabel;
-    QLabel* SerialNrLabel;
-    QLabel* AdjDataLabel;
-    QLabel* PCBVersionLabel;
-    QLabel* PCBServerLabel;
-    QLabel* DSPVersionLabel;
-    QLabel* DSPServerLabel;
-    QLabel* DeviceText;
-    QLabel* DeviceVersionText;
-    QLabel* SerialNrText;
-    QLabel* AdjDataText;
-    QLabel* PCBVersionText;
-    QLabel* PCBServerText;
-    QLabel* DSPVersionText;
-    QLabel* DSPServerText;
 
 public slots:
     virtual void ReceiveVersionData( tVersSerial * p );
     virtual void ShowVersionSlot();
 
-protected:
-    QHBoxLayout* VersionsViewBaseLayout;
-    QSpacerItem* spacer4;
-    QVBoxLayout* layout7;
-    QVBoxLayout* layout8;
-
-protected slots:
-    virtual void languageChange();
-
 private:
+    Ui::VersionViewBase *ui;
     tVersSerial* pVersion;
 
 };

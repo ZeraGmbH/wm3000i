@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <QShowEvent>
 /****************************************************************************
 ** ui.h extension file, included from the uic-generated form implementation.
 **
@@ -45,7 +47,7 @@ void RangeDialogBase::ActualizeDialog() // aktualisiert dialoganzeige
 void RangeDialogBase::SetRangeListSlot( cWMRangeList& nx,  cWMRangeList& ect)
 {
     CWMRange *Range;
-    QPtrListIterator<CWMRange> it(nx);
+    Q3PtrListIterator<CWMRange> it(nx);
    
    while (!m_sNXItemList.isEmpty()) m_sNXItemList.pop_back(); // liste erst mal leeren
    for(Range=it.toFirst();Range;Range=++it) m_sNXItemList.append(Range->Name());
