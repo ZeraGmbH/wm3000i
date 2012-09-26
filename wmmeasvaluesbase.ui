@@ -31,7 +31,7 @@
   <property name="modal">
    <bool>false</bool>
   </property>
-  <layout class="QHBoxLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QVBoxLayout">
      <item>

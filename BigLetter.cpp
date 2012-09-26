@@ -14,13 +14,14 @@ CBigLetter::CBigLetter(int s,QString d,QWidget *parent,const char* name,Qt::WFla
     m_nStartSize=s;
     actFontSize(m_nStartSize);
     m_sDisplay=d;
-    setFrame(m_nFrame);
+    setFrame(frame);
 }
 
 
 CBigLetter::CBigLetter(QWidget *parent,const char* name,Qt::WFlags f)
     :Q3Frame(parent,name,f)
 {
+    setFrame(frame);
 }
 
 void CBigLetter::drawContents(QPainter* p)
@@ -76,9 +77,9 @@ void CBigLetter::setFrame(cFrame f)
 {
     m_nFrame=f;
     if (m_nFrame==frame)
-	setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
+        setFrameStyle(Q3Frame::Box | Q3Frame::Plain);
     else 
-	setFrameStyle(/*QFrame::MenuBarPanel |*/ Q3Frame::Plain); 
+        setFrameStyle(Q3Frame::NoFrame | Q3Frame::Plain);
 }    
 
 
