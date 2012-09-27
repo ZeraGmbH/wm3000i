@@ -70,10 +70,8 @@
      <addaction name="ergebnisSchliessenAction"/>
      <addaction name="ergebnisBearbeitenAction"/>
     </widget>
-    <addaction name="dateiEigenfehlertabelleAction"/>
     <addaction name="popupMenu"/>
     <addaction name="separator"/>
-    <addaction name="dateiErgebnisdateiAction"/>
     <addaction name="popupMenu_6"/>
     <addaction name="separator"/>
     <addaction name="dateiBeendenAction"/>

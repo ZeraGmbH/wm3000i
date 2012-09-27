@@ -26,7 +26,7 @@ WMRawActualValBase::~WMRawActualValBase()
 void WMRawActualValBase::init()
 {
     AmplDispMode = x1;
-    AmplPrimSekMode = prim;
+    PrimSekDispMode = prim;
     WinkelDispMode = mathpos;
     m_pContextMenu = new WMRawActualConfigBase(this);
     connect(this,SIGNAL(SendVektorDispFormat(int,int,int)),m_pContextMenu,SLOT(ReceiveDisplayConfSlot(int,int,int)));
@@ -58,63 +58,75 @@ void WMRawActualValBase::ShowHideAVSlot( bool b)
 
 void WMRawActualValBase::ReceiveAVDataSlot( cwmActValues *ActValues )
 {
-    m_ActValues = *ActValues;
-    // hier wird später die Anzeige bedient
-    if (isVisible()) {
-    double phi;
-    double radgrad = 57.295779; // 360/(2*PI) winkel sind im bogenmass
+        m_ActValues = *ActValues;
+        // hier wird später die Anzeige bedient
+        if (isVisible()) {
+            double phi;
+            double radgrad = 57.295779; // 360/(2*PI) winkel sind im bogenmass
 
-    // amplitude der grundschwingung
-    // amplitude der grundschwingung
-    double ampl;
-    if (AmplPrimSekMode == prim)
-        ampl = fabs(m_ActValues.VekN);
-    else
-        ampl = fabs(m_ActValues.VekNSek);
-    if (AmplDispMode == x1_SQRT2)
-        ampl/=1.414213562;
-        ui->XnAmplDisp -> setText( QString("%1 V").arg(ampl,10,'f',5) );
+            // amplitude der grundschwingung
+            double ampl;
+            if (PrimSekDispMode == prim)
+                ampl = fabs(m_ActValues.VekN);
+            else
+                ampl = fabs(m_ActValues.VekNSek);
+            if (AmplDispMode == x1_SQRT2)
+                ampl/=1.414213562;
+            ui->XnAmplDisp -> setText( QString("%1 A").arg(ampl,10,'f',5) );
 
-    /*
-    phi = m_ActValues.PHIN * radgrad;
-    if (WinkelDispMode == techpos)
-        phi = 360.0-phi;
-    XnPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
-    */
+            /*
+        phi = m_ActValues.PHIN * radgrad;
+        if (WinkelDispMode == techpos)
+            phi = 360.0-phi;
+        XnPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
+        */
 
-    phi = m_ActValues.PHIN; // winkel sind zwischen 0 .. 2PI
-    if (WinkelDispMode == techpos)
-        phi = PI2 - phi;
-    phi = normWinkelrad_PIPI(phi);
-    phi *= radgrad;
-        ui->XnPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
+            phi = m_ActValues.PHIN; // winkel sind zwischen 0 .. 2PI
+            if (WinkelDispMode == techpos)
+                phi = PI2 - phi;
+            phi = normWinkelrad_PIPI(phi);
+            phi *= radgrad;
+            ui->XnPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
 
+            // amplitude der grundschwingung
+            if (PrimSekDispMode == prim)
+                ampl = fabs(m_ActValues.VekX);
+            else
+                ampl = fabs(m_ActValues.VekXSek);
+            if (AmplDispMode == x1_SQRT2)
+                ampl/=1.414213562;
+            ui->XxAmplDisp -> setText( QString("%1 A").arg(ampl,10,'f',5) );
 
-    // amplitude der grundschwingung
-    if (AmplPrimSekMode == prim)
-        ampl = fabs(m_ActValues.VekX);
-    else
-        ampl = fabs(m_ActValues.VekXSek);
-    if (AmplDispMode == x1_SQRT2)
-        ampl/=1.414213562;
-        ui->XxAmplDisp -> setText( QString("%1 V").arg(ampl,10,'f',5) );
+            /*
+        phi = m_ActValues.PHIX * radgrad;
+        if (WinkelDispMode == techpos)
+            phi = 360.0-phi;
+        XxPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
+        */
 
-    /*
-    phi = m_ActValues.PHIX * radgrad;
-    if (WinkelDispMode == techpos)
-        phi = 360.0-phi;
-    XxPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
-    */
+            phi = m_ActValues.PHIX;
+            if (WinkelDispMode == techpos)
+                phi = PI2 - phi;
+            phi = normWinkelrad_PIPI(phi);
+            phi *= radgrad;
+            ui->XxPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
 
-    phi = m_ActValues.PHIX;
-    if (WinkelDispMode == techpos)
-        phi = PI2 - phi;
-    phi = normWinkelrad_PIPI(phi);
-    phi *= radgrad;
-        ui->XxPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
+            // amplitude der grundschwingung
+            ampl = fabs(m_ActValues.VekDX);
+            if (AmplDispMode == x1_SQRT2)
+                ampl/=1.414213562;
+            ui->dXxAmplDisp -> setText( QString("%1 A").arg(ampl,10,'f',5) );
 
-        ui->FreqDisp -> setText( QString("%1 Hz").arg(ActValues->Frequenz,9,'f',5) );
-    }
+            phi = UserAtan(m_ActValues.VekDX);
+            if (WinkelDispMode == techpos)
+                phi = PI2 - phi;
+            phi = normWinkelrad_PIPI(phi);
+            phi *= radgrad;
+            ui->dXxPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
+
+            ui->FreqDisp -> setText( QString("%1 Hz").arg(ActValues->Frequenz,9,'f',5) );
+        }
+
 }
 
 
@@ -128,7 +140,7 @@ bool WMRawActualValBase::LoadSession(QString session)
     stream >> m_widGeometry;
     stream >> AmplDispMode;
     stream >> WinkelDispMode,
-    stream >> AmplPrimSekMode;
+    stream >> PrimSekDispMode;
     file.close();
     hide();
     resize(m_widGeometry.m_Size);
@@ -167,7 +179,7 @@ void WMRawActualValBase::SaveSession(QString session)
     stream << m_widGeometry;
     stream << AmplDispMode;
     stream << WinkelDispMode;
-    stream << AmplPrimSekMode;
+    stream << PrimSekDispMode;
     file.close();
     }
 }
@@ -175,7 +187,7 @@ void WMRawActualValBase::SaveSession(QString session)
 
 void WMRawActualValBase::contextMenuEvent( QContextMenuEvent * )
 {
-    emit SendVektorDispFormat(AmplDispMode, WinkelDispMode, AmplPrimSekMode);
+    emit SendVektorDispFormat(AmplDispMode, WinkelDispMode, PrimSekDispMode);
     m_pContextMenu->show();
 }
 
@@ -184,7 +196,7 @@ void WMRawActualValBase::ReceiveVektorDispFormat( int m, int m2, int m3)
 {
     AmplDispMode = m;
     WinkelDispMode = m2;
-    AmplPrimSekMode = m3;
+    PrimSekDispMode = m3;
 }
 
 

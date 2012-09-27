@@ -53,11 +53,11 @@ protected:
 
 private:
     Ui::WMRawActualValBase *ui;
-    int AmplPrimSekMode;
     cwmActValues m_ActValues;
     cWidgetGeometry m_widGeometry;
     int AmplDispMode;
     int WinkelDispMode;
+    int PrimSekDispMode;
     WMRawActualConfigBase* m_pContextMenu;
 
     void init();
