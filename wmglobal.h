@@ -50,8 +50,9 @@
 // V1.09 17.09.2012 kontextmenu für istwertanzeige um mrad erweitert, bei start des programms immer bereichautomatik ein,
 //                  bei ergebnisdatei, eigenfehlerdatei solte open anstatt save beim öffnen verwendet werden, nicht machbar unter qt3 wenn man default selection verwenden möchte.
 // v1.10 19.09.2012 in eparameter scalefactors eingeführt sonst fehler wenn /3 oder /w3 button
+// v1.11 19.11.2012 dsp loader file location changed (only qt4 port)
 
-#define WMVersion "V1.10"
+#define WMVersion "V1.11"
 
 #define ServerCommLogFilePath "./log/ServerComm.log"
 #define SelftestLogFilePath "./log/Selftest.log"
