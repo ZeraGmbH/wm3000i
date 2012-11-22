@@ -16,8 +16,8 @@
 
 //#define FVWM 1
 
-//#define TheDevice "127.0.0.1"
-#define TheDevice "192.168.7.200"
+#define TheDevice "127.0.0.1"
+//#define TheDevice "192.168.7.200"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
