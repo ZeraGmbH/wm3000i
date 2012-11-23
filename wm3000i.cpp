@@ -3333,7 +3333,7 @@ void cWM3000I::SetDspWMCmdList()
 	
 	// rücksetzen der maxima wie oben per int cmd list mit angabe der subketten nr.
 	DspIFace->addIntListItem( s = "STARTCHAIN(1,1,0x0002)"); // aktiv, prozessnr.(dummy), hauptkette 0 subkette 2 start 
-    DspIFace->addIntListItem( s = "SETVAL(MAXX,0.0)")
+    DspIFace->addIntListItem( s = "SETVAL(MAXX,0.0)");
     DspIFace->addIntListItem( s = "SETVAL(MAXN,0.0)");
 	DspIFace->addIntListItem( s = "SETVAL(MAXRDY,0.0)");
 	//    DspIFace->addIntListItem( s = "DSPINTTRIGGER(0x0,0x0002)"); // gibt interrupt an controler
