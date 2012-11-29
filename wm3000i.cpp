@@ -594,7 +594,7 @@ void cWM3000I::ActionHandler(int entryAHS)
         }
         else
         {
-            m_ConfData.m_nMeasMode == In_IxDiff ? tm = 0 : tm = 1;
+            m_ConfData.m_nMeasMode == In_IxDiff ? tm = 1 : tm = 0;
             PCBIFace->setDiffAbsMode(tm);
             AHS++;
         }
