@@ -168,6 +168,9 @@ void ConfDialogBase::accept()
 void ConfDialogBase::SetModeMenu()
 {
     switch (m_ConfData.m_nMeasMode) {
+    case In_IxAbs:
+        ui->Mode4RadioButton->setChecked(true);
+        break;
     case In_IxDiff:
         ui->Mode0RadioButton->setChecked(true);
         break;
@@ -256,7 +259,7 @@ void ConfDialogBase::ApplyDataSlot() // einstellungen werden intern übernommen,
     if (ui->Mode0RadioButton->isChecked()) m_ConfData.m_nMeasMode=In_IxDiff;
     if (ui->Mode2RadioButton->isChecked()) m_ConfData.m_nMeasMode=In_ECT;
     if (ui->Mode3RadioButton->isChecked()) m_ConfData.m_nMeasMode=In_nConvent;
-
+    if (ui->Mode4RadioButton->isChecked()) m_ConfData.m_nMeasMode=In_IxAbs;
     // ModeMenu gescannt
 
     m_ConfData.m_fxPhaseShift=(ui->CmpKorrLineEdit1->text()).toDouble();
