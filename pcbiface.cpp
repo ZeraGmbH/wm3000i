@@ -58,6 +58,7 @@ void cPCBIFace::ActionHandler(int entryAHS)
     case setPhaseNodeInfoFinished:
     case cmpPhaseCoefficientFinished:
     case SetTModeFinished:
+    case SetDiffAbsModeFinished:
     case ReadPhaseCorrectionFinished:	
     case ReadGainCorrectionFinished:
     case SetSyncTimingFinished:	
@@ -113,6 +114,11 @@ void cPCBIFace::ActionHandler(int entryAHS)
 	AHS++;
 	break; // SetTModeStart
 	
+    case SetDiffAbsModeStart:
+    SendSetDiffAbsModeCommand();
+    AHS++;
+    break;
+
     case SetSyncSourceStart:
 	SendSetSyncSourceCommand();
 	AHS++;
@@ -261,6 +267,12 @@ void cPCBIFace::setTMode(int tm) // test modus einstellen
 {
     m_nP1 = tm;
     m_ActTimer->start(0,SetTModeStart);
+}
+
+void cPCBIFace::setDiffAbsMode(int tm)
+{
+    m_nP1 = tm;
+    m_ActTimer->start(0,SetDiffAbsModeStart);
 }
 
 
@@ -420,7 +432,13 @@ void cPCBIFace::SendSetTModeCommand()
 {
     QString cmds = QString("syst:samp:mode %1\n").arg(m_nP1);
     iFaceSock->SendCommand(cmds);
-}	 
+}
+
+void cPCBIFace::SendSetDiffAbsModeCommand()
+{
+    QString cmds = QString("syst:sens:mode %1\n").arg(m_nP1);
+    iFaceSock->SendCommand(cmds);
+}
 
 
 void cPCBIFace::SendSetSyncSourceCommand() // sync mode einstellen

@@ -533,7 +533,7 @@ void WMViewBase::SetEnglishSlot()
 
 void WMViewBase::JustFlashProgSlot()
 {
-    emit JustFlashProgSignal(); // signal an wm3000 das flash zu prograsmmieren
+    emit JustFlashProgSignal(); // signal an wm3000 das flash zu programmieren
 }
 
 

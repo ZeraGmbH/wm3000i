@@ -37,6 +37,9 @@ enum pcbIFaceActionHandlerState {
     SetTModeStart,
     SetTModeFinished,
     
+    SetDiffAbsModeStart,
+    SetDiffAbsModeFinished,
+
     SetSyncSourceStart,
     SetSyncSourceFinished,
     
@@ -108,6 +111,7 @@ public:
     void setSamplingFrequency(float); 
     void setSamplingPSamples(int);
     void setTMode(int); 
+    void setDiffAbsMode(int);
     void setSyncSource(int);
     void setSyncTiming(int);
     void readGainCorrection(int, QString, float);
@@ -143,6 +147,7 @@ private:
     void SendSetSamplingFrequencyCommand();
     void SendSetSamplingPSamplesCommand();
     void SendSetTModeCommand();
+    void SendSetDiffAbsModeCommand();
     void SendSetSyncSourceCommand();
     void SendSetSyncTimingCommand();
     void SendReadGainCorrectionCommand();

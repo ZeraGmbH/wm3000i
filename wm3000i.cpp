@@ -584,6 +584,24 @@ void cWM3000I::ActionHandler(int entryAHS)
 	    break; // InitializationSetSamplingPSamples
 	}
 
+
+    case ConfigurationSetAbsDiffMode:
+    case InitializationSetAbsDiffMode:
+    {
+        int tm;
+        if (m_ConfData.m_bSimulation) {
+            AHS = wm3000Idle;
+        }
+        else
+        {
+            m_ConfData.m_nMeasMode == In_IxDiff ? tm = 0 : tm = 1;
+            PCBIFace->setDiffAbsMode(tm);
+            AHS++;
+        }
+        break; // InitializationSetTMode
+    }
+
+
     case ConfigurationSetTMode:
     case InitializationSetTMode:
 	{
@@ -1001,12 +1019,32 @@ void cWM3000I::ActionHandler(int entryAHS)
 		AHS++; // messplatine samples/periode
 	    }
 	    else
-		AHS = ConfigurationTestTMode;
+        AHS = ConfigurationTestAbsDiffMode;
 	   
 	    m_ActTimer->start(0,wm3000Continue); 
 	}
 	break; // ConfigurationTestSRate
 	
+
+    case ConfigurationTestAbsDiffMode:
+        if (m_ConfData.m_bSimulation) {
+            AHS = wm3000Idle;
+        }
+        else
+        {
+            if ( (m_ConfDataCopy.m_nMeasMode != m_ConfData.m_nMeasMode) && ((m_ConfDataCopy.m_nMeasMode == In_IxDiff) || (m_ConfData.m_nMeasMode == In_IxDiff)))
+            {
+                StopMeasurement();
+                AHS++; // messplatine samples/periode
+            }
+            else
+                AHS = ConfigurationTestTMode;
+
+            m_ActTimer->start(0,wm3000Continue);
+        }
+        break; // ConfigurationTestAbsDiffMode
+
+
 case ConfigurationTestTMode:
 	if (m_ConfData.m_bSimulation) {
 	    AHS = wm3000Idle;
@@ -3389,29 +3427,37 @@ void cWM3000I::SimulatedMeasurement()
     float rej,val;
     switch (m_ConfData.m_nMeasMode) // für dut messart abhängig
     {
-	 case In_IxDiff:
-	    e =  m_ConfData.m_XSecondary;
-	    r = Range(m_ConfData.m_sRangeX,m_sNXRangeList);
-	    val = r->Value();
-	    rej = r->Rejection();
-	    ActValues.dspActValues.rmsxf = 0.0; // differenz vektor = 0
-	break;
-              case  In_ECT:
-	    e =  m_ConfData.m_ECTSecondary;	  
-	    r = Range(m_ConfData.m_sRangeECT,m_sECTRangeList);	  
-	    val = r->Value();
-	    rej = r->Rejection();
-	    ActValues.dspActValues.rmsxf = e.toDouble() * rnd; 
-	break;
-              case In_nConvent:
- 	    e =  m_ConfData.m_XSecondary;	  
-	    val = 1.0;	  
-	    rej = 1e-3;	  
-	    ActValues.dspActValues.rmsxf = e.toDouble() * rnd;
-	default:
-	    val = r->Value();
-	    rej = r->Rejection();
-     }
+    case In_IxAbs:
+        e =  m_ConfData.m_XSecondary;
+        r = Range(m_ConfData.m_sRangeX,m_sNXRangeList);
+        val = r->Value();
+        rej = r->Rejection();
+        ActValues.dspActValues.rmsxf = e.toDouble() * rnd;
+        break;
+    case In_IxDiff:
+        e =  m_ConfData.m_XSecondary;
+        r = Range(m_ConfData.m_sRangeX,m_sNXRangeList);
+        val = r->Value();
+        rej = r->Rejection();
+        ActValues.dspActValues.rmsxf = 0.0; // differenz vektor = 0
+        break;
+    case  In_ECT:
+        e =  m_ConfData.m_ECTSecondary;
+        r = Range(m_ConfData.m_sRangeECT,m_sECTRangeList);
+        val = r->Value();
+        rej = r->Rejection();
+        ActValues.dspActValues.rmsxf = e.toDouble() * rnd;
+        break;
+    case In_nConvent:
+
+        e =  m_ConfData.m_XSecondary;
+        val = 1.0;
+        rej = 1e-3;
+        ActValues.dspActValues.rmsxf = e.toDouble() * rnd;
+    default:
+        val = r->Value();
+        rej = r->Rejection();
+    }
     
     ActValues.dspActValues.rmsxf *= rej/val;
     ActValues.RMSX1Sek = ActValues.dspActValues.rmsxf;
@@ -3522,19 +3568,20 @@ void cWM3000I::CmpActValues(bool withLP) {  // here we will do all the necessary
     switch (m_ConfData.m_nMeasMode)
     {
     case In_IxDiff:
-	ActValues.VekDXSek = complex(re,im); // dsp hat den differenz vektor gemessen 
-	ActValues.VekXSek = ActValues.VekDXSek + ActValues.VekNSek; // wir berechnen den x vektor
-	ActValues.RMSX1Sek = ActValues.RMSN1Sek + ActValues.RMSX1Sek; // wie schon gesagt dsp misst die differenz
-	ActValues.RMSXSek = ActValues.RMSNSek + ActValues.RMSXSek;
-	break;
+        ActValues.VekDXSek = complex(re,im); // dsp hat den differenz vektor gemessen
+        ActValues.VekXSek = ActValues.VekDXSek + ActValues.VekNSek; // wir berechnen den x vektor
+        ActValues.RMSX1Sek = ActValues.RMSN1Sek + ActValues.RMSX1Sek; // wie schon gesagt dsp misst die differenz
+        ActValues.RMSXSek = ActValues.RMSNSek + ActValues.RMSXSek;
+        break;
     case In_IxAbs:
-    case In_ECT:	
+    case In_ECT:
     case In_nConvent: // durch setzen rej = kx bei nconvent haben wir auch hier den sekundär vektor
-	ActValues.VekDX = complex(0.0,0.0);
-	ActValues.VekXSek = complex(re,im);
-	break;
+        // ActValues.VekDX = complex(0.0,0.0);
+        ActValues.VekXSek = complex(re,im);
+        ActValues.VekDXSek = ActValues.VekXSek - ActValues.VekNSek;
+        break;
     }
-            
+
     // alle winkel werden vom dsp ermittelt und  dphi ist schon mit tdsync frequenzabhängig korrigiert
     //  die vektoren n und x würden normalerweise mit der differenzfrequenz aus abtast- und signalfrequenz
     // rotieren, wir legen vekn auf die ordinate und vekx hat den winkel dphif = konstant

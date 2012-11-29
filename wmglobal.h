@@ -77,7 +77,7 @@ enum SyncSources {Intern,Extern,MaxSSource}; // sync sources
 enum SignalFreqs {F16,F50,F60,MaxFreq}; // -> feste abtastfrequenzen
 enum SampleRates {S80,S256,MaxSRate}; // abtastraten
 enum tsmode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, adcXadcN = 5, sensXadcNECT = 11}; // testmodi innerhalb der hardware 
-enum MeasModes {In_IxDiff,In_ECT,In_nConvent,maxMMode,In_IxAbs}; // messmodi, in_ixabs wirdnur für justage zwecke verwendet 
+enum MeasModes {In_IxDiff,In_ECT,In_nConvent,In_IxAbs,maxMMode}; // messmodi, in_ixabs wird (wurde) nur für justage zwecke verwendet
 enum UserDecisions {AbortProgram,Stop,Retry,SimulationMode}; // benutzer entscheidungen
 enum Languages {de,gb}; 
 
