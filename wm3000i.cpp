@@ -3557,12 +3557,14 @@ void cWM3000I::CmpActValues(bool withLP) {  // here we will do all the necessary
     
     ActValues.RMSX = ActValues.RMSXSek * kx;
     ActValues.RMSX1 = ActValues.RMSX1Sek * kx;
-    ActValues.VekDX = ActValues.VekDXSek * kx;
     ActValues.VekX = ActValues.VekXSek * kx;
     	
     ActValues.RMSN = ActValues.RMSNSek * kn;
     ActValues.RMSN1 = ActValues.RMSN1Sek * kn;
     ActValues.VekN = ActValues.VekNSek * kn; 
+
+    ActValues.VekDX = ActValues.VekX - ActValues.VekN;
+
 	
     //  fehler und lastpunkt berechnung
     
