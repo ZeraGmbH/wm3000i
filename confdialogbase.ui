@@ -107,22 +107,6 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="Mode0RadioButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>In/&amp;dIx</string>
-          </property>
-          <property name="shortcut">
-           <string>Alt+D</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QRadioButton" name="Mode2RadioButton">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2344,7 +2328,6 @@
   <tabstop>ConfTabWidget</tabstop>
   <tabstop>buttonOk</tabstop>
   <tabstop>buttonCancel</tabstop>
-  <tabstop>Mode0RadioButton</tabstop>
   <tabstop>Mode2RadioButton</tabstop>
   <tabstop>Mode3RadioButton</tabstop>
  </tabstops>
@@ -2436,22 +2419,6 @@
   </connection>
   <connection>
    <sender>Mode2RadioButton</sender>
-   <signal>clicked()</signal>
-   <receiver>ConfDialogBase</receiver>
-   <slot>ApplyDataSlot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>Mode0RadioButton</sender>
    <signal>clicked()</signal>
    <receiver>ConfDialogBase</receiver>
    <slot>ApplyDataSlot()</slot>
