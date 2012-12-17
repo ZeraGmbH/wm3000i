@@ -113,6 +113,7 @@ void ConfDialogBase::SetConfListSlot( QStringList & NPItems, QStringList & NSIte
 void ConfDialogBase::Actualize()
 {
     switch (m_ConfData.m_nMeasMode) {
+     case In_IxAbs:
      case In_IxDiff:
      case In_nConvent:
          ui->XTRatioGroupBox->setEnabled(true);
