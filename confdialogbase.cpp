@@ -245,6 +245,7 @@ void ConfDialogBase::ApplyDataSlot() // einstellungen werden intern übernommen,
 {
     switch (m_ConfData.m_nMeasMode) {
     case In_IxDiff:
+    case In_IxAbs:
         m_ConfData.m_XPrimary = genRatioText( ui->RatioPrimXLineEdit->text(), ui->xPrim_3radioButton, ui->xPrim_w3radioButton);
         m_ConfData.m_XSecondary = genRatioText( ui->RatioSekXLineEdit->text(), ui->xSek_3radioButton, ui->xSek_w3radioButton);
         break;
