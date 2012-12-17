@@ -2641,5 +2641,21 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>Mode4RadioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ConfDialogBase</receiver>
+   <slot>ApplyDataSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>61</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>270</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>
