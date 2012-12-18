@@ -57,7 +57,6 @@
 
 #define WMVersion "V2.14"
 
-
 #define wm3000iHome "/usr/share/wm3000i/"
 #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
 #define SelftestLogFilePath "/usr/share/wm3000i/log/Selftest.log"
