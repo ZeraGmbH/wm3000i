@@ -51,12 +51,17 @@
 //                  bei ergebnisdatei, eigenfehlerdatei solte open anstatt save beim öffnen verwendet werden, nicht machbar unter qt3 wenn man default selection verwenden möchte.
 // v1.10 19.09.2012 in eparameter scalefactors eingeführt sonst fehler wenn /3 oder /w3 button
 // v1.11 19.11.2012 dsp loader file location changed (only qt4 port)
+// v1.12 29.11.2012 absolut messung eingeführt
+// v2.13 14.12.2012 new version for difference old/new device and difference mode removed
+// v2.14 oetfiles, resultfiles and ses files moved to /usr/share/wm3000i
 
-#define WMVersion "V1.11"
+#define WMVersion "V2.14"
 
-#define ServerCommLogFilePath "./log/ServerComm.log"
-#define SelftestLogFilePath "./log/Selftest.log"
-#define PhaseJustLogFilePath "./log/PhaseJust.log"
+
+#define wm3000iHome "/usr/share/wm3000i/"
+#define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
+#define SelftestLogFilePath "/usr/share/wm3000i/log/Selftest.log"
+#define PhaseJustLogFilePath "/usr/share/wm3000i/log/PhaseJust.log"
 
 const int nmaxRecentOEFiles = 5;
 const int nmaxRecentMVFiles = 5;
