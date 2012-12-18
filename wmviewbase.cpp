@@ -539,7 +539,7 @@ void WMViewBase::JustFlashProgSlot()
 
 void WMViewBase::JustFlashExportSlot()
 {
-    QString File = Q3FileDialog::getSaveFileName(QString("%12%2").arg(wm3000iHome).arg("JData.xml"),
+    QString File = Q3FileDialog::getSaveFileName(QString("%1%2").arg(wm3000iHome).arg("JData.xml"),
                     tr("Datei Name (*.xml)"),
                      this,
                     "",
@@ -552,7 +552,7 @@ void WMViewBase::JustFlashExportSlot()
 
 void WMViewBase::JustFlashImportSlot()
 {
-    QString File = Q3FileDialog::getOpenFileName(QString("%12%2").arg(wm3000iHome).arg("JData.xml"),
+    QString File = Q3FileDialog::getOpenFileName(QString("%1%2").arg(wm3000iHome).arg("JData.xml"),
                      tr("Datei Name (*.xml)"),
                      this,
                      "",
