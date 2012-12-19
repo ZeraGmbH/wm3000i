@@ -33,6 +33,7 @@ void RangeDialogBase::ActualizeDialog() // aktualisiert dialoganzeige
     ui->RangeECTComboBox->setCurrentItem(m_sECTItemList.findIndex(m_ConfData.m_sRangeECT));
     switch (m_ConfData.m_nMeasMode) {
     case In_IxDiff:
+    case In_IxAbs:
         ui->RangeXComboBox->setEnabled(true);
         ui->RangeECTComboBox->setEnabled(false);
         break;
