@@ -54,8 +54,9 @@
 // v1.12 29.11.2012 absolut messung eingeführt
 // v2.13 14.12.2012 new version for difference old/new device and difference mode removed
 // v2.14 oetfiles, resultfiles and ses files moved to /usr/share/wm3000i
+// v2.15 in fehlermessung lastpunkte in [A] und AbsMode in rangedialogbase implementiert
 
-#define WMVersion "V2.14"
+#define WMVersion "V2.15"
 
 #define wm3000iHome "/usr/share/wm3000i/"
 #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"

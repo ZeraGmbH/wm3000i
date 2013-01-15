@@ -4,7 +4,7 @@
 #include "wmglobal.h"
 
 extern eUnit LoadpointUnit[];
-extern eUnit VoltageUnit[];
+extern eUnit CurrentUnit[];
 extern eUnit ErrorUnit[];
 extern eUnit AngleUnit[];
 
@@ -28,8 +28,8 @@ void WMMeasConfigBase::init()
    int i;
 
    m_LPUnit[0] = LoadpointUnit + LPProzent;
-   m_LPUnit[1] = VoltageUnit + VoltV;
-   m_LPUnit[2] = VoltageUnit + VoltkV;
+   m_LPUnit[1] = CurrentUnit + CurrA;
+   m_LPUnit[2] = CurrentUnit + CurrA;
 
    for (i = 0; i < 3; i++)
         ui->LPcomboBox->insertItem(m_LPUnit[i]->Name);
