@@ -20,7 +20,7 @@
 //#define FVWM 1
 
 #define TheDevice "127.0.0.1"
-//#define TheDevice "192.168.7.200"
+//#define TheDevice "192.168.6.200"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
@@ -57,9 +57,9 @@
 // v1.12 29.11.2012 absolut messung eingeführt
 // v2.13 14.12.2012 new version for difference old/new device and difference mode removed
 // v2.14 oetfiles, resultfiles and ses files moved to /usr/share/wm3000i
+// v2.15 in fehlermessung lastpunkte in [A] und AbsMode in rangedialogbase implementiert
 
-#define WMVersion "V2.14"
-
+#define WMVersion "V2.15"
 
 #define wm3000iHome QDir::homePath()
 #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
@@ -79,8 +79,8 @@ enum VekWinkelModes {mathpos, techpos}; // winkel anzeige math. pos. bzw. techn.
 enum SyncSources {Intern,Extern,MaxSSource}; // sync sources
 enum SignalFreqs {F16,F50,F60,MaxFreq}; // -> feste abtastfrequenzen
 enum SampleRates {S80,S256,MaxSRate}; // abtastraten
-enum tsmode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, adcXadcN = 5, sensXadcNECT = 11}; // testmodi innerhalb der hardware
-enum MeasModes {In_IxDiff,In_ECT,In_nConvent,maxMMode,In_IxAbs}; // messmodi, in_ixabs wirdnur für justage zwecke verwendet
+enum tsmode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, adcXadcN = 5, sensXadcNECT = 11}; // testmodi innerhalb der hardware 
+enum MeasModes {In_IxDiff,In_ECT,In_nConvent,In_IxAbs,maxMMode}; // messmodi, in_ixabs wird (wurde) nur für justage zwecke verwendet
 enum UserDecisions {AbortProgram,Stop,Retry,SimulationMode}; // benutzer entscheidungen
 enum Languages {de,gb};
 

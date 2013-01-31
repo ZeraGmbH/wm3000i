@@ -113,6 +113,7 @@ void ConfDialogBase::SetConfListSlot( QStringList & NPItems, QStringList & NSIte
 void ConfDialogBase::Actualize()
 {
     switch (m_ConfData.m_nMeasMode) {
+     case In_IxAbs:
      case In_IxDiff:
      case In_nConvent:
          ui->XTRatioGroupBox->setEnabled(true);
@@ -168,8 +169,8 @@ void ConfDialogBase::accept()
 void ConfDialogBase::SetModeMenu()
 {
     switch (m_ConfData.m_nMeasMode) {
-    case In_IxDiff:
-        ui->Mode0RadioButton->setChecked(true);
+    case In_IxAbs:
+        ui->Mode4RadioButton->setChecked(true);
         break;
     case In_ECT:
         ui->Mode2RadioButton->setChecked(true);
@@ -244,6 +245,7 @@ void ConfDialogBase::ApplyDataSlot() // einstellungen werden intern übernommen,
 {
     switch (m_ConfData.m_nMeasMode) {
     case In_IxDiff:
+    case In_IxAbs:
         m_ConfData.m_XPrimary = genRatioText( ui->RatioPrimXLineEdit->text(), ui->xPrim_3radioButton, ui->xPrim_w3radioButton);
         m_ConfData.m_XSecondary = genRatioText( ui->RatioSekXLineEdit->text(), ui->xSek_3radioButton, ui->xSek_w3radioButton);
         break;
@@ -253,10 +255,9 @@ void ConfDialogBase::ApplyDataSlot() // einstellungen werden intern übernommen,
         break;
     }
 
-    if (ui->Mode0RadioButton->isChecked()) m_ConfData.m_nMeasMode=In_IxDiff;
     if (ui->Mode2RadioButton->isChecked()) m_ConfData.m_nMeasMode=In_ECT;
     if (ui->Mode3RadioButton->isChecked()) m_ConfData.m_nMeasMode=In_nConvent;
-
+    if (ui->Mode4RadioButton->isChecked()) m_ConfData.m_nMeasMode=In_IxAbs;
     // ModeMenu gescannt
 
     m_ConfData.m_fxPhaseShift=(ui->CmpKorrLineEdit1->text()).toDouble();

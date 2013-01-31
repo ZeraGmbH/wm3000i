@@ -7,7 +7,7 @@
 
 
 extern  scpiErrorType SCPIError[];
-char* MModeName[maxMMode] = {(char*)"In/dIx",(char*)"In/ECT",(char*)"In/nConvent"};
+char* MModeName[maxMMode] = {(char*)"In/dIx",(char*)"In/ECT",(char*)"In/nConvent",(char*)"In/Ix"};
 char* FreqName[MaxFreq] = {(char*)"16.67",(char*)"50.0",(char*)"60.0"};
 double SFrequency[MaxFreq] = {16.67, 50.0, 60.0};
 char* SRatesName[MaxSRate] = {(char*)"80",(char*)"256"}; // abtastraten

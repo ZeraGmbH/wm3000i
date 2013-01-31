@@ -62,6 +62,7 @@ enum wm3000ActionHandlerState {
     InitializationActivateCmdLists,
     InitializationSetSamplingFrequency,	//20
     InitializationSetSamplingPSamples,
+    InitializationSetAbsDiffMode,
     InitializationSetTMode,
     InitializationSetSyncSource,
     InitializationSetSyncTiming,
@@ -104,6 +105,10 @@ enum wm3000ActionHandlerState {
     ConfigurationSetSamplingFrequency, // wie bei Initialization
     ConfigurationTestSRate, // 50
     ConfigurationSetSamplingPSamples, // wie bei Initialization 
+
+    ConfigurationTestAbsDiffMode,
+    ConfigurationSetAbsDiffMode, // wie bei Initialization
+
     ConfigurationTestTMode,
     ConfigurationSetTMode, // wie bei Initialization
     ConfigurationTestSyncMode,
