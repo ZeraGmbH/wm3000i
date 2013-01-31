@@ -121,11 +121,7 @@
     </spacer>
    </item>
    <item>
-<<<<<<< HEAD
     <layout class="QVBoxLayout" name="verticalLayout_2">
-=======
-    <layout class="QVBoxLayout" name="verticalLayout">
->>>>>>> layout changed for versionviewbase
      <item>
       <widget class="QLabel" name="DeviceText">
        <property name="text">
