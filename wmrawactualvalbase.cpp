@@ -136,7 +136,7 @@ void WMRawActualValBase::ReceiveAVDataSlot( cwmActValues *ActValues )
 bool WMRawActualValBase::LoadSession(QString session)
 {
     QFileInfo fi(session);
-    QString ls = QString("%1.%2%3").arg(wm3000iHome).arg(name()).arg(fi.fileName());
+    QString ls = QString("%1/.wm3000i/%2%3").arg(wm3000iHome).arg(name()).arg(fi.fileName());
     QFile file(ls);
     if ( file.open( QIODevice::ReadOnly ) ) {
     QDataStream stream( &file );
@@ -165,8 +165,13 @@ bool WMRawActualValBase::LoadSession(QString session)
 
 void WMRawActualValBase::SaveSession(QString session)
 {
+    if(!QDir(QString("%1/.wm3000i/").arg(wm3000iHome)).exists())
+    {
+      //create temporary object that gets deleted when leaving the control block
+      QDir().mkdir(QString("%1/.wm3000i/").arg(wm3000iHome));
+    }
     QFileInfo fi(session);
-    QString ls = QString("%1.%2%3").arg(wm3000iHome).arg(name()).arg(fi.fileName());
+    QString ls = QString("%1/.wm3000i/%2%3").arg(wm3000iHome).arg(name()).arg(fi.fileName());
     QFile file(ls);
 //    file.remove();
     if ( file.open( QIODevice::Unbuffered | QIODevice::WriteOnly ) ) {
