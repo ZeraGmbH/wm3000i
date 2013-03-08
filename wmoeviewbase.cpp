@@ -69,50 +69,23 @@ void WMOeViewBase::ShowHideOESlot( bool b )
 
 void WMOeViewBase::SaveSession(QString session)
 {
-    QFileInfo fi(session);
-    QString ls = QString("%1.%2%3").arg(wm3000iHome).arg(name()).arg(fi.fileName());
-    QFile file(ls);
- //   file.remove();
-    if ( file.open( QIODevice::Unbuffered | QIODevice::WriteOnly ) ) {
-    file.at(0);
-
-    int vi;
-    vi = (isVisible()) ? 1 : 0;
-    if (vi)
-        m_widGeometry.SetGeometry(pos(),size());
-    m_widGeometry.SetVisible(vi);
-
-    QDataStream stream( &file );
-    stream << m_widGeometry;
-    file.close();
-    }
+    cSessionHelper::writeSession(this,m_widGeometry,session);
 }
 
 
 bool WMOeViewBase::LoadSession(QString session)
 {
-    QFileInfo fi(session);
-    QString ls = QString("%1.%2%3").arg(wm3000iHome).arg(name()).arg(fi.fileName());
-    QFile file(ls);
-    if ( file.open( QIODevice::ReadOnly ) ) {
-    QDataStream stream( &file );
-    stream >> m_widGeometry;
-    file.close();
-    hide();
-    resize(m_widGeometry.m_Size);
-    move(m_widGeometry.m_Point);
-    if (m_widGeometry.vi)
-    {
-        show();
-        emit isVisibleSignal(true);
-    }
-// FVWM und Gnome verhalten sich anders
-#ifndef FVWM
-    move(m_widGeometry.m_Point);
-#endif
+  cWidgetGeometry tmpGeometry;
+  tmpGeometry=cSessionHelper::readSession(this, session);
+  if(tmpGeometry.m_Size.isValid())
+  {
+    m_widGeometry=tmpGeometry;
     return true;
-    }
+  }
+  else
+  {
     return false;
+  }
 }
 
 

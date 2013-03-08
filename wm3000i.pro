@@ -46,7 +46,8 @@ HEADERS	+= bigletter.h \
     rangedialogbase.h \
     versionviewbase.h \
     wmmeasconfigbase.h \
-    wmrawactualconfigbase.h
+    wmrawactualconfigbase.h \
+    csessionhelper.h
 
 SOURCES	+= BigLetter.cpp \
 	Logfile.cpp \
@@ -84,7 +85,8 @@ SOURCES	+= BigLetter.cpp \
     rangedialogbase.cpp \
     versionviewbase.cpp \
     wmmeasconfigbase.cpp \
-    wmrawactualconfigbase.cpp
+    wmrawactualconfigbase.cpp \
+    csessionhelper.cpp
 
 
 FORMS	= confdialogbase.ui \

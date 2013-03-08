@@ -4,6 +4,7 @@
 #define WMGLOBAL_H
 
 #include <q3ptrlist.h>
+#include <QDir>
 #include <qstring.h>
 //Added by qt3to4:
 #include <Q3MemArray>
@@ -11,6 +12,8 @@
 #include "confdata.h"
 #include "complex.h"
 #include "range.h"
+
+#include "csessionhelper.h"
 
 //#define DEBUG 1
 
@@ -24,7 +27,7 @@
 //             andere kette an dsp übertragen um die benötigten werte zu erhalten
 //             den html browser für die online doku entfernt
 // V1.02 in confmenu alle /3 /w3 buttons verlinkt und den safety range für evt entfernt da separater eingang für evt geschaffen wurde. den validator (regexp) verändert für die ratio eingaben verbessert, und den winkelfehler in der xml ergebnisdatei mit rad ausgegeben. die lastpunktberechnung für x ist jetzt relativ zur primärgrösse von n.
-// V1.03 19.12.2011 fehler in complex klasse behoben (operator*, *=, /, /=) 
+// V1.03 19.12.2011 fehler in complex klasse behoben (operator*, *=, /, /=)
 // V1.04 21.12.2011 fenster übersteuerung ist nicht mehr modal -> alles läuft weiter incl. externe schnittstelle (checkcon). es wird ein merker OverLoad gesetzt und der overload im statussystem eingetragen. OverLoad wird von der bereichauswahl (sync) geprüft und das schalten der bereiche wird verhindert, egal ob das schalten automatisch, manuell oder über schnittstelle erfolgen sollte. wird das fenster übersteuerung quittiert, wird es geschlossen und der merker OverLoad gelöscht. das kontextmenu für die vektoranzeige wurde erweitert, damit man vektoren sekundär angezeigt bekommt. dazu ist es erforderlich das wandlerübersetzungsverhältnis für x auch im nonconvent betrieb aktiv zu lassen.
 //bei der dateiname eingabe für session management wird ein name vorbesetzt
 //das gleiche gilt für die xml datei auswahl für messwegebnisse speichern
@@ -35,12 +38,12 @@
 // es wurden kommandos eingeführt zum setzen, rücksetzen der sensor kurzschluss fets weil der hardware
 // schutz die hardware nicht schützt.......lach :-)
 // wenn die soft übersteuerung greift werden im falle einer übersteuerung im grössten bereich die kurzschlussfets geschaltet
-// die komplette overload überwachung wird in rangeobsermatic behandelt, bereiche setzen z.b. nimmt keine übersteuerung zurück. ob die übersteuerung weg ist wird hinterher nachgemessen -> absolut sauber 
+// die komplette overload überwachung wird in rangeobsermatic behandelt, bereiche setzen z.b. nimmt keine übersteuerung zurück. ob die übersteuerung weg ist wird hinterher nachgemessen -> absolut sauber
 // das gleiche gilt für overloadmax, nachdem quittiert wurde (per hand oder *rst) wird gemessen und wenn ok overloadmax rückgesetzt.
-// RegExp für transformer ratio geändert -> es werden jetzt mV,V,kV und KEINE einheit akzeptiert, wichtig für checkcon 
+// RegExp für transformer ratio geändert -> es werden jetzt mV,V,kV und KEINE einheit akzeptiert, wichtig für checkcon
 // es wurde die hauptstate machine wm3000 dahingehend geändert, dass keine gleichartigen events kumulieren. etwaige performanceprobleme (die beim xscale tatsächlich vorhanden sind) fallen damit nicht mehr auf.
 // die ansi fehlerberechnung wurde korrigiert.
-// in eparameter wurde die liste der möglichen strom einheiten überarbeitet. die liste für die winkel wurdeum "grad" erweitert 
+// in eparameter wurde die liste der möglichen strom einheiten überarbeitet. die liste für die winkel wurdeum "grad" erweitert
 // xml datei name bei flash data import/export vorbesetzt
 // information ob justiert oder nicht in statuszeile, in xml bei ergebnisexport, in status system questionable bit 11
 // V1.05 23.02.2012 eine soft übersteuerung in  einem der beiden kanäle wird wie die hard übersteuerungauf beide kanäle übertragen
@@ -58,7 +61,7 @@
 
 #define WMVersion "V2.15"
 
-#define wm3000iHome "/usr/share/wm3000i/"
+#define wm3000iHome QDir::homePath()
 #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
 #define SelftestLogFilePath "/usr/share/wm3000i/log/Selftest.log"
 #define PhaseJustLogFilePath "/usr/share/wm3000i/log/PhaseJust.log"
@@ -79,14 +82,14 @@ enum SampleRates {S80,S256,MaxSRate}; // abtastraten
 enum tsmode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, adcXadcN = 5, sensXadcNECT = 11}; // testmodi innerhalb der hardware 
 enum MeasModes {In_IxDiff,In_ECT,In_nConvent,In_IxAbs,maxMMode}; // messmodi, in_ixabs wird (wurde) nur für justage zwecke verwendet
 enum UserDecisions {AbortProgram,Stop,Retry,SimulationMode}; // benutzer entscheidungen
-enum Languages {de,gb}; 
+enum Languages {de,gb};
 
 
-class cTCPConfig 
+class cTCPConfig
 {
     public:
     cTCPConfig(){};
-    
+
     QString pcbHost, dspHost;
     uint pcbPort, dspPort;
 };
@@ -100,10 +103,10 @@ typedef Q3PtrList<cDspVar> cDspVarPtrList;
 
 struct cDspActValues { // raw data, wie vom dsp geliefert
     float kfkorrf; // kreisfrequenz  korrektur koeffizient
-    float rmsnf, ampl1nf; 
-    float rmsxf, ampl1xf; 
+    float rmsnf, ampl1nf;
+    float rmsxf, ampl1xf;
     float dphif; // phix-phin  gefiltert im bogenmaß -pi....+pi
-    float tdsync; // zeit zwischen pps und 1'st sample auflösung 10nS 
+    float tdsync; // zeit zwischen pps und 1'st sample auflösung 10nS
     float phin, phix; // bogenmaß
 };
 
@@ -127,13 +130,13 @@ struct cwmActValues {  // wird an andere objekte gesendet
     complex VekDX, VekDXSek;
     double LoadPoint, LoadPoint1; // Lastpunkt v. rms total, bzw. rms grundwelle
     double LoadPointX, LoadPoint1X; // Lastpunkt v. rms total, bzw. rms grundwelle kanal x
-    double AmplErrorIEC; 
+    double AmplErrorIEC;
     double AmplErrorANSI;
     double AngleError;
     double PHIN;
     double PHIX;
 };
-    
+
 
 struct tVersSerial
 {
@@ -152,7 +155,7 @@ class cPhaseCalcInfo
 {
 public:
     cPhaseCalcInfo(const QString chn, const QString rng)
-	:m_sChannel(chn), m_sRange(rng){};
+        :m_sChannel(chn), m_sRange(rng){};
     QString m_sChannel;
     QString m_sRange;
 };
@@ -163,7 +166,7 @@ class cPhaseNodeMeasInfo
 {
 public:
     cPhaseNodeMeasInfo(const QString rng0, const QString rng1, tsmode tm, MeasModes mm, int nS, int nIgn, int nMeas )
-	:m_srng0(rng0), m_srng1(rng1), m_nTMode(tm), m_nmMode(mm), m_nnS(nS), m_nIgnore(nIgn), m_nnMeas(nMeas){};
+        :m_srng0(rng0), m_srng1(rng1), m_nTMode(tm), m_nmMode(mm), m_nnS(nS), m_nIgnore(nIgn), m_nnMeas(nMeas){};
     QString m_srng0; // bereich kanal n
     QString m_srng1; // bereich kanal x
     tsmode m_nTMode; // test mode (was zu testen bzw. justieren ist)

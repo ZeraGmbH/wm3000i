@@ -2840,7 +2840,7 @@ bool cWM3000I::LoadSettings(QString session)
 {
     bool ret;
     QFileInfo fi(session);
-    QString ls = QString("%1.wm3000i%2").arg(wm3000iHome).arg(fi.fileName());
+    QString ls = QString("%1/.wm3000i/%2%3").arg(wm3000iHome).arg(fi.fileName());
     QFile file(ls); 
     if ((ret = file.open( QIODevice::ReadOnly )) == true ) {
 	QDataStream stream(&file);
@@ -2855,7 +2855,7 @@ bool cWM3000I::LoadSettings(QString session)
 void cWM3000I::WriteSettings(QString session)
 {
     QFileInfo fi(session);
-    QString ls = QString("%1.wm3000i%2").arg(wm3000iHome).arg(fi.fileName());
+    QString ls = QString("%1/.wm3000i/%2%3").arg(wm3000iHome).arg(fi.fileName());
     QFile file(ls); 
 //    file.remove();
     if ( file.open( QIODevice::Unbuffered | QIODevice::WriteOnly ) ) {

@@ -358,7 +358,7 @@ void WMViewBase::StoreResultSlot()
 {
     if (m_ConfData.m_sResultFile=="") { // wir haben noch keine ergebnisdatei geöffnet
         QString s = Q3FileDialog::getSaveFileName(
-                    QString("%1%2").arg(wm3000iHome).arg("results/results.xml"),
+                    QString("%1/wm3000i/%2").arg(wm3000iHome).arg("results/results.xml"),
         "Ergebnisdateien (*.xml)",
         this,
         "",
@@ -383,7 +383,7 @@ void WMViewBase::OpenRecentResultFileSlot(int index)
 bool WMViewBase::LoadSession(QString session)
 {
     QFileInfo fi(session);
-    QString ls = QString("%1.%2%3").arg(wm3000iHome).arg(name()).arg(fi.fileName());
+    QString ls = QString("%1/.wm3000i/%2%3").arg(wm3000iHome).arg(name()).arg(fi.fileName());
     QFile file(ls);
     if ( file.open( IO_ReadOnly ) ) {
     QDataStream stream( &file );
@@ -414,8 +414,13 @@ bool WMViewBase::LoadSession(QString session)
 
 void WMViewBase::SaveSession(QString session)
 {
+    if(!QDir(QString("%1/.wm3000i/").arg(wm3000iHome)).exists())
+    {
+      //create temporary object that gets deleted when leaving the control block
+      QDir().mkdir(QString("%1/.wm3000i/").arg(wm3000iHome));
+    }
     QFileInfo fi(session);
-    QString ls = QString("%1.%2%3").arg(wm3000iHome).arg(name()).arg(fi.fileName());
+    QString ls = QString("%1/.wm3000i/%2%3").arg(wm3000iHome).arg(name()).arg(fi.fileName());
     QFile file(ls);
 //    file.remove();
     if ( file.open( QIODevice::Unbuffered | QIODevice::WriteOnly ) ) {
@@ -440,7 +445,7 @@ void WMViewBase::SaveSession(QString session)
 
 void WMViewBase::StoreSessionSlot()
 {
-    SessionName = Q3FileDialog::getSaveFileName( QString("%1%2").arg(wm3000iHome).arg("/Session.ses"),
+    SessionName = Q3FileDialog::getSaveFileName( QString("%1/wm3000i/%2").arg(wm3000iHome).arg("/Session.ses"),
                       tr("Sitzung Name (*.ses)"),
                       this,
                       "",
@@ -539,7 +544,7 @@ void WMViewBase::JustFlashProgSlot()
 
 void WMViewBase::JustFlashExportSlot()
 {
-    QString File = Q3FileDialog::getSaveFileName(QString("%1%2").arg(wm3000iHome).arg("JData.xml"),
+    QString File = Q3FileDialog::getSaveFileName(QString("%1/wm3000i/%2").arg(wm3000iHome).arg("JData.xml"),
                     tr("Datei Name (*.xml)"),
                      this,
                     "",
@@ -552,7 +557,7 @@ void WMViewBase::JustFlashExportSlot()
 
 void WMViewBase::JustFlashImportSlot()
 {
-    QString File = Q3FileDialog::getOpenFileName(QString("%1%2").arg(wm3000iHome).arg("JData.xml"),
+    QString File = Q3FileDialog::getOpenFileName(QString("%1/wm3000i/%2").arg(wm3000iHome).arg("JData.xml"),
                      tr("Datei Name (*.xml)"),
                      this,
                      "",
