@@ -2625,7 +2625,7 @@ void cWM3000I::DefaultSettings(cConfData& cdata) // alle einstellungen default
 void cWM3000I::DefaultSettingsMeasurement(cConfData& cdata) // alle mess einstellungen default
 {
     cdata.m_bOECorrection = false;
-    cdata.m_nMeasMode = In_IxDiff;
+    cdata.m_nMeasMode = In_IxAbs;
     cdata.m_fxPhaseShift = 0.0;
     cdata.m_fxTimeShift = 0.0;
     cdata.m_nMeasPeriod = 16; // 16 perioden
