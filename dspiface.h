@@ -19,7 +19,7 @@
 
 enum dType {dInt, dFloat};
 
-enum AVType {vApplication = 1, vDspIntern = 2, vMemory = 4};
+enum AVType {vApplication = 1, vDspIntern = 2, vMemory = 4}; // application variable type
 
 class cDspVar // dsp variable 
 {
