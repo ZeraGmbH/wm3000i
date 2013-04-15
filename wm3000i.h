@@ -39,6 +39,9 @@ enum wm3000ActionHandlerState {
     
     EnterSimulationMode,
     
+    DeInstallationDspProgramlistStart,
+    DeInstallationDspProgramlistFinished,
+
     InitializationStart,
     InitializationConnect2pcbHost,
     
@@ -96,6 +99,7 @@ enum wm3000ActionHandlerState {
     
     ConfigurationTestIntegrationTime,
     ConfigurationTestDspVarList,
+    ConfigurationClearDspCmdList, // wie DeInstallationDspProgramlistStart
     ConfigurationSetDspVarList, // wie bei Initialization
     ConfigurationSetSamplingSystem, // wie bei Initialization
     ConfigurationTestCmdList,

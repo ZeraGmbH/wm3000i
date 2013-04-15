@@ -220,7 +220,7 @@ void cWM3000I::ActionHandler(int entryAHS)
 	AHSFifo.clear();
 	if (m_pProgressDialog) 
 	    delete m_pProgressDialog;
-	m_ActTimer->start(0,RestartMeasurementStart); // messung reaktivieren 
+    m_ActTimer->start(0,DeInstallationDspProgramlistStart); // messung reaktivieren
 	
 	AHS = wm3000Idle;
 	return;
@@ -243,6 +243,19 @@ void cWM3000I::ActionHandler(int entryAHS)
         
     switch (AHS)
     {
+
+    case ConfigurationClearDspCmdList:
+    case DeInstallationDspProgramlistStart:
+        DspIFace->DeactivateInterface();
+        AHS++;
+        break; // DeInstallationDspProgramlistStart
+
+    case DeInstallationDspProgramlistFinished:
+        // wir sind so oder so fertig
+        m_ActTimer->start(0,RestartMeasurementStart); // messung reaktivieren
+        AHS = wm3000Idle;
+        break; // DeInstallationDspProgramlistFinished
+
     case InitializationStart:
 	StopMeasurement();
 	m_binitDone = false; // wir initialisieren !!
