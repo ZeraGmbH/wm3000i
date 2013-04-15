@@ -76,7 +76,8 @@ private slots:
     virtual void ectPrim_w3radioButtonChecked();
     virtual void ectSek_3radioButtonChecked();
     virtual void ectSek_w3radioButtonChecked();
-
+    virtual void S80RadioButtonChecked();
+    virtual void S256RadioButtonChecked();
 };
 
 

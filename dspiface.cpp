@@ -767,7 +767,7 @@ void cDspIFace::SendSignalRoutingCommand()
     QString cmds;
     Q3TextStream ts(&cmds,QIODevice::WriteOnly);
     ts << "mem:write ETHROUTINGTAB";
-    for (int i = 0; i < 8; i++) 
+    for (int i = 0; i < 64; i++)
 	ts << "," << m_lP1[i];
     ts << ";\n";
     iFaceSock->SendCommand(cmds);
