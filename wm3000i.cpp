@@ -121,7 +121,7 @@ cWM3000I::cWM3000I()
     TCPConfig.dspPort = 6310;
     // ende default TCP connection 
     
-    LoadSettings(".ses"); // liess ev. mal die einstellungen 
+    LoadSettings(".ses"); // liess ev. mal die einstellungen
     
     m_ConfData.m_sRangeNVorgabe = "Auto";
     m_ConfData.m_sRangeXVorgabe = "Auto";
@@ -220,8 +220,7 @@ void cWM3000I::ActionHandler(int entryAHS)
 	AHSFifo.clear();
 	if (m_pProgressDialog) 
 	    delete m_pProgressDialog;
-    m_ActTimer->start(0,DeInstallationDspProgramlistStart); // messung reaktivieren
-	
+
 	AHS = wm3000Idle;
 	return;
     }
@@ -243,18 +242,6 @@ void cWM3000I::ActionHandler(int entryAHS)
         
     switch (AHS)
     {
-
-    case ConfigurationClearDspCmdList:
-    case DeInstallationDspProgramlistStart:
-        DspIFace->DeactivateInterface();
-        AHS++;
-        break; // DeInstallationDspProgramlistStart
-
-    case DeInstallationDspProgramlistFinished:
-        // wir sind so oder so fertig
-        m_ActTimer->start(0,RestartMeasurementStart); // messung reaktivieren
-        AHS = wm3000Idle;
-        break; // DeInstallationDspProgramlistFinished
 
     case InitializationStart:
 	StopMeasurement();
@@ -669,16 +656,16 @@ void cWM3000I::ActionHandler(int entryAHS)
         }
         else
         {
-        for (i = 0; i < 64; i++) ethroute[i] = 0;
-        if (m_ConfData.m_nMeasMode == In_nConvent) // ersetzt kanal 1 daten durch eth. daten
-        {
-            int asdu;
-            int n = m_ConfData.LastASDU - m_ConfData.FirstASDU +1;
-            for (i = 0, asdu = m_ConfData.FirstASDU; i < n; i++, asdu++ )
-            ethroute[i << 3] = (((asdu << 4) | m_ConfData.DataSet)) << 16;
-        }
-        DspIFace->SetSignalRouting(ethroute);
-        AHS++;
+            for (i = 0; i < 16; i++) ethroute[i] = 0;
+            if (m_ConfData.m_nMeasMode == In_nConvent) // ersetzt kanal 1 daten durch eth. daten
+            {
+                int asdu;
+                int n = m_ConfData.LastASDU - m_ConfData.FirstASDU +1;
+                for (i = 0, asdu = m_ConfData.FirstASDU; i < n; i++, asdu++ )
+                    ethroute[i >> 1] |= ((1 << 8) | (asdu << 4) | m_ConfData.DataSet) << ((1-(i&1))*16);
+            }
+            DspIFace->SetSignalRouting(ethroute);
+            AHS++;
         }
         break; // InitializationSetDspSignalRouting
 	}
@@ -2217,9 +2204,9 @@ case ConfigurationTestTMode:
 	if ( !DspIFace->IFaceError() ) // wenn kein fehler aufgetreten
 	{
 	    cEN61850Info EnStat; // holen der werte
-	    ulong *source = (ulong*) DspIFace->data(ETHStatusHandle);
-	    ulong *dest = &(EnStat.ByteCount[0]);
-	    for (uint i=0; i< sizeof(EnStat)/sizeof(ulong);i++) *dest++ = *source++; 
+        quint32 *source = (quint32*) DspIFace->data(ETHStatusHandle);
+        quint32 *dest = &(EnStat.ByteCount[0]);
+        for (uint i=0; i< sizeof(EnStat)/sizeof(quint32);i++) *dest++ = *source++;
 	    emit EN61850StatusSignal(&EnStat); // und senden
 	}
 	

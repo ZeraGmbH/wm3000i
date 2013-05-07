@@ -19,8 +19,8 @@
 
 //#define FVWM 1
 
-#define TheDevice "127.0.0.1"
-//#define TheDevice "192.168.6.200"
+//#define TheDevice "127.0.0.1"
+#define TheDevice "192.168.6.127"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
@@ -58,8 +58,9 @@
 // v2.13 14.12.2012 new version for difference old/new device and difference mode removed
 // v2.14 oetfiles, resultfiles and ses files moved to /usr/share/wm3000i
 // v2.15 in fehlermessung lastpunkte in [A] und AbsMode in rangedialogbase implementiert
+// v2.16 neues ethernet routing für en61850-9-2 dekodierung eingebaut, cancel in confdialogbase ist jetzt wirklich cancel.
 
-#define WMVersion "V2.15"
+#define WMVersion "V2.16"
 
 #define wm3000iHome QDir::homePath()
 #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
