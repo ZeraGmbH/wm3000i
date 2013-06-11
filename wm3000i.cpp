@@ -2603,7 +2603,7 @@ void cWM3000I::DefaultSettings(cConfData& cdata) // alle einstellungen default
     
     cdata.m_sOETFile = "";
     cdata.m_sResultFile = "";
-    cdata.m_sADSPFile = "/opt/zera/bin/zdsp1.ldr"; // dsp boot file
+    cdata.m_sADSPFile = "/opt/zera/bin/zdsp21262.ldr"; // dsp boot file
     cdata.m_bOENewLoad = false;
     cdata.m_nLogFileMax = 8192; 
     
