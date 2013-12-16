@@ -12,6 +12,8 @@
 
 #include <qvariant.h>
 #include <qdialog.h>
+#include <QTimer>
+
 #include "en61850.h"
 #include "widgeom.h"
 
@@ -41,6 +43,8 @@ signals:
 protected:
     int newVariable;
     virtual void closeEvent( QCloseEvent * ce );
+    virtual void resizeEvent ( QResizeEvent *);
+    virtual void moveEvent( QMoveEvent *);
 
 protected slots:
     virtual void accept();
@@ -49,7 +53,7 @@ protected slots:
 
 private:
     Ui::EN61850monbase *ui;
-    QTimer *m_pTimer;
+    QTimer *m_pTimer, m_Timer;
     cWidgetGeometry m_widGeometry;
     cEN61850Info ETHStatus;
 
@@ -58,6 +62,7 @@ private:
 
 private slots:
     void TimerSlot();
+    void saveConfiguration();
 
 };
 

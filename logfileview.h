@@ -34,17 +34,19 @@ public slots:
 protected:
     virtual void closeEvent ( QCloseEvent * );
     virtual void resizeEvent ( QResizeEvent *);
-    
+    virtual void moveEvent( QMoveEvent *);
+
 signals:
     void isVisibleSignal(bool);    
     
 private:
     cWidgetGeometry m_widGeometry;
-    QTimer showT;
+    QTimer showT, m_Timer;
     QStringList m_loglist;
     
 private slots:
     void showList();
+    void saveConfiguration();
 };
 
 #endif

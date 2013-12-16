@@ -202,7 +202,8 @@ void cWM3000I::ActionHandler(int entryAHS)
     static bool bOverloadMax = false;
     static bool bOverloadMaxOld = false;
     static bool bOverload = false;
-    static bool bHWOverload;
+    static bool bHWOverload = true; // for initialisation set true
+    static bool mustDo;
     static int lprogress;
     static int N; 
     static int mCount;
@@ -762,8 +763,12 @@ void cWM3000I::ActionHandler(int entryAHS)
 	}
 	else
 	{
-	    PCBIFace->resetStatusOVL(); // reset overload condition
-	    AHS++;
+        if (m_ConfData.m_sRangeN == m_sNXRangeList.first()->Selector()) // we only reset when we are in maximum range
+            PCBIFace->resetStatusOVL(); // reset overload condition
+        else
+            m_ActTimer->start(0,wm3000Continue); // otherwise we must do something to continue
+
+        AHS++;
 	}
 	
 	break;	
@@ -1232,8 +1237,9 @@ case ConfigurationTestTMode:
 	    // wenn's keine probleme gab sind wir hier angekommen und initialisiert
 	    emit ConfigReady(); // wir sync. eine ev. laufenden justage prozess
 	    emit AffectStatus(ResetOperStat, OperConfiguring);
-	}
-    
+        WriteSettings(".ses");
+    }
+
 	AHS = wm3000Idle;
 	break; // case ConfigurationAct
 	
@@ -1588,7 +1594,7 @@ case ConfigurationTestTMode:
 		
     case RangeObsermaticTest:
 	{
-	    bool mustDo = false;
+        mustDo = false;
 	    if (m_ConfData.m_bSimulation) {
 		AHS = wm3000Idle;
 	    }
@@ -1633,7 +1639,13 @@ case ConfigurationTestTMode:
 
 // wenn ein bereich soft übersteuert ist und wir im n/x mode sind tun wir so als wären beide übersteuert
 // warum ?
-// abfrage hard übersteuerung hat ergeben : keine übersteuerung der maximum sucher einer der beiden kanäle hat eine übersteuerung erkannt, also wird der kanal in den grössten bereich geschaltet. im anschluss wird reset hard übersteuerung ausgegeben. die prüfgrösse liegt aber u.U. noch an. also gibts nochmal übersteuerung, jetzt aber im anderen kanal. es gibt aber nur eine hard ü-meldung für beide kanäle. damit ist jetzt der kanal der schon hochgeschaltet wurde, vermeintlich im grössten bereich übersteuert.
+// abfrage hard übersteuerung hat ergeben :
+// keine übersteuerung der maximum sucher einer der beiden kanäle hat
+// eine übersteuerung erkannt, also wird der kanal in den grössten bereich geschaltet.
+// im anschluss wird reset hard übersteuerung ausgegeben. die prüfgrösse liegt aber
+// u.U. noch an. also gibts nochmal übersteuerung, jetzt aber im anderen kanal.
+// es gibt aber nur eine hard ü-meldung für beide kanäle. damit ist jetzt der kanal der
+// schon hochgeschaltet wurde, vermeintlich im grössten bereich übersteuert.
 				    
 		   
 		    bOverloadMaxOld = bOverloadMax;
@@ -3404,6 +3416,8 @@ void cWM3000I::StopMeasurement()
     AHSFifo.remove(RangeObsermaticStart); // alle events zur bereichüberwachung löschen
     m_bStopped = true;
     m_bDspMeasureIgnore = true; // m_bDspMeasureTriggerActive; // wenn der trigger schon raus ist ignorieren wir die ergebnisse
+    ActValues.bvalid = false; // wir schalten die fehleranzeige inaktiv
+    emit SendActValuesSignal(&ActValues);
 }
 
 
@@ -3483,16 +3497,23 @@ void cWM3000I::SimulatedMeasurement()
 
 void cWM3000I::CmpActFrequency()
 {
-/*
-    double f;
+
+    double fsoll;
     switch (m_ConfData.m_nSFreq)
     {
-	    case F16 : f = 50.0/3.0;break;
-	    case F50 : f = 50.0;break;
-                  case F60 : f = 60.0;	   
+        case F16 : fsoll = 50.0/3.0;break;
+        case F50 : fsoll = 50.0;break;
+        case F60 : fsoll = 60.0;
     }
-*/    
+
     ActValues.Frequenz = m_ConfData.m_fSFreq * ActValues.dspActValues.kfkorrf;
+
+    bool bFreqQuestionable = (fabs(ActValues.Frequenz-fsoll) > 1.0);
+    emit FreqQuestionable(bFreqQuestionable);
+    if (bFreqQuestionable)
+        emit AffectStatus(SetQuestStat, QuestFrequency); // questionable status setzen
+    else
+        emit AffectStatus(ResetQuestStat, QuestFrequency);
 }
 
 
@@ -3638,7 +3659,8 @@ void cWM3000I::CmpActValues(bool withLP) {  // here we will do all the necessary
     absN = fabs(ActValues.VekN);
     ActValues.AmplErrorIEC = 100.0 * (fabs(ActValues.VekX) -absN) / absN;
     ActValues.AmplErrorANSI = (ActValues.AmplErrorIEC/100.0 + ( (1.0+ActValues.AmplErrorIEC/100.0) * (4.0 / 3.0) * ActValues.AngleError )) * 100.0;
- 
+
+    ActValues.bvalid = true; // aktivieren der fehleranzeige
 }
 
 

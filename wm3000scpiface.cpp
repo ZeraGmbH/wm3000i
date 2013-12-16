@@ -1075,7 +1075,11 @@ void cWM3000SCPIFace::mSetConfOperMode(char* s)
     int m;
     if ( SearchEntry(&s,MModeName,maxMMode,m,true) )
     {
-	m_ConfDataTarget.m_nMeasMode = m;
+    if (m > 0)
+        m_ConfDataTarget.m_nMeasMode = m;
+    else
+        AddEventError(ParameterNotAllowed);
+
 //	emit SendConfiguration(&m_ConfData);
     }
 }
@@ -1109,7 +1113,7 @@ bool cWM3000SCPIFace::SearchEntry(char** s, char** sa, int max, int& n, bool chk
     n = inp.toInt(&ok); // erst mal testen ob es der index ist
     if (ok)
     {
-	if (n < max)
+    if (n < max)
 	    return ok;
 	else
 	{

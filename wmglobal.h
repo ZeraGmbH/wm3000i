@@ -59,8 +59,17 @@
 // v2.14 oetfiles, resultfiles and ses files moved to /usr/share/wm3000i
 // v2.15 in fehlermessung lastpunkte in [A] und AbsMode in rangedialogbase implementiert
 // v2.16 neues ethernet routing für en61850-9-2 dekodierung eingebaut, cancel in confdialogbase ist jetzt wirklich cancel.
+// v2.17 11.12.2013 resetOVL nur wenn wm im grössten bereich ist, wir haben dann schon auf
+//                  hw-übersteuerung und/oder maximum sucher reagiert.
+//                  nach jeder "umkonfiguration" wird der fehlermesswertund der phasenwinkel
+//                  "inaktiv" und erst wieder aktiviert wenn ein neuer messwert da ist
+//                  wenn |samplefrequenz - signalfrequenz| > 1.0 dann hinweis in statuszeile
+//                  nicht justiert rot in statuszeile
+//                  jede änderung in der konfiguration oder der anzeigefenster wird sofort
+//                  gespeichert, damit die letzte konf. auch nach abschalten erhalten wird
 
-#define WMVersion "V2.16"
+
+#define WMVersion "V2.17"
 
 #define wm3000iHome QDir::homePath()
 #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
@@ -136,6 +145,7 @@ struct cwmActValues {  // wird an andere objekte gesendet
     double AngleError;
     double PHIN;
     double PHIX;
+    bool bvalid;
 };
 
 

@@ -13,6 +13,7 @@
 #include <qvariant.h>
 #include <qdialog.h>
 
+
 namespace Ui {
     class WMRawActualConfigBase;
 }

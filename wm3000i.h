@@ -342,6 +342,7 @@ signals:
     void AffectStatus(uchar, ushort); // zum setzen, rücksetzen der scpi status systeme
     void SelftestDone(int); // 0 ok  -1 fehler
     void JustifiedSignal(bool);
+    void FreqQuestionable(bool);
     
 protected:
     tVersSerial SerialVersions; // serien nummer und version

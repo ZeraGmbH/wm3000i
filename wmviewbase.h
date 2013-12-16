@@ -53,6 +53,7 @@ public slots:
     void SaveSession( QString session );
     virtual void RemoteCtrlInfoSlot( bool remote );
     virtual void SetJustifiedSlot( bool b );
+    virtual void SetFreqStatSlot(bool b);
 
 signals:
     void SendConfDataSignal(cConfData*);
@@ -88,7 +89,8 @@ signals:
 
 protected:
     virtual void closeEvent( QCloseEvent * ce );
-
+    virtual void resizeEvent ( QResizeEvent *);
+    virtual void moveEvent( QMoveEvent *);
 
 private:
     Ui::WMViewBase *ui;
@@ -105,6 +107,7 @@ private:
     QLabel* m_pRangeXLabel;
     QLabel* m_pRangeNLabel;
     cConfData m_ConfData;
+    QLabel* m_pFreqLabel;
     QLabel* m_pDummyLabel;
     QLabel* m_pOETLabel;
     int m_nrecentOEFileIds[nmaxRecentOEFiles];
@@ -113,6 +116,7 @@ private:
     wmEditor* wmEdit2;
     QStringList recentSESFiles;
     bool m_bJustified;
+    bool m_bFreqQuestionable;
 
     void init();
     void destroy();
@@ -127,6 +131,7 @@ private slots:
     virtual void JustFlashProgSlot();
     virtual void JustFlashExportSlot();
     virtual void JustFlashImportSlot();
+    virtual void SaveDefaultSessionSlot(bool);
 
 };
 

@@ -36,8 +36,10 @@ void WMMeasValuesBase::init()
     m_Format[0] = cFormatInfo(7,3,LoadpointUnit[LPProzent]); // defaults
     m_Format[1] = cFormatInfo(7,3,ErrorUnit[ErrProzent]);
     m_Format[2] = cFormatInfo(7,4,AngleUnit[Anglegrad]);
+    m_Timer.setSingleShot(true);
     connect(this,SIGNAL(SendFormatInfoSignal(int,int,int, cFormatInfo*)),m_pContextMenu,SLOT(ReceiveFormatInfoSlot(int,int,int, cFormatInfo*)));
     connect(m_pContextMenu,SIGNAL(SendFormatInfoSignal(int,int,int, cFormatInfo*)),this,SLOT(ReceiveFormatInfoSlot(int,int,int, cFormatInfo*)));
+    connect(&m_Timer, SIGNAL(timeout()), this, SLOT(saveConfiguration()));
     LoadSession(".ses");
 }
 
@@ -53,6 +55,7 @@ void WMMeasValuesBase::closeEvent( QCloseEvent * ce)
     m_widGeometry.SetGeometry(pos(),size());
     m_widGeometry.SetVisible(0);
     emit isVisibleSignal(false);
+    m_Timer.start(500);
     ce->accept();
 }
 
@@ -78,6 +81,13 @@ void WMMeasValuesBase::resizeEvent(QResizeEvent * e)
     }
     }
     this->QDialog::resizeEvent(e);
+    m_Timer.start(500);
+}
+
+
+void WMMeasValuesBase::moveEvent(QMoveEvent *)
+{
+    m_Timer.start(500);
 }
 
 
@@ -159,7 +169,7 @@ void WMMeasValuesBase::ActualizeDisplay()
    ui->mBigAngleError->display(QString("%1").arg(AnzeigeWert,m_Format[2].FieldWidth,'f',m_Format[2].Resolution));
    ui->mBigAngleUnit->display(m_Format[2].UnitInfo.Name);
 
-   if (m_nDisplayMode == ANSI)
+   if (m_nDisplayMode == ANSI || !m_ActValues.bvalid)
    {
        ui->mBigAngleName->setEnabled(false);
        ui->mBigAngleError->setEnabled(false);
@@ -171,6 +181,25 @@ void WMMeasValuesBase::ActualizeDisplay()
        ui->mBigAngleError->setEnabled(true);
        ui->mBigAngleUnit->setEnabled(true);
    }
+
+   if (m_ActValues.bvalid)
+   {
+       ui->mBigAmplError->setEnabled(true);
+       ui->mBigErrorName->setEnabled(true);
+       ui->mBigErrorUnit->setEnabled(true);
+   }
+   else
+   {
+       ui->mBigAmplError->setEnabled(false);
+       ui->mBigErrorName->setEnabled(false);
+       ui->mBigErrorUnit->setEnabled(false);
+   }
+}
+
+
+void WMMeasValuesBase::saveConfiguration()
+{
+    SaveSession(".ses");
 }
 
 

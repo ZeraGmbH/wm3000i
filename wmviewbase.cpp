@@ -33,6 +33,7 @@ void WMViewBase::removeJustageItem()
 void WMViewBase::init()
 {
     m_bJustified = false;
+    m_bFreqQuestionable = false;
     for (int i =0 ; i < nmaxRecentOEFiles; i++) m_nrecentOEFileIds[i] = -1;
     for (int i =0 ; i < nmaxRecentMVFiles; i++) m_nrecentMVFileIds[i] = -1;
     for (int i =0 ; i < nmaxRecentSESFiles; i++) m_nrecentSESFileIds[i] = -1;
@@ -41,21 +42,32 @@ void WMViewBase::init()
     wmEdit2 = new wmEditor();
     connect(wmEdit,SIGNAL(textMessage(QString)),this,SLOT(ReceiveOETFileSlot(QString)));
     connect(wmEdit2,SIGNAL(textMessage(QString)),this,SLOT(ReceiveResultFileSlot(QString)));
-    ui->ansichtFehlerMessungAction->setOn(false);
-    ui->ansichtIstwerteAction->setOn(false);
-    ui->ansichtDialogAction->setOn(false);
-    ui->ansichtEigenfehlerAction->setOn(false);
+    ui->ansichtFehlerMessungAction->setChecked(false);
+    ui->ansichtIstwerteAction->setChecked(false);
+    ui->ansichtDialogAction->setChecked(false);
+    ui->ansichtEigenfehlerAction->setChecked(false);
     LoadSession(".ses");
+
     connect(ui->ansichtFehlerMessungAction,SIGNAL(toggled(bool)),this,SIGNAL(UIansichtFehlerMessungActionToggled(bool))); // öffnen der fehlermesswert anzeige
-    connect(this,SIGNAL(UIansichtFehlerMessungActionSet(bool)),ui->ansichtFehlerMessungAction,SLOT(setOn(bool)));
+    connect(ui->ansichtFehlerMessungAction,SIGNAL(toggled(bool)),this,SLOT(SaveDefaultSessionSlot(bool))); // wir speichern die laufende sitzung immer
+    connect(this,SIGNAL(UIansichtFehlerMessungActionSet(bool)),ui->ansichtFehlerMessungAction,SLOT(setChecked(bool)));
+
     connect(ui->ansichtEigenfehlerAction,SIGNAL(toggled(bool)),this,SIGNAL(UIansichtEigenfehlerActionToggled(bool))); // öffnen der eigenfehler anzeige
-    connect(this,SIGNAL(UIansichtEigenfehlerActionSet(bool)),ui->ansichtEigenfehlerAction,SLOT(setOn(bool)));
+    connect(ui->ansichtEigenfehlerAction,SIGNAL(toggled(bool)),this,SLOT(SaveDefaultSessionSlot(bool))); // öffnen der eigenfehler anzeige
+    connect(this,SIGNAL(UIansichtEigenfehlerActionSet(bool)),ui->ansichtEigenfehlerAction,SLOT(setChecked(bool)));
+
     connect(ui->ansichtIstwerteAction,SIGNAL(toggled(bool)),this,SIGNAL(UIansichtIstwerteActionToggled(bool))); // öffnen der eigenfehler anzeige
-    connect(this,SIGNAL(UIansichtIstwerteActionSet(bool)),ui->ansichtIstwerteAction,SLOT(setOn(bool)));
+    connect(ui->ansichtIstwerteAction,SIGNAL(toggled(bool)),this,SLOT(SaveDefaultSessionSlot(bool))); // öffnen der eigenfehler anzeige
+    connect(this,SIGNAL(UIansichtIstwerteActionSet(bool)),ui->ansichtIstwerteAction,SLOT(setChecked(bool)));
+
     connect(ui->ansichtDialogAction,SIGNAL(toggled(bool)),this,SIGNAL(UIansichtDialogActionToggled(bool))); // öffnen der eigenfehler anzeige
-    connect(this,SIGNAL(UIansichtDialogActionSet(bool)),ui->ansichtDialogAction,SLOT(setOn(bool)));
+    connect(ui->ansichtDialogAction,SIGNAL(toggled(bool)),this,SLOT(SaveDefaultSessionSlot(bool))); // öffnen der eigenfehler anzeige
+    connect(this,SIGNAL(UIansichtDialogActionSet(bool)),ui->ansichtDialogAction,SLOT(setChecked(bool)));
+
     connect(ui->ansichtEN61850Action,SIGNAL(toggled(bool)),this,SIGNAL(UIansichtEN61850ActionToggled(bool))); // öffnen der eigenfehler anzeige
-    connect(this,SIGNAL(UIansichtEN61850ActionSet(bool)),ui->ansichtEN61850Action,SLOT(setOn(bool)));
+    connect(ui->ansichtEN61850Action,SIGNAL(toggled(bool)),this,SLOT(SaveDefaultSessionSlot(bool))); // öffnen der eigenfehler anzeige
+    connect(this,SIGNAL(UIansichtEN61850ActionSet(bool)),ui->ansichtEN61850Action,SLOT(setChecked(bool)));
+
     connect(ui->hilfeManualAction,SIGNAL(activated()),this,SIGNAL(UIhilfeManualActionActivated()));
     connect(ui->einstellungenConfAction,SIGNAL(activated()),this,SIGNAL(UIeinstellungenConfActionActivated()));
     connect(ui->einstellungenBereichAction,SIGNAL(activated()),this,SIGNAL(UIeinstellungenBereichActionActivated()));
@@ -103,6 +115,8 @@ void WMViewBase::ActualizeStates()
         m_pSimulationLabel->setText( QString (( m_ConfData.m_bSimulation) ? tr("Simulation") : tr("Reale Messung")));
 
         m_pStatusLabel->setText( m_bJustified ? tr("Justiert") : tr("Nicht justiert"));
+
+        m_pFreqLabel->setText( m_bFreqQuestionable ? tr("!!SignalFrequenz!!") : tr(""));
 
         QFileInfo fi (m_ConfData.m_sOETFile);
         m_pOETLabel->setText("EFT="+((m_ConfData.m_sOETFile=="") ? tr("Keine") : fi.baseName())); // statuszeile eigenfehlertabelle eintragen
@@ -241,6 +255,10 @@ void WMViewBase::CreateStatusBar()
     statusBar()->addWidget(m_pSimulationLabel,0);
     m_pStatusLabel=new QLabel("",this); // normaler ablauf oder fehlerausgaben in statuszeile
     statusBar()->addWidget(m_pStatusLabel,0);
+    m_pStatusLabel->setStyleSheet("QLabel {color:red;}");
+    m_pFreqLabel=new QLabel("",this); // erstmal kein fehler
+    m_pFreqLabel->setStyleSheet("QLabel {color:red;}");
+    statusBar()->addWidget(m_pFreqLabel,0);
     m_pDummyLabel=new QLabel("",this); // letztes feld ist bereich N in statuszeile
     statusBar()->addWidget(m_pDummyLabel,1);
 }
@@ -387,15 +405,16 @@ bool WMViewBase::LoadSession(QString session)
     QFile file(ls);
     if ( file.open( IO_ReadOnly ) ) {
     QDataStream stream( &file );
-    int mA, iA, dA, eA;
-    stream >> mA >> iA >> dA >> eA;
+    int mA, iA, dA, eA, enA;
+    stream >> mA >> iA >> dA >> eA >> enA;
     stream >> m_widGeometry;
     file.close();
 
-        ui->ansichtFehlerMessungAction->setOn(mA);
-        ui->ansichtIstwerteAction->setOn(iA);
-        ui->ansichtDialogAction->setOn(dA);
-        ui->ansichtEigenfehlerAction->setOn(eA);
+        ui->ansichtFehlerMessungAction->setChecked(mA);
+        ui->ansichtIstwerteAction->setChecked(iA);
+        ui->ansichtDialogAction->setChecked(dA);
+        ui->ansichtEigenfehlerAction->setChecked(eA);
+        ui->ansichtEN61850Action->setChecked(enA);
 
     hide();
     resize(m_widGeometry.m_Size);
@@ -434,10 +453,12 @@ void WMViewBase::SaveSession(QString session)
     m_widGeometry.SetVisible(vi);
 
     QDataStream stream( &file );
-        stream << (int)ui->ansichtFehlerMessungAction->isOn()
-                   << (int)ui->ansichtIstwerteAction->isOn()
-                   << (int)ui->ansichtDialogAction->isOn()
-                   << (int)ui->ansichtEigenfehlerAction->isOn();
+        stream << (int)ui->ansichtFehlerMessungAction->isChecked()
+                   << (int)ui->ansichtIstwerteAction->isChecked()
+                   << (int)ui->ansichtDialogAction->isChecked()
+                   << (int)ui->ansichtEigenfehlerAction->isChecked()
+                   << (int)ui->ansichtEN61850Action->isChecked();
+
     stream << m_widGeometry;
     file.close();
     }
@@ -482,6 +503,18 @@ void WMViewBase::closeEvent(QCloseEvent* ce)
     m_widGeometry.SetVisible(0);
     SaveSession(".ses");
     ce->accept();
+}
+
+
+void WMViewBase::resizeEvent(QResizeEvent *)
+{
+    SaveSession(".ses");
+}
+
+
+void WMViewBase::moveEvent(QMoveEvent *)
+{
+    SaveSession(".ses");
 }
 
 
@@ -564,7 +597,14 @@ void WMViewBase::JustFlashImportSlot()
                      tr("Justagedaten importieren"));
 
     if (File != "") // wenn ""  -> es war cancel
-    emit JustFlashImportSignal(File);
+        emit JustFlashImportSignal(File);
+}
+
+
+void WMViewBase::SaveDefaultSessionSlot(bool)
+{
+    SaveSession(".ses");
+    emit SaveSessionSignal(".ses"); // die anderen
 }
 
 
@@ -585,5 +625,16 @@ void WMViewBase::RemoteCtrlInfoSlot(bool remote )
 void WMViewBase::SetJustifiedSlot( bool b )
 {
     m_bJustified = b;
+    if (m_bJustified)
+        m_pStatusLabel->setStyleSheet("QLabel {color:black;}");
+    else
+        m_pStatusLabel->setStyleSheet("QLabel {color:red;}");
+    ActualizeStates();
+}
+
+
+void WMViewBase::SetFreqStatSlot(bool b)
+{
+    m_bFreqQuestionable = b;
     ActualizeStates();
 }

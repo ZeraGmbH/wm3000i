@@ -21,11 +21,19 @@ WMOeViewBase::~WMOeViewBase()
 
 void WMOeViewBase::init()
 {
+    m_Timer.setSingleShot(true);
+    connect(&m_Timer, SIGNAL(timeout()), this, SLOT(saveConfiguration()));
     LoadSession(".ses");
 }
 
 
 void WMOeViewBase::destroy()
+{
+    SaveSession(".ses");
+}
+
+
+void WMOeViewBase::saveConfiguration()
 {
     SaveSession(".ses");
 }
@@ -57,7 +65,20 @@ void WMOeViewBase::closeEvent( QCloseEvent* ce)
     m_widGeometry.SetGeometry(pos(),size());
     m_widGeometry.SetVisible(0);
     emit isVisibleSignal(false);
+    m_Timer.start(500);
     ce->accept();
+}
+
+
+void WMOeViewBase::resizeEvent(QResizeEvent *)
+{
+    m_Timer.start(500);
+}
+
+
+void WMOeViewBase::moveEvent(QMoveEvent *)
+{
+    m_Timer.start(500);
 }
 
 

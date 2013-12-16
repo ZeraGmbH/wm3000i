@@ -147,6 +147,7 @@ enum QuestionStates { QuestServerProblems = 0x100,
 		       QeustOverLoad = 0x200,	
 		       QuestOverLoadMax = 0x400,
 		       QuestNotJustified = 0x800,
+               QuestFrequency = 0x1000
 		     };
 
 
