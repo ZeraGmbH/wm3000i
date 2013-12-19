@@ -31,6 +31,7 @@ public:
     virtual QString strippedName( QString s );
     virtual bool LoadSession( QString session );
     void removeJustageItem();
+    void configureWM1000Items();
 
 public slots:
     virtual void SetViewConfDataInfoSlot( cConfData * cd );

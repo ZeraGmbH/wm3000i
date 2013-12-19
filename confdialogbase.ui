@@ -62,7 +62,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="Widget8">
       <attribute name="title">
@@ -545,7 +545,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="TabPage1">
+     <widget class="QWidget" name="SyncTabPage">
       <attribute name="title">
        <string>Synchronisation</string>
       </attribute>
@@ -1277,7 +1277,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="TabPage3">
+     <widget class="QWidget" name="nConventTabPage">
       <attribute name="title">
        <string>nConvent</string>
       </attribute>

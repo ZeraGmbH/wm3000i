@@ -9,6 +9,7 @@
 #include <qevent.h>
 #include <qnamespace.h>
 #include <qmenubar.h>
+#include <QString>
 
 #include "zerainfo.h"
 #include "confdialogbase.h"
@@ -33,6 +34,7 @@ WMViewBase *g_WMView;
 
 int main(int argc, char *argv[])
 {
+    bool bconvent;
     QApplication::setDesktopSettingsAware(true);
     g_app = new QApplication (argc, argv);
     QFont f = g_app->font();
@@ -69,10 +71,19 @@ int main(int argc, char *argv[])
 
     QString option ="";
     if ( g_app->argc() > 1 )
-    option = g_app->argv()[1];
+        option = g_app->argv()[1];
 
     if (option != "-justage")
         g_WMView->removeJustageItem();
+
+    bconvent = (option == "-convent");
+    if (bconvent)
+    {
+        g_WMDevice->setConventional(true);
+        g_WMView->configureWM1000Items();
+    }
+    else
+        g_WMDevice->setConventional(false);
 
     cZeraInfo *g_WMInfo = new cZeraInfo; // info slots
 
@@ -102,7 +113,13 @@ int main(int argc, char *argv[])
     QObject::connect(g_WMDevice,SIGNAL(SendActValuesSignal(cwmActValues*)),g_WMActValView,SLOT(ReceiveAVDataSlot( cwmActValues*))); // senden von istwerten
 
 
-    CLogFileView* g_WMSCPILogFileView = new CLogFileView(QObject::tr("WM3000U SCPI Kommunikation"),100,g_WMView,"WMSCPILogView"); // kommunikation anzeige erzeugen
+    CLogFileView* g_WMSCPILogFileView;
+    if (bconvent)
+        g_WMSCPILogFileView = new CLogFileView(QObject::tr("WM1000I SCPI Kommunikation"),100,g_WMView,"WMSCPILogView"); // kommunikation anzeige erzeugen
+    else
+        g_WMSCPILogFileView = new CLogFileView(QObject::tr("WM3000I SCPI Kommunikation"),100,g_WMView,"WMSCPILogView"); // kommunikation anzeige erzeugen
+
+
     QObject::connect(g_WMView,SIGNAL(UIansichtDialogActionToggled(bool)),g_WMSCPILogFileView,SLOT(ShowHideLogFileSlot(bool))); // öffnen der kommunikation anzeige
     QObject::connect(g_WMView,SIGNAL(SaveSessionSignal(QString)),g_WMSCPILogFileView,SLOT(SaveSession(QString))); // fenster grösse und position einrichten
     QObject::connect(g_WMView,SIGNAL(LoadSessionSignal(QString)),g_WMSCPILogFileView,SLOT(LoadSession(QString))); // fenster grösse und position einrichten

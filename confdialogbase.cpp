@@ -1,6 +1,10 @@
 #include "QMessageBox"
 #include "confdialogbase.h"
 #include "ui_confdialogbase.h"
+#include "wm3000i.h"
+
+extern cWM3000I* g_WMDevice;
+
 
 ConfDialogBase::ConfDialogBase( QWidget* parent):
     QDialog(parent),
@@ -111,6 +115,13 @@ void ConfDialogBase::init()
     connect(ui->S256RadioButton,SIGNAL(clicked()),this,SLOT(S256RadioButtonChecked()));
 
     m_bRemoteCtrl = false;
+
+    if (g_WMDevice->isConventional())
+    {
+        ui->ConfTabWidget->removeTab(ui->ConfTabWidget->indexOf(ui->nConventTabPage));
+        ui->ConfTabWidget->removeTab(ui->ConfTabWidget->indexOf(ui->SyncTabPage));
+        ui->ModeButtonGroup->removeChild(ui->Mode3RadioButton);
+    }
 }
 
 void ConfDialogBase::SetConfInfoSlot(cConfData *cd )

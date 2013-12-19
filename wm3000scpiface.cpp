@@ -4,8 +4,9 @@
 #include "confdata.h"
 #include "eparameter.h"
 #include "wm3000scpiface.h"
+#include "wm3000i.h"
 
-
+extern cWM3000I* g_WMDevice;
 extern  scpiErrorType SCPIError[];
 char* MModeName[maxMMode] = {(char*)"In/dIx",(char*)"In/ECT",(char*)"In/nConvent",(char*)"In/Ix"};
 char* FreqName[MaxFreq] = {(char*)"16.67",(char*)"50.0",(char*)"60.0"};
@@ -1075,13 +1076,23 @@ void cWM3000SCPIFace::mSetConfOperMode(char* s)
     int m;
     if ( SearchEntry(&s,MModeName,maxMMode,m,true) )
     {
-    if (m > 0)
-        m_ConfDataTarget.m_nMeasMode = m;
-    else
-        AddEventError(ParameterNotAllowed);
-
-//	emit SendConfiguration(&m_ConfData);
+        if (g_WMDevice->isConventional())
+        {
+            if ((m > 0) && (m != 2)) // nur conventional (wm1000i) kein mode = 2
+            {
+               m_ConfDataTarget.m_nMeasMode = m;
+               return;
+            }
+        }
+        else
+            if (m > 0)
+            {
+                m_ConfDataTarget.m_nMeasMode = m;
+                return;
+            }
     }
+
+    AddEventError(ParameterNotAllowed);
 }
 
 

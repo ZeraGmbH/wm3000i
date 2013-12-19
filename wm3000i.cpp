@@ -61,7 +61,7 @@ void cWMessageBox::done(int r)
 
 cWM3000I::cWM3000I()
 {
-    SerialVersions.DeviceName  = tr("Wandlermesseinrichtung WM3000I");
+
     SerialVersions.DeviceVersion = WMVersion;
     SerialVersions.PCBSerialNr = "Unknown"; // wird ggf. später aus hardware gelesen
     SerialVersions.PCBVersion = "Unknown";
@@ -2491,6 +2491,10 @@ void cWM3000I::ServerIFaceErrorHandling(int error, QString host, int port)
 
 void cWM3000I::InitWM3000()
 {
+    if (isConventional())
+        SerialVersions.DeviceName  = tr("Wandlermesseinrichtung WM1000I");
+    else
+        SerialVersions.DeviceName  = tr("Wandlermesseinrichtung WM3000I");
     float f=50.0;
     switch (m_ConfData.m_nSFreq) {  // wir setzen den realen frequenzwert
       case F16: f = 50.0/3;break;
@@ -2502,7 +2506,20 @@ void cWM3000I::InitWM3000()
     
     m_ActTimer->start(0,InitializationStart);
 }
+
+
+void cWM3000I::setConventional(bool)
+{
+    m_bConventional = true;
+}
+
+
+bool cWM3000I::isConventional()
+{
+    return m_bConventional;
+}
     
+
 //------------------------------------------- ab hier stehen alle SLOTs--------------------------------------------------------
 
 void cWM3000I::GetOETAnalizeDone(void)
