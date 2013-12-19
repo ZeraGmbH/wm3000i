@@ -19,8 +19,8 @@
 
 //#define FVWM 1
 
-//#define TheDevice "127.0.0.1"
-#define TheDevice "192.168.6.185"
+#define TheDevice "127.0.0.1"
+//#define TheDevice "192.168.6.185"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
@@ -67,9 +67,9 @@
 //                  nicht justiert rot in statuszeile
 //                  jede änderung in der konfiguration oder der anzeigefenster wird sofort
 //                  gespeichert, damit die letzte konf. auch nach abschalten erhalten wird
+// v2.18 19.12.2013 programm erweitert für wm1000i (nur conventional und ect)
 
-
-#define WMVersion "V2.17"
+#define WMVersion "V2.18"
 
 #define wm3000iHome QDir::homePath()
 #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
