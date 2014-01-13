@@ -889,7 +889,7 @@ void cWM3000I::ActionHandler(int entryAHS)
 		s = tr("Achtung !");
 		s+="\n";
 		if (stat & 7) 
-		    s += tr("WM3000I ist nicht justiert !");
+            s += tr("Gerät ist nicht justiert !");
 		if (stat & 2)
 		    s += tr("\nNicht identische Versionsnummer !");
 		if (stat & 4)
