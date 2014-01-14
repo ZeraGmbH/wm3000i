@@ -281,7 +281,7 @@ public:
     cDspIFace* DspIFace;
     cPCBIFace* PCBIFace;
     void InitWM3000(); // einmal komplett initialisieren
-    void setConventional(bool);
+    void setConventional(bool b);
     bool isConventional();
 
 public slots:
