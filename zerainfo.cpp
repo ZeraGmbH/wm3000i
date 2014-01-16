@@ -35,7 +35,7 @@ void cZeraInfo::AboutWM3000Slot()
         pAboutWM=new QMessageBox(QString("About WM1000I"),
                      tr("<h3>About WM1000I</h3>"
                         "<p>WM1000I is the new current transformer test<br>device developed by ZERA.</p>"
-                        "<p>It provides abilities of testing conventional<br>transformers as well as ECT.</p>"),
+                        "<p>It provides abilities of testing conventional<br>transformers.</p>"),
                         QMessageBox::NoIcon,
                         QMessageBox::NoButton,
                         QMessageBox::NoButton,
