@@ -121,6 +121,8 @@ void ConfDialogBase::init()
         ui->ConfTabWidget->removeTab(ui->ConfTabWidget->indexOf(ui->nConventTabPage));
         ui->ConfTabWidget->removeTab(ui->ConfTabWidget->indexOf(ui->SyncTabPage));
         ui->ModeButtonGroup->removeChild(ui->Mode3RadioButton);
+        ui->ModeButtonGroup->removeChild(ui->Mode2RadioButton);
+        ui->RatioTabPage->removeChild(ui->ECTratioGroupBox);
     }
 }
 
