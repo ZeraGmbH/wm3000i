@@ -1063,10 +1063,17 @@ char* cWM3000SCPIFace::mGetConfOperModeCatalog()
     QString rs;
  
     m_ConfDataTarget = m_ConfDataActual;
-    rs = QString("%1,%2").arg(0).arg(MModeName[0]);
-    for (int i = 1; i < maxMMode; i++)
-	rs = rs + ";" + QString("%1,%2").arg(i).arg(MModeName[i]);
-     
+
+    if (!g_WMDevice->isConventional())
+        rs = QString("%1,%2").arg(In_IxAbs).arg(MModeName[In_IxAbs]);
+    else
+
+    {
+        rs = QString("%1,%2").arg(In_ECT).arg(MModeName[In_ECT]);
+        for (int i = In_ECT+1; i < maxMMode; i++)
+            rs = rs + ";" + QString("%1,%2").arg(i).arg(MModeName[i]);
+    }
+
     return sAlloc(rs);
 }
 
@@ -1078,14 +1085,14 @@ void cWM3000SCPIFace::mSetConfOperMode(char* s)
     {
         if (g_WMDevice->isConventional())
         {
-            if ((m > 0) && (m != 2)) // nur conventional (wm1000i) kein mode = 2
+            if (m == In_IxAbs) // nur conventional (wm1000i)
             {
                m_ConfDataTarget.m_nMeasMode = m;
                return;
             }
         }
         else
-            if (m > 0)
+            if (m > In_IxDiff)
             {
                 m_ConfDataTarget.m_nMeasMode = m;
                 return;
