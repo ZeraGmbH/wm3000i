@@ -1064,7 +1064,7 @@ char* cWM3000SCPIFace::mGetConfOperModeCatalog()
  
     m_ConfDataTarget = m_ConfDataActual;
 
-    if (!g_WMDevice->isConventional())
+    if (g_WMDevice->isConventional())
         rs = QString("%1,%2").arg(In_IxAbs).arg(MModeName[In_IxAbs]);
     else
 
