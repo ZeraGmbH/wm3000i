@@ -70,8 +70,9 @@
 // v2.18 19.12.2013 programm erweitert für wm1000i (nur conventional und ect)
 // v2.19 28.05.2014 fehler in eigenfehlerkorrektur beseitigt. die einträge in der tabelle wurden falsch soriert
 //                  wodurch die interpolation im anschluss falsche werte lieferte
+// v2.20 13.06.2014 fehler in scpi interface beseitigt, es wurde die signalfrequenz nicht umgeschaltet.
 
-#define WMVersion "V2.19"
+#define WMVersion "V2.20"
 
 #define wm3000iHome QDir::homePath()
 #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
