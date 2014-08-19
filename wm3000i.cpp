@@ -170,6 +170,13 @@ cWM3000I::cWM3000I()
     DspIFace->addVarItem(ETHStatusResetHandle, new cDspVar("ETHERRORS",1,vMemory));
     DspIFace->addVarItem(ETHStatusResetHandle, new cDspVar("ETHSYNCLOSTCOUNT",1,vMemory));
  
+    if(!QDir(QString("%1/wm3000i/log/").arg(wm3000iHome)).exists())
+    {
+      //create temporary object that gets deleted when leaving the control block
+      QDir().mkdir(QString("%1/wm3000i/").arg(wm3000iHome));
+      QDir().mkdir(QString("%1/wm3000i/log/").arg(wm3000iHome));
+    }
+
     m_SelftestLogfile.setName(QDir(SelftestLogFilePath).absPath());
     m_PhaseJustLogfile.setName(QDir(PhaseJustLogFilePath).absPath());
 
