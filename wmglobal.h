@@ -71,13 +71,20 @@
 // v2.19 28.05.2014 fehler in eigenfehlerkorrektur beseitigt. die einträge in der tabelle wurden falsch soriert
 //                  wodurch die interpolation im anschluss falsche werte lieferte
 // v2.20 13.06.2014 fehler in scpi interface beseitigt, es wurde die signalfrequenz nicht umgeschaltet.
+//                  im confmenu source und destination adressen für nconvent umbenannt
+//                  selbsttest inaktiv gesetzt wenn simulator betrieb
+//                  pfad angaben für log files geändert.
 
 #define WMVersion "V2.20"
 
 #define wm3000iHome QDir::homePath()
-#define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
-#define SelftestLogFilePath "/usr/share/wm3000i/log/Selftest.log"
-#define PhaseJustLogFilePath "/usr/share/wm3000i/log/PhaseJust.log"
+// #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
+#define ServerCommLogFilePath QDir::homePath()+"/wm3000i/log/ServerComm.log"
+//#define SelftestLogFilePath "/usr/share/wm3000i/log/Selftest.log"
+#define SelftestLogFilePath QDir::homePath()+"/wm3000i/log/Selftest.log"
+//#define PhaseJustLogFilePath "/usr/share/wm3000u/log/PhaseJust.log"
+#define PhaseJustLogFilePath QDir::homePath()+"/wm3000i/log/PhaseJust.log"
+
 
 const int nmaxRecentOEFiles = 5;
 const int nmaxRecentMVFiles = 5;
