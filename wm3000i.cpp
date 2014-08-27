@@ -3012,7 +3012,7 @@ void cWM3000I::StoreResultsSlot()
 	    
 	tag = resultDoc.createElement( "Mode" );
 	conditionsTag.appendChild( tag );
-    char* modeName[3] = {(char*)"In/Ix",(char*)"In/ECT",(char*)"In/nConvent"};
+    char* modeName[4] = {(char*)"In/IxDiff", (char*)"In/ECT",(char*)"In/nConvent",(char*)"In/Ix"};
     char* simName[2] = {(char*)"real",(char*)"simulated"};
 	t = resultDoc.createTextNode(QString("%1 %2").arg(QString(simName[(int)m_ConfData.m_bSimulation]))
 				                            .arg(QString(modeName[m_ConfData.m_nMeasMode])));
