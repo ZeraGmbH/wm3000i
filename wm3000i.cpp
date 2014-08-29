@@ -211,13 +211,15 @@ void cWM3000I::ActionHandler(int entryAHS)
     static bool bOverload = false;
     static bool bHWOverload = true; // for initialisation set true
     static bool mustDo;
+    static bool SelftestPassed;
     static int lprogress;
     static int N; 
     static int mCount;
     static cPhaseCalcInfo *PhaseCalcInfo;
     static cPhaseNodeMeasInfo *PhaseNodeMeasInfo;
     static float ph0,ph1;
-    static complex SenseVektor, ADCVektor;
+    static complex SenseNVektor, ADCXVektor, SenseXVektor, ADCNVektor;
+
 #ifdef DEBUG
     static int mRCount = 0;
 #endif    
@@ -2243,6 +2245,7 @@ case ConfigurationTestTMode:
 	
     case SelftestStart:
 	StopMeasurement(); // die kumulieren jetzt nur
+    SelftestPassed = false;
 	m_pProgressDialog = new Q3ProgressDialog( trUtf8("Selbstest ..."), 0, m_SelftestInfoList.count(), g_WMView, 0, FALSE, 0 ); // ein progress dialog 100% entspricht aller selbsttestpunkte 	
 	if ( m_pAbortButton )
 	    m_pProgressDialog->setCancelButton(m_pAbortButton);
@@ -2307,8 +2310,8 @@ case ConfigurationTestTMode:
 	break; // SelftestMeasureNSync
 	    
     case SelftestMeasureN: // wir haben aktuelle messwerte
-	SenseVektor = ActValues.VekNSek;
-	ADCVektor = ActValues.VekXSek; //   messwerte speichern
+    SenseNVektor = ActValues.VekNSek;
+    ADCXVektor = ActValues.VekXSek; //   messwerte speichern
 	m_pProgressDialog->setLabelText (trUtf8("Modus setzen ..." ));
 	
 	m_SelftestState = SelftestMeasureXSync; // hier müssen wir später weitermachen
@@ -2333,17 +2336,25 @@ case ConfigurationTestTMode:
 	    {
 		Q3TextStream stream( &m_SelftestLogfile );
 		stream << QString("Range=%1").arg(m_SelftestInfoList.first())
-		           << QString("  N=(%1,%2)").arg(SenseVektor.re()).arg(SenseVektor.im())
+                   << QString("  N=(%1,%2)").arg(SenseNVektor.re()).arg(SenseNVektor.im())
 		           << QString("  X=(%1,%2)").arg(ActValues.VekXSek.re()).arg(ActValues.VekXSek.im())	
-		           << QString("  ADCX=(%1,%2)").arg(ADCVektor.re()).arg(ADCVektor.im())	   
+                   << QString("  ADCX=(%1,%2)").arg(ADCXVektor.re()).arg(ADCXVektor.im())
 		           << QString("  ADCN=(%1,%2)").arg(ActValues.VekNSek.re()).arg(ActValues.VekNSek.im());	   
 		m_SelftestLogfile.flush();
 		m_SelftestLogfile.close();
 	    }
  
 	// achtung komplexe division !!!!!!
-	if (  ((fabs (1.0 - fabs(SenseVektor/ActValues.VekXSek))) < 0.4) &&
-	      ((fabs (1.0 - fabs(ADCVektor/ActValues.VekNSek))) < 0.1) )
+    //if (  ((fabs (1.0 - fabs(SenseNVektor/ActValues.VekXSek))) < 0.4) &&
+    //      ((fabs (1.0 - fabs(ADCXVektor/ActValues.VekNSek))) < 0.1) )
+
+    // durch änderung der sensorik ist ein direkter vergleich der sense- bzw. adc-werte nicht mehr möglich
+    // stattdessen müssen die verhältnisse von sense- und adcwerten von x und n ins verhältnis gesetzt werden
+    SenseXVektor = ActValues.VekXSek;
+    ADCNVektor = ActValues.VekNSek;
+
+    if ( fabs(1.0 - fabs((SenseNVektor * ADCNVektor) / (SenseXVektor * ADCXVektor))) < 0.01 )
+
 	{ 
 	    
 	    if (m_SelftestLogfile.open( QIODevice::WriteOnly  | QIODevice::Append) )
@@ -2368,6 +2379,7 @@ case ConfigurationTestTMode:
 		QObject::connect(this,SIGNAL(ConfigReady()),this,SLOT(SelftestSyncSlot())); 
 		SetConfDataSlot(&SaveConfData); // wir setzen die konfiguration zurück
 		AHS = wm3000Idle; // statemachine kann neu gestartet werden
+        SelftestPassed = true;
 		emit SelftestDone(0);
 	    }
 	    else
@@ -2400,6 +2412,11 @@ case ConfigurationTestTMode:
               }
 	case SelftestFinished:
 	    delete m_pProgressDialog; // progress dialog schliessen
+        if (SelftestPassed)
+            QMessageBox::information(0, "Selftest", "Test passed!");
+        else
+            QMessageBox::warning(0, "Selftest", "Test failed!");
+
 	    AHS = wm3000Idle;
 	    break; // SelftestFinished	     
 	    
