@@ -70,10 +70,15 @@
 // v2.18 19.12.2013 programm erweitert für wm1000i (nur conventional und ect)
 // v2.19 28.05.2014 fehler in eigenfehlerkorrektur beseitigt. die einträge in der tabelle wurden falsch soriert
 //                  wodurch die interpolation im anschluss falsche werte lieferte
-// v2.20 13.06.2014 fehler in scpi interface beseitigt, es wurde die signalfrequenz nicht umgeschaltet.
+// v2.20 27.06.2014 fehler in scpi interface beseitigt, es wurde die signalfrequenz nicht umgeschaltet.
 //                  im confmenu source und destination adressen für nconvent umbenannt
 //                  selbsttest inaktiv gesetzt wenn simulator betrieb
-//                  pfad angaben für log files geändert.
+//                  pfad angaben für log files geändert und verzeichnis home/operator/wm3000i/log angelegt
+//                  im kontextmenu für istwerte darstellung des lastpunktes in %,A,kA statt %,A,A (fehler)
+//                  messwerte export xml seg.fault nach ads diff umstellung beseitigt
+//                  selbsttest bewertung geändert, erforderlich wegen hardware änderung
+//                  nach selbsttest erscheint eine messagebox mit info ob test bestanden oder nicht
+
 
 #define WMVersion "V2.20"
 
