@@ -29,7 +29,7 @@ void WMMeasConfigBase::init()
 
    m_LPUnit[0] = LoadpointUnit + LPProzent;
    m_LPUnit[1] = CurrentUnit + CurrA;
-   m_LPUnit[2] = CurrentUnit + CurrA;
+   m_LPUnit[2] = CurrentUnit + CurrkA;
 
    for (i = 0; i < 3; i++)
         ui->LPcomboBox->insertItem(m_LPUnit[i]->Name);
