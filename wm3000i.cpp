@@ -191,6 +191,7 @@ cWM3000I::cWM3000I()
     
     m_OVLMsgBox = new cWMessageBox ( trUtf8("Übersteuerung"), trUtf8("Es ist eine Übersteuerung im grössten Bereich\naufgetreten. Bitte überprüfen Sie die Messgrössen"), QMessageBox::Critical, QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton, 0, 0, false ) ;
     connect(m_OVLMsgBox,SIGNAL(WMBoxClosed()),this,SLOT(OverLoadMaxQuitSlot()));
+    m_SelftestMsgBox = new cWMessageBox ( trUtf8("Selbstest"), trUtf8("Test beendet\nDetails stehen im Logfile"), QMessageBox::Information, QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton, 0, 0, false ) ;
 }
 
 
@@ -211,7 +212,6 @@ void cWM3000I::ActionHandler(int entryAHS)
     static bool bOverload = false;
     static bool bHWOverload = true; // for initialisation set true
     static bool mustDo;
-    static bool SelftestPassed;
     static int lprogress;
     static int N; 
     static int mCount;
@@ -2245,7 +2245,6 @@ case ConfigurationTestTMode:
 	
     case SelftestStart:
 	StopMeasurement(); // die kumulieren jetzt nur
-    SelftestPassed = false;
 	m_pProgressDialog = new Q3ProgressDialog( trUtf8("Selbstest ..."), 0, m_SelftestInfoList.count(), g_WMView, 0, FALSE, 0 ); // ein progress dialog 100% entspricht aller selbsttestpunkte 	
 	if ( m_pAbortButton )
 	    m_pProgressDialog->setCancelButton(m_pAbortButton);
@@ -2379,7 +2378,6 @@ case ConfigurationTestTMode:
 		QObject::connect(this,SIGNAL(ConfigReady()),this,SLOT(SelftestSyncSlot())); 
 		SetConfDataSlot(&SaveConfData); // wir setzen die konfiguration zurück
 		AHS = wm3000Idle; // statemachine kann neu gestartet werden
-        SelftestPassed = true;
 		emit SelftestDone(0);
 	    }
 	    else
@@ -2412,11 +2410,7 @@ case ConfigurationTestTMode:
               }
 	case SelftestFinished:
 	    delete m_pProgressDialog; // progress dialog schliessen
-        if (SelftestPassed)
-            QMessageBox::information(0, "Selftest", "Test passed!");
-        else
-            QMessageBox::warning(0, "Selftest", "Test failed!");
-
+        m_SelftestMsgBox->show();
 	    AHS = wm3000Idle;
 	    break; // SelftestFinished	     
 	    
