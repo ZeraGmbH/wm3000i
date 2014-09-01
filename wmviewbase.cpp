@@ -3,6 +3,8 @@
 #include <QFileInfo>
 #include <Q3FileDialog>
 #include <QStatusBar>
+#include <QTextEdit>
+
 #include "wmglobal.h"
 #include "wmeditor.h"
 #include "widgeom.h"
@@ -648,4 +650,19 @@ void WMViewBase::SetFreqStatSlot(bool b)
 {
     m_bFreqQuestionable = b;
     ActualizeStates();
+}
+
+
+void WMViewBase::ShowReleaseInfoSlot()
+{
+    QFile file(ReleaseInfoFilePath); // text einlesen
+    if ( file.open( IO_ReadOnly ) )
+    {
+        QTextStream stream( &file );
+        QString text = stream.read();
+        QTextEdit textEdit;
+        textEdit.setReadOnly(true);
+        textEdit.setText(text);
+        textEdit.show();
+    }
 }
