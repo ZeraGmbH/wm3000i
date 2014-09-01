@@ -20,7 +20,7 @@
 //#define FVWM 1
 
 #define TheDevice "127.0.0.1"
-//#define TheDevice "192.168.6.185"
+//#define TheDevice "192.168.6.167"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
@@ -77,7 +77,8 @@
 //                  im kontextmenu für istwerte darstellung des lastpunktes in %,A,kA statt %,A,A (fehler)
 //                  messwerte export xml seg.fault nach ads diff umstellung beseitigt
 //                  selbsttest bewertung geändert, erforderlich wegen hardware änderung
-//                  nach selbsttest erscheint eine messagebox mit info ob test bestanden oder nicht
+//                  nach selbsttest erscheint eine messagebox mit info dass Test beendet
+//                  releaseinfo file path hinzugefügt für releaseausgabe
 
 
 #define WMVersion "V2.20"
@@ -89,6 +90,7 @@
 #define SelftestLogFilePath QDir::homePath()+"/wm3000i/log/Selftest.log"
 //#define PhaseJustLogFilePath "/usr/share/wm3000u/log/PhaseJust.log"
 #define PhaseJustLogFilePath QDir::homePath()+"/wm3000i/log/PhaseJust.log"
+#define ReleaseInfoFilePath "opt/zera/conf/CHANGELOG"
 
 
 const int nmaxRecentOEFiles = 5;
