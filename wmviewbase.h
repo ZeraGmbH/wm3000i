@@ -13,6 +13,7 @@
 #include <qvariant.h>
 #include <q3mainwindow.h>
 #include <qlabel.h>
+#include <QTextEdit>
 #include "wmglobal.h"
 #include "wmeditor.h"
 #include "widgeom.h"
@@ -55,7 +56,6 @@ public slots:
     virtual void RemoteCtrlInfoSlot( bool remote );
     virtual void SetJustifiedSlot( bool b );
     virtual void SetFreqStatSlot(bool b);
-    virtual void ShowReleaseInfoSlot();
 
 signals:
     void SendConfDataSignal(cConfData*);

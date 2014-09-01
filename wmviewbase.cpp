@@ -3,7 +3,6 @@
 #include <QFileInfo>
 #include <Q3FileDialog>
 #include <QStatusBar>
-#include <QTextEdit>
 
 #include "wmglobal.h"
 #include "wmeditor.h"
@@ -46,6 +45,7 @@ void WMViewBase::init()
 {
     m_bJustified = false;
     m_bFreqQuestionable = false;
+
     for (int i =0 ; i < nmaxRecentOEFiles; i++) m_nrecentOEFileIds[i] = -1;
     for (int i =0 ; i < nmaxRecentMVFiles; i++) m_nrecentMVFileIds[i] = -1;
     for (int i =0 ; i < nmaxRecentSESFiles; i++) m_nrecentSESFileIds[i] = -1;
@@ -92,6 +92,9 @@ void WMViewBase::init()
     connect(ui->hilfeSelbsttestAction,SIGNAL(activated()),this,SIGNAL(UIhilfeSelbsttestActionActivated()));
     connect(ui->dateiBeendenAction,SIGNAL(activated()),this,SIGNAL(UIdateiBeendenActionActivated()));
     connect(ui->hilfeVersionAction,SIGNAL(activated()),this,SIGNAL(UIhilfeVersionActionActivated()));
+    connect(ui->hilfeReleaseInfoAction,SIGNAL(activated()),this,SIGNAL(UIhilfeReleaseInfoActionActivated()));
+
+
 }
 
 
@@ -653,16 +656,3 @@ void WMViewBase::SetFreqStatSlot(bool b)
 }
 
 
-void WMViewBase::ShowReleaseInfoSlot()
-{
-    QFile file(ReleaseInfoFilePath); // text einlesen
-    if ( file.open( IO_ReadOnly ) )
-    {
-        QTextStream stream( &file );
-        QString text = stream.read();
-        QTextEdit textEdit;
-        textEdit.setReadOnly(true);
-        textEdit.setText(text);
-        textEdit.show();
-    }
-}
