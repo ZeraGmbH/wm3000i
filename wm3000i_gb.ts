@@ -157,11 +157,11 @@
     </message>
     <message>
         <source>Merging unit:</source>
-        <translation>Merging unit:</translation>
+        <translation type="obsolete">Merging unit:</translation>
     </message>
     <message>
         <source>WM3000:</source>
-        <translation>WM3000:</translation>
+        <translation type="obsolete">WM3000:</translation>
     </message>
     <message>
         <source>FF</source>
@@ -294,6 +294,14 @@ or mA,A,kA</translation>
     </message>
     <message>
         <source>Last ASDU:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Source:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Destination: </source>
         <translation></translation>
     </message>
 </context>
@@ -1195,6 +1203,10 @@ or mA,A,kA</translation>
         <source>!!SignalFrequenz!!</source>
         <translation>!!Signalfrequency!!</translation>
     </message>
+    <message>
+        <source>&amp;Release Info</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>cLittleBrowser</name>
@@ -1420,7 +1432,20 @@ Please examine load conditions</translation>
     </message>
     <message>
         <source>GerÃ¤t ist nicht justiert !</source>
-        <translation>Device not justified</translation>
+        <translation type="obsolete">Device not justified</translation>
+    </message>
+    <message>
+        <source>Selbstest</source>
+        <translation>Selftest</translation>
+    </message>
+    <message>
+        <source>Test beendet
+Details stehen im Logfile</source>
+        <translation>Test finished, see logfile for details</translation>
+    </message>
+    <message utf8="true">
+        <source>Gerät ist nicht justiert !</source>
+        <translation>Device is not justified</translation>
     </message>
 </context>
 <context>
