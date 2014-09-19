@@ -81,7 +81,7 @@
 //                  releaseinfo file path hinzugefügt für releaseausgabe
 
 
-#define WMVersion "V2.20"
+#define WMVersion "V2.21"
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
