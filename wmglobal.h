@@ -79,6 +79,7 @@
 //                  selbsttest bewertung geändert, erforderlich wegen hardware änderung
 //                  nach selbsttest erscheint eine messagebox mit info dass Test beendet
 //                  releaseinfo file path hinzugefügt für releaseausgabe
+// v2.21 26.06.2015 eparameter test so geändert, dass fehler in der angehängten einheit bemerkt werden.
 
 
 #define WMVersion "V2.21"
