@@ -79,10 +79,11 @@
 //                  selbsttest bewertung geändert, erforderlich wegen hardware änderung
 //                  nach selbsttest erscheint eine messagebox mit info dass Test beendet
 //                  releaseinfo file path hinzugefügt für releaseausgabe
-// v2.21 26.06.2015 eparameter test so geändert, dass fehler in der angehängten einheit bemerkt werden.
+// v2.21 ??.??.???? einfach so
+// v2.22 26.06.2015 eparameter test so geändert, dass fehler in der angehängten einheit bemerkt werden.
 
 
-#define WMVersion "V2.21"
+#define WMVersion "V2.22"
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
