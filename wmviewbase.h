@@ -131,6 +131,7 @@ private slots:
     void OpenRecentSESFileSlot( int index );
     virtual void SetGermanSlot();
     virtual void SetEnglishSlot();
+    virtual void SetPolishSlot();
     virtual void JustFlashProgSlot();
     virtual void JustFlashExportSlot();
     virtual void JustFlashImportSlot();

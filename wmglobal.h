@@ -19,8 +19,8 @@
 
 //#define FVWM 1
 
-#define TheDevice "127.0.0.1"
-//#define TheDevice "192.168.6.193"
+//#define TheDevice "127.0.0.1"
+#define TheDevice "192.168.7.222"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
@@ -81,9 +81,9 @@
 //                  releaseinfo file path hinzugefügt für releaseausgabe
 // v2.21 ??.??.???? einfach so
 // v2.22 26.06.2015 eparameter test so geändert, dass fehler in der angehängten einheit bemerkt werden.
+// v2.23 30.08.2016 phasenjustage korrigiert (ECT justage funktioniert wieder)
 
-
-#define WMVersion "V2.22"
+#define WMVersion "V2.23"
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
@@ -112,7 +112,7 @@ enum SampleRates {S80,S256,MaxSRate}; // abtastraten
 enum tsmode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, adcXadcN = 5, sensXadcNECT = 11}; // testmodi innerhalb der hardware 
 enum MeasModes {In_IxDiff,In_ECT,In_nConvent,In_IxAbs,maxMMode}; // messmodi, in_ixabs wird (wurde) nur für justage zwecke verwendet
 enum UserDecisions {AbortProgram,Stop,Retry,SimulationMode}; // benutzer entscheidungen
-enum Languages {de,gb};
+enum Languages {de,gb,pl};
 
 
 class cTCPConfig

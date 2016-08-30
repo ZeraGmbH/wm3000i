@@ -108,7 +108,8 @@ FORMS	= confdialogbase.ui \
 ######################################################################
 
 
-TRANSLATIONS    = wm3000i_gb.ts
+TRANSLATIONS    = wm3000i_gb.ts \
+                  wm3000i_pl.ts
 
 # Input
 #The following line was inserted by qt3to4
