@@ -205,7 +205,20 @@ cWM3000I::~cWM3000I()
 
 void cWM3000I::ActionHandler(int entryAHS)
 {
-    const char* TModeText[6] = {"sensNsensX", "adcNadcX", "sensNadcX", "sensXadcN", "", " adcXadcN"};
+    const char* TModeText[12] = {"sensNsensX",
+                                "adcNadcX",
+                                "sensNadcX",
+                                "sensXadcN",
+                                "",
+                                " adcXadcN",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "sensXadcN(ECT)"
+                               };
+
     static int AHS = wm3000Idle; // action handler state
     static bool bOverloadMax = false;
     static bool bOverloadMaxOld = false;
@@ -1944,11 +1957,20 @@ case ConfigurationTestTMode:
 	{
 	     Q3TextStream stream( &m_PhaseJustLogfile );
 	     stream << QString("RangeN=%1 RangeX=%2 Mode=").arg(PhaseNodeMeasInfo->m_srng0).arg(PhaseNodeMeasInfo->m_srng1);
-	     if (PhaseNodeMeasInfo->m_nmMode == 0) 
-		 stream << "Un/Ux ";
-	     else
-		 stream << "Un/ECT ";
-	     stream << QString("TestMode=%1 nS=").arg(TModeText[PhaseNodeMeasInfo->m_nTMode]);
+         switch (PhaseNodeMeasInfo->m_nmMode)
+         {
+         case In_IxAbs:
+             stream << "In/Ix ";
+             break;
+         case In_ECT:
+             stream << "In/ECT ";
+             break;
+         default:
+             stream << "some Error in program ";
+             break;
+         }
+
+         stream << QString("TestMode=%1 nS=").arg(TModeText[PhaseNodeMeasInfo->m_nTMode]);
 	     if (PhaseNodeMeasInfo->m_nnS == S80) 
 		 stream << "80\n";
 	     else
@@ -2001,12 +2023,15 @@ case ConfigurationTestTMode:
 	    case sensNadcX:
 		m_sPhaseJustText = trUtf8("Messung Kanal N, %1 läuft").arg(PhaseNodeMeasInfo->m_srng0);
 		break;
-	    case adcXadcN:
+        case adcXadcN:
 		m_sPhaseJustText = trUtf8("Messung Kanal X, adc läuft");
 		break;
 	    case sensXadcN:
 		m_sPhaseJustText = trUtf8("Messung Kanal X, %1 läuft").arg(PhaseNodeMeasInfo->m_srng1);
 		break; 
+        case sensXadcNECT:
+        m_sPhaseJustText = trUtf8("Messung Kanal X(ECT), %1 läuft").arg(PhaseNodeMeasInfo->m_srng1);
+        break;
 	    default: 
 		break;
 	    }
@@ -2770,15 +2795,15 @@ void cWM3000I::SetPhaseNodeMeasInfo() // wir init. die liste damit die statemach
     
     // die liste für alle konv. bereiche in kanal n
     for (uint i = 0; i < m_sNXRangeList.count()-1; i++)
-	m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo( m_sNXRangeList.at(i)->Name(), m_sNXRangeList.at(i)->Name(), sensNadcX, In_IxAbs, S80, 4, 10));
+        m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo( m_sNXRangeList.at(i)->Name(), m_sNXRangeList.at(i)->Name(), sensNadcX, In_IxAbs, S80, 4, 10));
     
     // die liste für alle konv. bereiche in kanal x
     for (uint i = 0; i < m_sNXRangeList.count()-1; i++)
-	m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo(m_sNXRangeList.at(i)->Name(), m_sNXRangeList.at(i)->Name(), sensXadcN, In_IxAbs, S80, 4, 10));
+        m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo(m_sNXRangeList.at(i)->Name(), m_sNXRangeList.at(i)->Name(), sensXadcN, In_IxAbs, S80, 4, 10));
 
     // + die liste der ect bereiche in kanal x
     for (uint i = 0; i < m_sECTRangeList.count()-1; i++) 
-	m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo("5mA",m_sECTRangeList.at(i)->Name(), sensXadcNECT, In_ECT, S80, 4, 10));
+        m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo("5mA",m_sECTRangeList.at(i)->Name(), sensXadcNECT, In_ECT, S80, 4, 10));
     
 }    
 
