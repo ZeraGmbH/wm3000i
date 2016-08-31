@@ -81,7 +81,7 @@
 //                  releaseinfo file path hinzugefügt für releaseausgabe
 // v2.21 ??.??.???? einfach so
 // v2.22 26.06.2015 eparameter test so geändert, dass fehler in der angehängten einheit bemerkt werden.
-// v2.23 30.08.2016 phasenjustage korrigiert (ECT justage funktioniert wieder), polnische Sprache,
+// v2.23 30.08.2016 phasenjustage korrigiert (ECT justage funktioniert wieder), polnische Sprache, statusbar permanent
 
 #define WMVersion "V2.23"
 
