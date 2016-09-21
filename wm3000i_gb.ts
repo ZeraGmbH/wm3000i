@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en" sourcelanguage="de">
+<TS version="2.0" language="en" sourcelanguage="de">
 <context>
     <name>ConfDialogBase</name>
     <message>
@@ -35,7 +35,7 @@
         <source>Alt+I</source>
         <translation>Alt+I</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Phasenfehler Prüfling</source>
         <translation>Phase error DUT</translation>
     </message>
@@ -43,7 +43,7 @@
         <source>&amp;Totzeit[ms]:</source>
         <translation>&amp;Delay[ms]:</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>&amp;Phasenlage[°]:</source>
         <translation>&amp;Phase angle[°]:</translation>
     </message>
@@ -127,7 +127,7 @@
         <source>Strenge EN61850 Synchronisation</source>
         <translation>Strong EN61850 Synchronisation</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Teilerverhältnisse</source>
         <translation>Transformer ratios</translation>
     </message>
@@ -227,7 +227,7 @@
         <source>Logfile</source>
         <translation>LogFile</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Grösse</source>
         <translation>Size
 </translation>
@@ -264,7 +264,7 @@
         <source>ECT</source>
         <translation>ECT</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Bitte überprüfen! 
 Erlaubt mV,V,kV
  oder mA,A,kA</source>
@@ -527,7 +527,7 @@ or mA,A,kA</translation>
         <source>Feldbreite:</source>
         <translation>Fieldwidth:</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Auflösung:</source>
         <translation>Resolution:</translation>
     </message>
@@ -590,7 +590,7 @@ or mA,A,kA</translation>
         <source>%</source>
         <translation>%</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>°</source>
         <translation>°</translation>
     </message>
@@ -621,11 +621,11 @@ or mA,A,kA</translation>
         <source>Wandler:</source>
         <translation>Transformer:</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Primär:</source>
         <translation>Primary:</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Sekundär:</source>
         <translation>Secondary:</translation>
     </message>
@@ -688,11 +688,11 @@ or mA,A,kA</translation>
         <source>prim/sek</source>
         <translation>prim/sec</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>primär</source>
         <translation>primary</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>sekundär</source>
         <translation>secondary
 </translation>
@@ -720,7 +720,7 @@ or mA,A,kA</translation>
         <source>--------- </source>
         <translation>---------</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>°</source>
         <translation>°</translation>
     </message>
@@ -791,7 +791,7 @@ or mA,A,kA</translation>
         <source>&amp;Bereich</source>
         <translation>&amp;Range</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Bereiche auswählen</source>
         <translation>Select Ranges</translation>
     </message>
@@ -831,7 +831,7 @@ or mA,A,kA</translation>
         <source>S&amp;imulation</source>
         <translation>S&amp;imulation</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Simulierte Messung durchführen</source>
         <translation>Running simulated measurement</translation>
     </message>
@@ -883,7 +883,7 @@ or mA,A,kA</translation>
         <source>Informationen zu Zera</source>
         <translation>Information concerning Zera</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Info über &amp;Zera</source>
         <translation>Info about &amp;Zera</translation>
     </message>
@@ -903,7 +903,7 @@ or mA,A,kA</translation>
         <source>Informationen zu Qt</source>
         <translation>Information concerning Qt</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Info über &amp;Qt</source>
         <translation>Info about &amp;Qt</translation>
     </message>
@@ -923,11 +923,11 @@ or mA,A,kA</translation>
         <source>Istwerte Fenster</source>
         <translation>Actual values window</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>&amp;Öffnen</source>
         <translation>&amp;Open</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Öffnen einer Eigenfehlertabelle</source>
         <translation>Open reference transformer file</translation>
     </message>
@@ -967,7 +967,7 @@ or mA,A,kA</translation>
         <source>F5</source>
         <translation>F5</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Öffnen der Ergebnisdatei</source>
         <translation>Open result file</translation>
     </message>
@@ -979,7 +979,7 @@ or mA,A,kA</translation>
         <source>&amp;Bereiche</source>
         <translation>&amp;Ranges</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Bereiche anwählen</source>
         <translation>Select ranges</translation>
     </message>
@@ -1151,7 +1151,7 @@ or mA,A,kA</translation>
         <source>&amp;Version</source>
         <translation>&amp;Version</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Übersicht Versionen</source>
         <translation>Overview versions</translation>
     </message>
@@ -1207,6 +1207,10 @@ or mA,A,kA</translation>
         <source>&amp;Release Info</source>
         <translation></translation>
     </message>
+    <message>
+        <source>Polnisch</source>
+        <translation>Polish</translation>
+    </message>
 </context>
 <context>
     <name>cLittleBrowser</name>
@@ -1214,15 +1218,15 @@ or mA,A,kA</translation>
         <source>zum Anfang</source>
         <translation>to the beginning</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>zurück</source>
         <translation>back</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>vorwärts</source>
         <translation>forward</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>vergrössern</source>
         <translation>enlarge</translation>
     </message>
@@ -1241,7 +1245,7 @@ or mA,A,kA</translation>
 </context>
 <context>
     <name>cOwnError</name>
-    <message>
+    <message utf8="true">
         <source>°</source>
         <translation>°</translation>
     </message>
@@ -1278,7 +1282,7 @@ Nicht identische Versionsnummer !</source>
 Nicht identische Seriennummer !</source>
         <translation>Not identical serial number !</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Berechnung läuft ...</source>
         <translation>Computation running ...</translation>
     </message>
@@ -1298,27 +1302,27 @@ Nicht identische Seriennummer !</source>
         <source>Konfiguration setzen ...</source>
         <translation>Setting Configuration ...</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Einschwingzeit läuft</source>
         <translation>settling time</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Messung Kanal N, adc läuft</source>
         <translation>Measurement channel N, adc running</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Messung Kanal N, %1 läuft</source>
         <translation>Measurement channel N, %1 running</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Messung Kanal X, adc läuft</source>
         <translation>Measurement channel X, adc running</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Messung Kanal X, %1 läuft</source>
         <translation>Measurement channel X, %1 running</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Berechnung und Datenübertragung ...</source>
         <translation>Computation and data setting ...</translation>
     </message>
@@ -1388,7 +1392,7 @@ run in simulation mode.
         <source>Fehler beim Schreiben von Daten
 fÃ¼r %1:%2 .
 Details stehen in LogFile.</source>
-        <translation type="vanished">Error while writing data
+        <translation>Error while writing data
 for %1:%2.
 See logfile for details.</translation>
     </message>
@@ -1416,11 +1420,11 @@ See logfile for details.</translation>
         <source>Noch nicht implementiert</source>
         <translation>Not yet implemented</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Übersteuerung</source>
         <translation>Overload</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Es ist eine Übersteuerung im grössten Bereich
 aufgetreten. Bitte überprüfen Sie die Messgrössen</source>
         <translation>An overload condition has occured in maximum range.
@@ -1443,15 +1447,13 @@ Please examine load conditions</translation>
 Details stehen im Logfile</source>
         <translation>Test finished, see logfile for details</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Gerät ist nicht justiert !</source>
-        <translation>Device is not justified</translation>
+        <translation>Device is not justified !</translation>
     </message>
-    <message>
-        <source>Fehler beim Schreiben von Daten
-für %1:%2 .
-Details stehen in LogFile.</source>
-        <translation type="unfinished"></translation>
+    <message utf8="true">
+        <source>Messung Kanal X(ECT), %1 läuft</source>
+        <translation>Measurement X(EXT), %1 active</translation>
     </message>
 </context>
 <context>
