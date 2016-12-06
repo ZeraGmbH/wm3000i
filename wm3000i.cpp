@@ -3331,11 +3331,11 @@ void cWM3000I::SetDspWMCmdList()
 //	DspIFace->addCycListItem( s = "BREAK(1)"); // breakpoint wenn taster
 	DspIFace->addCycListItem( s = QString("MULNCC(%1,SCHAN,MESSSIGNAL0)").arg(nSMeas)); // fenster funktion anwenden
 	// korrigierte einheitswurzel berechnen und im bzw. re von kanal 0 bestimmen	
-	DspIFace->addCycListItem( s = QString("SINUS(1,%1,SCHAN)").arg(nSMeas)); // einheitswurzeln (sinus)
+    DspIFace->addCycListItem( s = QString("SINUS(0,%1,SCHAN)").arg(nSMeas)); // einheitswurzeln (sinus)
 	DspIFace->addCycListItem( s = QString("MULNCC(%1,MESSSIGNAL0,SCHAN)").arg(nSMeas)); // mit signal multiplizieren
-	DspIFace->addCycListItem( s = QString("INTEGRAL(%1,SCHAN,TEMP1)").arg(nSMeas)); // im = integral
+    DspIFace->addCycListItem( s = QString("INTEGRAL(%1,SCHAN,TEMP1)").arg(nSMeas)); // im = integral
 	
-	DspIFace->addCycListItem( s = QString("COSINUS(1,%1,SCHAN)").arg(nSMeas)); // einheitswurzeln (cosinus)
+    DspIFace->addCycListItem( s = QString("COSINUS(0,%1,SCHAN)").arg(nSMeas)); // einheitswurzeln (cosinus)
 	DspIFace->addCycListItem( s = QString("MULNCC(%1,MESSSIGNAL0,SCHAN)").arg(nSMeas)); // mit signal multiplizieren
 	DspIFace->addCycListItem( s = QString("INTEGRAL(%1,SCHAN,TEMP2)").arg(nSMeas)); // re = integral
 	
@@ -3343,7 +3343,7 @@ void cWM3000I::SetDspWMCmdList()
 	DspIFace->addCycListItem( s = "ADDVVG(TEMP1,TEMP2,AMPL1N)"); 
 //	DspIFace->addCycListItem( s = "ADDVVG(TEMP1,TEMP2,FAMPL1N)"); 
 	
-	DspIFace->addCycListItem( s = "ARCTAN(TEMP1,TEMP2,PHIN)");
+    DspIFace->addCycListItem( s = "ARCTAN(TEMP1,TEMP2,PHIN)");
 	
 	// rms wert berechnung 
 	DspIFace->addCycListItem( s = QString("RMSN(%1,MESSSIGNAL0,RMSN)").arg(nSMeas));
@@ -3353,11 +3353,11 @@ void cWM3000I::SetDspWMCmdList()
 	DspIFace->addCycListItem( s = QString("HANNING(%1,SCHAN)").arg(nSMeas)); // fensterfunktion generieren
 	DspIFace->addCycListItem( s = QString("MULNCC(%1,SCHAN,MESSSIGNAL1)").arg(nSMeas)); // fenster funktion anwenden
 	// korrigierte einheitswurzel berechnen und im bzw. re von kanal 1 bestimmen	
-	DspIFace->addCycListItem( s = QString("SINUS(1,%1,SCHAN)").arg(nSMeas)); // einheitswurzeln (sinus)
+    DspIFace->addCycListItem( s = QString("SINUS(0,%1,SCHAN)").arg(nSMeas)); // einheitswurzeln (sinus)
 	DspIFace->addCycListItem( s = QString("MULNCC(%1,MESSSIGNAL1,SCHAN)").arg(nSMeas)); // mit signal multiplizieren
 	DspIFace->addCycListItem( s = QString("INTEGRAL(%1,SCHAN,TEMP1)").arg(nSMeas)); // im = integral
 	
-	DspIFace->addCycListItem( s = QString("COSINUS(1,%1,SCHAN)").arg(nSMeas)); // einheitswurzeln (cosinus)
+    DspIFace->addCycListItem( s = QString("COSINUS(0,%1,SCHAN)").arg(nSMeas)); // einheitswurzeln (cosinus)
 	DspIFace->addCycListItem( s = QString("MULNCC(%1,MESSSIGNAL1,SCHAN)").arg(nSMeas)); // mit signal multiplizieren
 	DspIFace->addCycListItem( s = QString("INTEGRAL(%1,SCHAN,TEMP2)").arg(nSMeas)); // re = integral
 	// amplitude grundwelle = sqr(im^2 + re^2) bzw. geometrische summe und phasenlage 
@@ -3424,19 +3424,19 @@ void cWM3000I::SetDspWMCmdList()
 	DspIFace->addCycListItem( s = QString("MULNCC(%1,SCHAN,MESSSIGNAL3)").arg(4*nSPer)); // fenster funktion anwenden
 	DspIFace->addCycListItem( s = QString("RMSN(%1,MESSSIGNAL3,FRMSX)").arg(4*nSPer)); // die schnelle rms messung für kanal x
 		
-	DspIFace->addCycListItem( s = QString("SINUS(1,%1,SCHAN)").arg(4*nSPer)); // einheitswurzeln (sinus)
+    DspIFace->addCycListItem( s = QString("SINUS(0,%1,SCHAN)").arg(4*nSPer)); // einheitswurzeln (sinus)
 	DspIFace->addCycListItem( s = QString("MULNCC(%1,MESSSIGNAL2,SCHAN)").arg(4*nSPer)); // mit signal multiplizieren
 	DspIFace->addCycListItem( s = QString("INTEGRAL(%1,SCHAN,TEMP1)").arg(4*nSPer)); // im = integral
-	DspIFace->addCycListItem( s = QString("COSINUS(1,%1,SCHAN)").arg(4*nSPer)); // einheitswurzeln (cosinus)
+    DspIFace->addCycListItem( s = QString("COSINUS(0,%1,SCHAN)").arg(4*nSPer)); // einheitswurzeln (cosinus)
 	DspIFace->addCycListItem( s = QString("MULNCC(%1,MESSSIGNAL2,SCHAN)").arg(4*nSPer)); // mit signal multiplizieren
 	DspIFace->addCycListItem( s = QString("INTEGRAL(%1,SCHAN,TEMP2)").arg(4*nSPer)); // re = integral
 	// amplitude grundwelle = sqr(im^2 + re^2) bzw. geometrische summe und phasenlage 
 	DspIFace->addCycListItem( s = "ADDVVG(TEMP1,TEMP2,FAMPL1N)"); // für schnelle lp anzeige
 	
-	DspIFace->addCycListItem( s = QString("SINUS(1,%1,SCHAN)").arg(4*nSPer)); // einheitswurzeln (sinus)
+    DspIFace->addCycListItem( s = QString("SINUS(0,%1,SCHAN)").arg(4*nSPer)); // einheitswurzeln (sinus)
 	DspIFace->addCycListItem( s = QString("MULNCC(%1,MESSSIGNAL3,SCHAN)").arg(4*nSPer)); // mit signal multiplizieren
 	DspIFace->addCycListItem( s = QString("INTEGRAL(%1,SCHAN,TEMP1)").arg(4*nSPer)); // im = integral
-	DspIFace->addCycListItem( s = QString("COSINUS(1,%1,SCHAN)").arg(4*nSPer)); // einheitswurzeln (cosinus)
+    DspIFace->addCycListItem( s = QString("COSINUS(0,%1,SCHAN)").arg(4*nSPer)); // einheitswurzeln (cosinus)
 	DspIFace->addCycListItem( s = QString("MULNCC(%1,MESSSIGNAL3,SCHAN)").arg(4*nSPer)); // mit signal multiplizieren
 	DspIFace->addCycListItem( s = QString("INTEGRAL(%1,SCHAN,TEMP2)").arg(4*nSPer)); // re = integral
 	// amplitude grundwelle = sqr(im^2 + re^2) bzw. geometrische summe und phasenlage 
