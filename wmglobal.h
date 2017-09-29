@@ -82,8 +82,9 @@
 // v2.21 ??.??.???? einfach so
 // v2.22 26.06.2015 eparameter test so geändert, dass fehler in der angehängten einheit bemerkt werden.
 // v2.23 30.08.2016 phasenjustage korrigiert (ECT justage funktioniert wieder), polnische Sprache, statusbar permanent
+// v2.24 29.09.2017 confmenu x ratio datenübernahme auch bei nConvent
 
-#define WMVersion "V2.23"
+#define WMVersion "V2.24"
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
