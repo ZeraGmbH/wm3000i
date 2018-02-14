@@ -2824,8 +2824,14 @@ void cWM3000I::SetSelfTestInfo(bool remote)
 }
 
 
-void cWM3000I::SetConfDataSlot(cConfData *cd) // signal kommt vom konfigurations dialog
+void cWM3000I::SetConfDataSlot(cConfData *cd) // signal kommt vom konfigurations dialog oder interface
 { // oder aus statemachine 
+    // we limit the number of
+    if ((cd->m_nSRate == S80) && (cd->m_nMeasPeriod > nmaxS80MeasPeriod))
+        cd->m_nMeasPeriod = nmaxS80MeasPeriod;
+    if ((cd->m_nSRate == S256) && (cd->m_nMeasPeriod > nmaxS256MeasPeriod))
+        cd->m_nMeasPeriod = nmaxS256MeasPeriod;
+
     m_ConfDataCopy = m_ConfData; // alte konfiguration
     m_ConfData = *cd;
     emit SendConfDataSignal(&m_ConfData); // die anderen auch informieren
