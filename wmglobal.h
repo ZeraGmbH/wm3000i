@@ -83,8 +83,12 @@
 // v2.22 26.06.2015 eparameter test so geändert, dass fehler in der angehängten einheit bemerkt werden.
 // v2.23 30.08.2016 phasenjustage korrigiert (ECT justage funktioniert wieder), polnische Sprache, statusbar permanent
 // v2.24 29.09.2017 confmenu x ratio datenübernahme auch bei nConvent
+// v2.25 14.02.2018 bugfix : die wm3000 hängt sich auf wenn via interface ein zu großer wert messperioden gesendet wird.
+//                  das konnte passieren wenn die samplerate von 80 auf 256 gesetzt wurde. im gui wurde das automatisch
+//                  korrigiert. jetzt wird zentral am gerät korrigiert und und gui und interface informiert.
 
-#define WMVersion "V2.24"
+
+#define WMVersion "V2.25"
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
@@ -100,6 +104,8 @@
 const int nmaxRecentOEFiles = 5;
 const int nmaxRecentMVFiles = 5;
 const int nmaxRecentSESFiles = 5;
+const int nmaxS80MeasPeriod = 40;
+const int nmaxS256MeasPeriod = 14;
 const float TDBase = 100.0e6; // 100 mhz auflösung für td messung (pps->1. sample)
 
 enum DisplayModes {ANSI,IEC,MaxCompMode}; // compmodi
