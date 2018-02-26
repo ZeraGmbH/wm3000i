@@ -215,6 +215,7 @@ private:
     QStringList m_sECTItemList;
     QStringList mMeasChannelList; // liste aller messkanäle
     int m_nWait4What;
+    bool m_bAddEventError;
     cEN61850Info m_EN61850Info;
     QStringList EXSFifo;
     cNode* InitScpiCmdTree(cNode*);
