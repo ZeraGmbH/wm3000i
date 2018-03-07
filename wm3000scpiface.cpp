@@ -883,7 +883,7 @@ void cWM3000SCPIFace::mSetConfMeasMPeriod(char* s)
     ushort us;
     if (m_ConfDataTarget.m_nSRate == S256) // 256 samples/periode
     {
-        GetParameter(&s, us, 4, nmaxS256MeasPeriod, 10, true); // we set stb in case of err
+        GetParameter(&s, us, 4, nmaxS80MeasPeriod, 10, true); // we set stb in case of err
         m_ConfDataTarget.m_nMeasPeriod = us; // but send the value with apply
 	    //	emit SendConfiguration(&m_ConfData);
 	}
