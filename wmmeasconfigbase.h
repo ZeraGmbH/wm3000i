@@ -40,7 +40,7 @@ private:
     eUnit* m_LPUnit[3];
     eUnit* m_ErrUnit[2];
     eUnit* m_AngleUnit[6];
-    cFormatInfo m_Format[3];
+    cFormatInfo m_Format[4];
     int m_nDisplayMode;
     int m_nLPDisplayMode;
 

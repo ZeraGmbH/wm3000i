@@ -12,7 +12,7 @@ enum VoltageUnits {VoltMV, VoltkV3, VoltkVw3, VoltkV, VoltV3, VoltVw3, VoltmV3, 
 enum CurrentUnits {CurrkAw3,CurrmAw3, CurruAw3, CurrkA3, CurrmA3, CurruA3, CurrkA, CurrmA,CurruA,  CurrAw3, CurrA3, CurrA, AnzCurrentUnits};
 enum LoadpointUnits {LPProzent, LPPromill, AnzLoadPointUnits};
 enum AngleUnits { Anglegrad, Anglemin , Anglecrad, Anglemrad, Angleurad, AngleGrad2, Anglerad , AnzAngleUnits};
-
+enum RCFUnits { nix, AnzRCFUnits};
 
 class eUnit { 
 public:    

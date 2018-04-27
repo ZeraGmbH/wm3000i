@@ -1590,10 +1590,11 @@ void cWM3000SCPIFace::ExecuteCommand(int entryState) // ausführen eines common 
 	    .arg(mActValues.LoadPoint1X)
 	    .arg(mActValues.AmplErrorIEC)
 	    .arg(mActValues.AmplErrorANSI);
-	s += QString(";%1;%2;%3")
+    s += QString(";%1;%2;%3;%4")
 	     .arg(mActValues.AngleError)
 	     .arg(fabs(mActValues.VekDX))	 
-	     .arg(UserAtan(mActValues.VekDX));	 
+         .arg(UserAtan(mActValues.VekDX))
+         .arg(mActValues.RCF);
 	
 	
 	answ = sAlloc(s);

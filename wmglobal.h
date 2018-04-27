@@ -19,8 +19,8 @@
 
 //#define FVWM 1
 
-#define TheDevice "127.0.0.1"
-//#define TheDevice "192.168.7.222"
+//#define TheDevice "127.0.0.1"
+#define TheDevice "192.168.7.223"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
@@ -86,9 +86,13 @@
 // v2.25 14.02.2018 bugfix : die wm3000 hängt sich auf wenn via interface ein zu großer wert messperioden gesendet wird.
 //                  das konnte passieren wenn die samplerate von 80 auf 256 gesetzt wurde. im gui wurde das automatisch
 //                  korrigiert. jetzt wird zentral am gerät korrigiert und und gui und interface informiert.
+// v2.26 25.04.2018 bugfix : wenn das sampling system gesetzt wird, z.B. nach *rst, kann es sein dass der dsp busy meldet.
+//                  die wm3000 blieb bis jetzt dann mit fehlermeldung unexpected answer stehen . busy wird jetzt recovert.
+//                  einbau berechnung rcf ratio correction factor. und grossanzeige um rcf erweitert. interface (measure)
+//                  erweitert. kontext menu ergänzt für die nachkommastellenzahl von rcf zu editieren.
 
 
-#define WMVersion "V2.25"
+#define WMVersion "V2.26"
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
@@ -170,6 +174,7 @@ struct cwmActValues {  // wird an andere objekte gesendet
     double AmplErrorIEC;
     double AmplErrorANSI;
     double AngleError;
+    double RCF;
     double PHIN;
     double PHIX;
     bool bvalid;
