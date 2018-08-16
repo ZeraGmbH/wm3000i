@@ -92,7 +92,7 @@
 //                  erweitert. kontext menu ergänzt für die nachkommastellenzahl von rcf zu editieren.
 
 
-#define WMVersion "V2.26"
+#define WMVersion "V2.27"
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
