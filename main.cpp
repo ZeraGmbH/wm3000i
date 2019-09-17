@@ -35,7 +35,6 @@ WMViewBase *g_WMView;
 
 int main(int argc, char *argv[])
 {
-    bool bconvent;
     QApplication::setDesktopSettingsAware(true);
     g_app = new QApplication (argc, argv);
     QFont f = g_app->font();
@@ -75,20 +74,34 @@ int main(int argc, char *argv[])
     g_app->setMainWidget(g_WMView); // hauptfenster der applikation mitteilen
 
     QString option ="";
-    if ( g_app->argc() > 1 )
-        option = g_app->argv()[1];
+    int nrOptions;
+    bool bJustage = false;
+    bool bconvent = false;
+    bool bdc = false;
 
-    if (option != "-justage")
+    nrOptions = g_app->argc();
+    if ( nrOptions > 1 )
+    {
+        for (int i = 1; i < nrOptions; i++)
+        {
+            option = g_app->argv()[i];
+            if (option == "-justage")
+                bJustage = true;
+            if (option == "-convent")
+                bconvent = true;
+            if (option == "-dc")
+                bdc = true;
+        }
+    }
+
+    if (!bJustage)
         g_WMView->removeJustageItem();
 
-    bconvent = (option == "-convent");
+    g_WMDevice->setConventional(bconvent);
     if (bconvent)
-    {
-        g_WMDevice->setConventional(true);
         g_WMView->configureWM1000Items();
-    }
-    else
-        g_WMDevice->setConventional(false);
+
+    g_WMDevice->setDC(bdc);
 
 
     cReleaseInfo *g_ReleaseView = new cReleaseInfo(g_app);
@@ -120,6 +133,7 @@ int main(int argc, char *argv[])
     QObject::connect(g_WMActValView,SIGNAL(isVisibleSignal(bool)),g_WMView,SIGNAL(UIansichtIstwerteActionSet(bool))); //schliessen der istwertanzeige
     QObject::connect(g_WMView,SIGNAL(SaveSessionSignal(QString)),g_WMActValView,SLOT(SaveSession(QString))); // fenster grösse und position einrichten
     QObject::connect(g_WMView,SIGNAL(LoadSessionSignal(QString)),g_WMActValView,SLOT(LoadSession(QString))); // fenster grösse und position einrichten
+    QObject::connect(g_WMDevice,SIGNAL(SendConfDataSignal(cConfData*)),g_WMActValView,SLOT(SetConfInfoSlot(cConfData*))); // device sendet konfigurationsdaten an rawactualanzeige
     QObject::connect(g_WMDevice,SIGNAL(SendActValuesSignal(cwmActValues*)),g_WMActValView,SLOT(ReceiveAVDataSlot( cwmActValues*))); // senden von istwerten
 
 

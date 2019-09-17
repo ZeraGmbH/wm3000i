@@ -19,8 +19,8 @@
 
 //#define FVWM 1
 
-#define TheDevice "127.0.0.1"
-//#define TheDevice "192.168.7.230"
+//#define TheDevice "127.0.0.1"
+#define TheDevice "192.168.7.230"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
@@ -107,6 +107,9 @@
 #define SelftestLogFilePath QDir::homePath()+"/wm3000i/log/Selftest.log"
 //#define PhaseJustLogFilePath "/usr/share/wm3000u/log/PhaseJust.log"
 #define PhaseJustLogFilePath QDir::homePath()+"/wm3000i/log/PhaseJust.log"
+#define OffsetJustLogFilePath QDir::homePath()+"/wm3000i/log/OffsetJust.log"
+#define OffsetJustDataFilePath QDir::homePath()+"/wm3000i/offsetdata"
+#define NSAOffsetJustDataFilePath QDir::homePath()+"/wm3000i/.offsetinfo"
 //#define ReleaseInfoFilePath "/home/peter/conf/CHANGELOG"
 #define ReleaseInfoFilePath "/opt/zera/conf/CHANGELOG"
 
@@ -126,8 +129,12 @@ enum VekWinkelModes {mathpos, techpos}; // winkel anzeige math. pos. bzw. techn.
 enum SyncSources {Intern,Extern,MaxSSource}; // sync sources
 enum SignalFreqs {F16,F50,F60,MaxFreq}; // -> feste abtastfrequenzen
 enum SampleRates {S80,S256,MaxSRate}; // abtastraten
-enum tsmode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, adcXadcN = 5, sensXadcNECT = 11}; // testmodi innerhalb der hardware 
-enum MeasModes {In_IxDiff,In_ECT,In_nConvent,In_IxAbs,maxMMode}; // messmodi, in_ixabs wird (wurde) nur für justage zwecke verwendet
+// alt jetzt sensemode enum tsmode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, adcXadcN = 5, sensXadcNECT = 11}; // testmodi innerhalb der hardware
+enum SenseMode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, sensNsensX0V, anzSenseMode}; // sense modes innerhalb der hardware
+enum JustMode {sensNadcXPhase, sensXadcNPhase, sensECTadcNPhase, sensNsensXOffset, sensNOffset, sensXOffset, sensECTOffset}; // justage modes
+enum MeasMode {In_IxDiff,In_ECT,In_nConvent,In_IxAbs,maxMMode}; // messmodi, in_ixabs wird (wurde) nur für justage zwecke verwendet
+
+enum SignalModes {AC, DC, maxSMode}; // signal modi
 enum UserDecisions {AbortProgram,Stop,Retry,SimulationMode}; // benutzer entscheidungen
 enum Languages {de,gb,pl};
 
@@ -200,10 +207,10 @@ struct tVersSerial
 };
 
 
-class cPhaseCalcInfo
+class cCalcInfo
 {
 public:
-    cPhaseCalcInfo(const QString chn, const QString rng)
+    cCalcInfo(const QString chn, const QString rng)
         :m_sChannel(chn), m_sRange(rng){};
     QString m_sChannel;
     QString m_sRange;
@@ -211,22 +218,24 @@ public:
 
 
 
-class cPhaseNodeMeasInfo
+class cJustMeasInfo
 {
 public:
-    cPhaseNodeMeasInfo(const QString rng0, const QString rng1, tsmode tm, MeasModes mm, int nS, int nIgn, int nMeas )
-        :m_srng0(rng0), m_srng1(rng1), m_nTMode(tm), m_nmMode(mm), m_nnS(nS), m_nIgnore(nIgn), m_nnMeas(nMeas){};
-    QString m_srng0; // bereich kanal n
-    QString m_srng1; // bereich kanal x
-    tsmode m_nTMode; // test mode (was zu testen bzw. justieren ist)
-    MeasModes m_nmMode; // in welchem messmodus
+    cJustMeasInfo(const QString rngN, const QString rngX, SenseMode sm, MeasMode mm, JustMode jm, int nS, int nIgn, int nMeas )
+        :m_srngN(rngN), m_srngX(rngX), m_nSMode(sm), m_nMMode(mm), m_nJMode(jm), m_nnS(nS), m_nIgnore(nIgn), m_nnMeas(nMeas){}
+    QString m_srngN; // bereich kanal n
+    QString m_srngX; // bereich kanal x
+    SenseMode m_nSMode; // sense mode (was zu testen bzw. justieren ist)
+    MeasMode m_nMMode; // in welchem messmodus
+    JustMode m_nJMode; // welcher justage modues
     int m_nnS; // samples pro periode
     int m_nIgnore; // anzahl messungen zum einschwingen
     int m_nnMeas; // anzahl messungen zur messwertbestimmung
 };
 
 typedef Q3PtrList<CWMRange> cWMRangeList;
-typedef Q3PtrList<cPhaseCalcInfo> cPhaseCalcInfoList;
-typedef Q3PtrList<cPhaseNodeMeasInfo> cPhaseNodeMeasInfoList;
+typedef Q3PtrList<cCalcInfo> cPhaseCalcInfoList;
+typedef Q3PtrList<cJustMeasInfo> cPhaseNodeMeasInfoList;
+typedef Q3PtrList<cJustMeasInfo> cOffsetMeasInfoList;
 #endif
 

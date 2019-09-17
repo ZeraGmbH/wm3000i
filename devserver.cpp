@@ -123,6 +123,11 @@ void cwm3000DeviceServer::newConnection(int fd)
     iface->ReceiveVersionInfo(m_pV); // neue interfaces werden 1x expl. informiert
     connect( iface, SIGNAL(SelftestRequest()), this, SLOT(ReceiveSelftestRequest())); 
     connect( this, SIGNAL(SendSelftestResult(int)), iface, SLOT(ReceiveSelftestResult(int)));
+    connect( iface,SIGNAL(ChannelNOffsetMeasureRequest()), this, SLOT(ReceiveChannelNOffsetRequest()));
+    connect( this, SIGNAL(SendChannelNXOffsetResult(int)), iface, SLOT(ReceiveOffsetNXResult(int)));
+    connect( iface,SIGNAL(ChannelXOffsetMeasureRequest()), this, SLOT(ReceiveChannelXOffsetRequest()));
+    connect( this, SIGNAL(SendChannelNXOffsetResult(int)), iface, SLOT(ReceiveOffsetNXResult(int)));
+
     connect( this, SIGNAL(AffectStatus(uchar, ushort)), iface, SLOT(AffectSCPIStatus(uchar, ushort)));
     
 }
@@ -166,6 +171,24 @@ void cwm3000DeviceServer::ReceiveSelftestResult(int r)
 void cwm3000DeviceServer::ReceiveSelftestRequest()
 {
     emit RequestSelftest(); // selbsttest durchführen lassen
+}
+
+
+void cwm3000DeviceServer::ReceiveChannelNXOffsetResult(int r)
+{
+    emit SendChannelNXOffsetResult(r);
+}
+
+
+void cwm3000DeviceServer::ReceiveChannelNOffsetRequest()
+{
+   emit RequestChannelNOffset();
+}
+
+
+void cwm3000DeviceServer::ReceiveChannelXOffsetRequest()
+{
+    emit RequestChannelXOffset();
 }
 
 

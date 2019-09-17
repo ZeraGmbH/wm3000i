@@ -25,6 +25,11 @@ WMRawActualValBase::~WMRawActualValBase()
 
 void WMRawActualValBase::init()
 {
+    ui->XnAmplDisp -> setText( QString("%1 A").arg(0.0,10,'f',5) );
+    ui->XnPhaseDisp -> setText( QString("%1 %2").arg(0.0,8,'f',4).arg( trUtf8("°")) );
+    ui->XxAmplDisp -> setText( QString("%1 A").arg(0.0,10,'f',5) );
+    ui->XxPhaseDisp -> setText( QString("%1 %2").arg(0.0,8,'f',4).arg( trUtf8("°")) );
+
     AmplDispMode = x1;
     PrimSekDispMode = prim;
     WinkelDispMode = mathpos;
@@ -84,22 +89,27 @@ void WMRawActualValBase::ReceiveAVDataSlot( cwmActValues *ActValues )
             double phi;
             double radgrad = 57.295779; // 360/(2*PI) winkel sind im bogenmass
 
-            // amplitude der grundschwingung
-            double ampl;
-            if (PrimSekDispMode == prim)
-                ampl = fabs(m_ActValues.VekN);
-            else
-                ampl = fabs(m_ActValues.VekNSek);
-            if (AmplDispMode == x1_SQRT2)
-                ampl/=1.414213562;
-            ui->XnAmplDisp -> setText( QString("%1 A").arg(ampl,10,'f',5) );
 
-            /*
-        phi = m_ActValues.PHIN * radgrad;
-        if (WinkelDispMode == techpos)
-            phi = 360.0-phi;
-        XnPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
-        */
+            double ampl;
+            if (AmplPrimSekMode == prim)
+            {
+                if (m_pConfData->m_bDCmeasurement)
+                    ampl = m_ActValues.VekN.re();
+                else
+                    ampl = fabs(m_ActValues.VekN);
+            }
+            else
+            {
+                if (m_pConfData->m_bDCmeasurement)
+                    ampl = m_ActValues.VekNSek.re();
+                else
+                    ampl = fabs(m_ActValues.VekNSek);
+            }
+
+            if (AmplDispMode == x1_SQRT2 && !m_pConfData->m_bDCmeasurement)
+                ampl/=1.414213562;
+
+            ui->XnAmplDisp -> setText( QString("%1 A").arg(ampl,10,'f',5) );
 
             phi = m_ActValues.PHIN; // winkel sind zwischen 0 .. 2PI
             if (WinkelDispMode == techpos)
@@ -109,20 +119,23 @@ void WMRawActualValBase::ReceiveAVDataSlot( cwmActValues *ActValues )
             ui->XnPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
 
             // amplitude der grundschwingung
-            if (PrimSekDispMode == prim)
-                ampl = fabs(m_ActValues.VekX);
+            if (AmplPrimSekMode == prim)
+            {
+                if (m_pConfData->m_bDCmeasurement)
+                    ampl = m_ActValues.VekX.re();
+                else
+                    ampl = fabs(m_ActValues.VekX);
+            }
             else
-                ampl = fabs(m_ActValues.VekXSek);
-            if (AmplDispMode == x1_SQRT2)
-                ampl/=1.414213562;
-            ui->XxAmplDisp -> setText( QString("%1 A").arg(ampl,10,'f',5) );
+            {
+                if (m_pConfData->m_bDCmeasurement)
+                    ampl = m_ActValues.VekXSek.re();
+                else
+                    ampl = fabs(m_ActValues.VekXSek);
+            }
 
-            /*
-        phi = m_ActValues.PHIX * radgrad;
-        if (WinkelDispMode == techpos)
-            phi = 360.0-phi;
-        XxPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
-        */
+            if (AmplDispMode == x1_SQRT2 && !m_pConfData->m_bDCmeasurement)
+                ampl/=1.414213562;
 
             phi = m_ActValues.PHIX;
             if (WinkelDispMode == techpos)
@@ -133,9 +146,16 @@ void WMRawActualValBase::ReceiveAVDataSlot( cwmActValues *ActValues )
 
             // amplitude der grundschwingung
             if (PrimSekDispMode == prim)
-                ampl = fabs(m_ActValues.VekDX);
+                if (m_pConfData->m_bDCmeasurement)
+                    ampl = m_ActValues.VekDX.re();
+                else
+                    ampl = fabs(m_ActValues.VekDX);
             else
-                ampl = fabs(m_ActValues.VekDXSek);
+                if (m_pConfData->m_bDCmeasurement)
+                    ampl = m_ActValues.VekDXSek.re();
+                else
+                    ampl = fabs(m_ActValues.VekDXSek);
+
             if (AmplDispMode == x1_SQRT2)
                 ampl/=1.414213562;
             ui->dXxAmplDisp -> setText( QString("%1 A").arg(ampl,10,'f',5) );
@@ -145,11 +165,28 @@ void WMRawActualValBase::ReceiveAVDataSlot( cwmActValues *ActValues )
                 phi = PI2 - phi;
             phi = normWinkelrad_PIPI(phi);
             phi *= radgrad;
-            ui->dXxPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
 
+            ui->dXxPhaseDisp -> setText( QString("%1 %2").arg(phi,8,'f',4).arg( trUtf8("°")) );
             ui->FreqDisp -> setText( QString("%1 Hz").arg(ActValues->Frequenz,9,'f',5) );
         }
 
+}
+
+
+void WMRawActualValBase::SetConfInfoSlot(cConfData *cd)
+{
+    m_pConfData = cd;
+    if (m_pConfData->m_bDCmeasurement)
+    {
+        ui->XnPhaseDisp->setVisible(false);
+        ui->XxPhaseDisp->setVisible(false);
+    }
+    else
+    {
+        ui->XnPhaseDisp->setVisible(true);
+        ui->XxPhaseDisp->setVisible(true);
+    }
+    resize(ui->gridLayout->minimumSize());
 }
 
 

@@ -57,6 +57,8 @@ void cPCBIFace::ActionHandler(int entryAHS)
     case JustFlashGetChksumFinished:
     case setPhaseNodeInfoFinished:
     case cmpPhaseCoefficientFinished:
+    case setOffsetNodeInfoFinished:
+    case cmpOffsetCoefficientFinished:
     case SetTModeFinished:
     case SetDiffAbsModeFinished:
     case ReadPhaseCorrectionFinished:	
@@ -147,8 +149,18 @@ void cPCBIFace::ActionHandler(int entryAHS)
     case cmpPhaseCoefficientStart:
 	SendcmpPhaseCoefficientCommand();
 	AHS++;
-	break; // setPhaseNodeInfoStart
+    break; // cmpPhaseCoefficientStart
 	
+    case setOffsetNodeInfoStart:
+    SendsetOffsetNInfoCommand();
+    AHS++;
+    break; // setOffsetNodeInfoStart
+
+    case cmpOffsetCoefficientStart:
+    SendcmpOffsetCoefficientCommand();
+    AHS++;
+    break; // cmpOffsetCoefficientStart
+
     case JustFlashProgStart:
 	SendJustFlashProgCommand();
 	AHS++;
@@ -320,10 +332,26 @@ void cPCBIFace::setPhaseNodeInfo(QString chn, QString rng, int index, float node
 }
 
 
+void cPCBIFace::setOffsetNodeInfo(QString chn, QString rng, int index, float node, float arg)
+{
+    m_sP1 = chn;
+    m_sP2 = rng;
+    m_nP1 = index;
+    m_fP1 = node;
+    m_fP2 = arg;
+    m_ActTimer->start(0,setOffsetNodeInfoStart);
+}
+
 void cPCBIFace::cmpPhaseCoefficient(QString chn)
 {
     m_sP1 = chn;
     m_ActTimer->start(0,cmpPhaseCoefficientStart);
+}
+
+void cPCBIFace::cmpOffsetCoefficient(QString chn)
+{
+    m_sP1 = chn;
+    m_ActTimer->start(0,cmpOffsetCoefficientStart);
 }
 
 void cPCBIFace::JustFlashProgram()
@@ -472,11 +500,23 @@ void cPCBIFace::SendsetPhaseNInfoCommand()
     iFaceSock->SendCommand(cmds);
 }
 
+void cPCBIFace::SendsetOffsetNInfoCommand()
+{
+    QString cmds = QString("calc:%1:%2:ocn%3 %4,%5\n").arg(m_sP1).arg(m_sP2).arg(m_nP1).arg(m_fP1).arg(m_fP2);
+    iFaceSock->SendCommand(cmds);
+}
+
 void cPCBIFace::SendcmpPhaseCoefficientCommand()
 {
     QString cmds = QString("calc:%1:comp:cph\n").arg(m_sP1);
     iFaceSock->SendCommand(cmds);
 }   
+
+void cPCBIFace::SendcmpOffsetCoefficientCommand()
+{
+    QString cmds = QString("calc:%1:comp:coff\n").arg(m_sP1);
+    iFaceSock->SendCommand(cmds);
+}
 
 void cPCBIFace::SendJustFlashProgCommand()
 {

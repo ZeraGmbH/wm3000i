@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>190</width>
-    <height>151</height>
+    <width>185</width>
+    <height>106</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -22,11 +22,20 @@
     <height>0</height>
    </size>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>185</width>
+    <height>106</height>
+   </size>
+  </property>
   <property name="mouseTracking">
    <bool>false</bool>
   </property>
   <property name="windowTitle">
    <string>Vektoren</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
   </property>
   <layout class="QGridLayout">
    <item row="1" column="1">

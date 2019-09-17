@@ -93,6 +93,10 @@
     <addaction name="messungStartAction"/>
     <addaction name="messungSpeichernMesswerteAction"/>
     <addaction name="separator"/>
+    <addaction name="actionOffsetabgleich"/>
+    <addaction name="actionOffsetmessung_Kanal_N"/>
+    <addaction name="actionOffsetmessung_Kanal_X"/>
+    <addaction name="separator"/>
     <addaction name="messungSimulationAction"/>
    </widget>
    <widget class="QMenu" name="Ansicht">
@@ -140,6 +144,10 @@
     <addaction name="JustageAmplitudeAction"/>
     <addaction name="JustagePhaseAction"/>
     <addaction name="JustageKoeffBerechnungAction"/>
+    <addaction name="separator"/>
+    <addaction name="actionOffset"/>
+    <addaction name="actionOffsetberechnung"/>
+    <addaction name="separator"/>
     <addaction name="justageFlashProgAction"/>
     <addaction name="justageFlasExportAction"/>
     <addaction name="justageFlashImportAction"/>
@@ -771,6 +779,31 @@
    </property>
    <property name="text">
     <string>Polnisch</string>
+   </property>
+  </action>
+  <action name="actionOffsetabgleich">
+   <property name="text">
+    <string>Offsetabgleich WM3000</string>
+   </property>
+  </action>
+  <action name="actionOffsetmessung_Kanal_N">
+   <property name="text">
+    <string>Offsetmessung Kanal N</string>
+   </property>
+  </action>
+  <action name="actionOffsetmessung_Kanal_X">
+   <property name="text">
+    <string>Offsetmessung Kanal X</string>
+   </property>
+  </action>
+  <action name="actionOffset">
+   <property name="text">
+    <string>Offset</string>
+   </property>
+  </action>
+  <action name="actionOffsetberechnung">
+   <property name="text">
+    <string>Offsetberechnung</string>
    </property>
   </action>
  </widget>

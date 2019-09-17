@@ -50,9 +50,8 @@ HEADERS	+= bigletter.h \
     csessionhelper.h \
     releaseinfo.h
 
-SOURCES	+= BigLetter.cpp \
+SOURCES	+= \
 	Logfile.cpp \
-	Range.cpp \
 	cmdinterpret.cpp \
 	complex.cpp \
 	confdata.cpp \
@@ -88,7 +87,9 @@ SOURCES	+= BigLetter.cpp \
     wmmeasconfigbase.cpp \
     wmrawactualconfigbase.cpp \
     csessionhelper.cpp \
-    releaseinfo.cpp
+    releaseinfo.cpp \
+    bigletter.cpp \
+    range.cpp
 
 
 FORMS	= confdialogbase.ui \

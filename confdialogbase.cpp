@@ -98,6 +98,8 @@ void ConfDialogBase::init()
     connect(ui->Mode0RadioButton,SIGNAL(clicked()),this,SLOT(ApplyDataSlot()));
     connect(ui->Mode2RadioButton,SIGNAL(clicked()),this,SLOT(ApplyDataSlot()));
     connect(ui->Mode3RadioButton,SIGNAL(clicked()),this,SLOT(ApplyDataSlot()));
+    connect(ui->DCRadioButton,SIGNAL(clicked()),this,SLOT(ApplyDataSlot()));
+    connect(ui->ACRadioButton,SIGNAL(clicked()),this,SLOT(ApplyDataSlot()));
     connect(ui->CmpCorrCheckBox,SIGNAL(clicked()),this,SLOT(ApplyDataSlot()));
     connect(ui->nSek_w3radioButton,SIGNAL(clicked()),this,SLOT(nSek_w3radioButtonChecked()));
     connect(ui->nSek_3radioButton,SIGNAL(clicked()),this,SLOT(nSek_3radioButtonChecked()));
@@ -124,6 +126,10 @@ void ConfDialogBase::init()
         ui->ModeButtonGroup->removeChild(ui->Mode2RadioButton);
         ui->RatioTabPage->removeChild(ui->ECTratioGroupBox);
     }
+
+    if (!g_WMDevice->isDC())
+        ui->ConfTabWidget->removeChild(ui->DCRadioButton);
+
 }
 
 void ConfDialogBase::SetConfInfoSlot(cConfData *cd )
@@ -230,6 +236,9 @@ void ConfDialogBase::SetModeMenu()
         ui->Mode3RadioButton->setChecked(true);
         break;
     }
+
+    ui->DCRadioButton->setChecked(m_ConfDataTemp.m_bDCmeasurement);
+    ui->ACRadioButton->setChecked(!m_ConfDataTemp.m_bDCmeasurement);
 }
 
 
@@ -310,6 +319,10 @@ void ConfDialogBase::ApplyDataSlot() // einstellungen werden intern übernommen,
     if (ui->Mode2RadioButton->isChecked()) m_ConfDataTemp.m_nMeasMode=In_ECT;
     if (ui->Mode3RadioButton->isChecked()) m_ConfDataTemp.m_nMeasMode=In_nConvent;
     if (ui->Mode0RadioButton->isChecked()) m_ConfDataTemp.m_nMeasMode=In_IxAbs;
+    if (ui->DCRadioButton->isChecked())
+        m_ConfDataTemp.m_bDCmeasurement = true;
+    if (ui->ACRadioButton->isChecked())
+        m_ConfDataTemp.m_bDCmeasurement = false;
     // ModeMenu gescannt
 
     m_ConfDataTemp.m_fxPhaseShift=(ui->CmpKorrLineEdit1->text()).toDouble();
