@@ -35,7 +35,7 @@ void WMRawActualValBase::init()
     WinkelDispMode = mathpos;
     m_pContextMenu = new WMRawActualConfigBase(this);
     m_Timer.setSingleShot(true);
-    connect(this,SIGNAL(SendVektorDispFormat(int,int,int)),m_pContextMenu,SLOT(ReceiveDisplayConfSlot(int,int,int)));
+    connect(this,SIGNAL(SendVektorDispFormat(bool,int,int,int)),m_pContextMenu,SLOT(ReceiveDisplayConfSlot(bool,int,int,int)));
     connect(m_pContextMenu,SIGNAL(SendVektorDisplayFormat(int,int,int)),this,SLOT(ReceiveVektorDispFormat(int,int,int)));
     connect(&m_Timer, SIGNAL(timeout()), this, SLOT(saveConfiguration()));
     LoadSession(".ses");
@@ -252,7 +252,7 @@ void WMRawActualValBase::SaveSession(QString session)
 
 void WMRawActualValBase::contextMenuEvent( QContextMenuEvent * )
 {
-    emit SendVektorDispFormat(AmplDispMode, WinkelDispMode, PrimSekDispMode);
+    emit SendVektorDispFormat(m_pConfData->m_bDCmeasurement, AmplDispMode, WinkelDispMode, PrimSekDispMode);
     m_pContextMenu->show();
 }
 
