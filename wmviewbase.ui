@@ -145,8 +145,8 @@
     <addaction name="JustagePhaseAction"/>
     <addaction name="JustageKoeffBerechnungAction"/>
     <addaction name="separator"/>
-    <addaction name="actionOffset"/>
-    <addaction name="actionOffsetberechnung"/>
+    <addaction name="JustageOffsetAction"/>
+    <addaction name="JustageOffsetberechnungAction"/>
     <addaction name="separator"/>
     <addaction name="justageFlashProgAction"/>
     <addaction name="justageFlasExportAction"/>
@@ -796,12 +796,12 @@
     <string>Offsetmessung Kanal X</string>
    </property>
   </action>
-  <action name="actionOffset">
+  <action name="JustageOffsetAction">
    <property name="text">
     <string>Offset</string>
    </property>
   </action>
-  <action name="actionOffsetberechnung">
+  <action name="JustageOffsetberechnungAction">
    <property name="text">
     <string>Offsetberechnung</string>
    </property>
