@@ -77,7 +77,7 @@ cWM3000I::cWM3000I()
     connect(this,SIGNAL(SendActValuesSignal(cwmActValues*)),m_pOwnError,SLOT(SetActualValuesSlot(cwmActValues*)));  
     connect(m_pOwnError,SIGNAL(SendAnalizeDone(void)),this,SLOT(GetOETAnalizeDone(void)));  
     m_sNRangeList.setAutoDelete( TRUE ); // the list owns the objects
-    m_sNRangeList.append( new CWMRange("15.0A","15.0A",15.0,3595118,0.1,"N15.0A") ); //name,selectname,wert,aussteuerung, linearitätslimit 0.1 = 10%
+    m_sNRangeList.append( new CWMRange("15.0A","15.0A",15.0,3595118,0.1,"N15.0A") ); //name,selectname,wert,aussteuerung, linearitätslimit 0.1 = 10%, Offsetkorr. key
     m_sNRangeList.append( new CWMRange("10.0A","10.0A",10.0,4793490,0.1,"N10.0A") );
     m_sNRangeList.append( new CWMRange("5.0A","5.0A",5.0,4793490,0.1,"N5.0A") );
     m_sNRangeList.append( new CWMRange("2.5A","2.5A",2.5,4793490,0.1,"N2.5A") );
@@ -3209,13 +3209,15 @@ void cWM3000I::SetPhaseCalcInfo() // wir init. die liste damit die statemachine 
     m_CalcInfoList.clear();
     m_CalcInfoList.setAutoDelete( TRUE );
     chn = "ch0";
-    m_CalcInfoList.append(new cCalcInfo(chn,"adw80"));
-    m_CalcInfoList.append(new cCalcInfo(chn,"adw256"));
+    // ad-wandler abgleich findet nicht mehr statt
+    // m_CalcInfoList.append(new cCalcInfo(chn,"adw80"));
+    // m_CalcInfoList.append(new cCalcInfo(chn,"adw256"));
     for (uint i = 0; i < m_sNRangeList.count()-1; i++)
     m_CalcInfoList.append(new cCalcInfo(chn, m_sNRangeList.at(i)->Selector()));
     chn = "ch1";
-    m_CalcInfoList.append(new cCalcInfo(chn,"adw80"));
-    m_CalcInfoList.append(new cCalcInfo(chn,"adw256"));
+    // ad-wandler abgleich findet nicht mehr statt
+    // m_CalcInfoList.append(new cCalcInfo(chn,"adw80"));
+    // m_CalcInfoList.append(new cCalcInfo(chn,"adw256"));
     for (uint i = 0; i < m_sXRangeList.count()-1; i++)
     m_CalcInfoList.append(new cCalcInfo(chn, m_sXRangeList.at(i)->Selector()));
     for (uint i = 0; i < m_sECTRangeList.count()-1; i++)
@@ -3508,7 +3510,7 @@ bool cWM3000I::LoadSettings(QString session)
 {
     bool ret;
     QFileInfo fi(session);
-    QString ls = QString("%1/.wm3000i/%2%3").arg(wm3000iHome).arg(fi.fileName());
+    QString ls = QString("%1/.wm3000i/wm3000i%2").arg(wm3000iHome).arg(fi.fileName());
     QFile file(ls); 
     if ((ret = file.open( QIODevice::ReadOnly )) == true ) {
 	QDataStream stream(&file);
