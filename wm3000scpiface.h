@@ -84,8 +84,10 @@ enum wm3000SCPICmdType  { nixWCmd = LastCommonCommand, // 13
 			  SetConfEnCfi,
 			  GetConfEnUPriority,
 			  SetConfEnUPriority, // 63
-			  GetConfENAsdu,
-			  SetConfENAsdu,
+              GetConfENFAsdu,
+              SetConfENFAsdu,
+              GetConfENLAsdu,
+              SetConfENLAsdu,
 			  GetConfEnDSet,
 			  SetConfEnDSet,
 			  GetConfENMAdrWM3000,
@@ -292,8 +294,10 @@ private:
     void mSetConfEnCfi(char*);
     char* mGetConfEnUPriority();
     void mSetConfEnUPriority(char*);
-    char* mGetConfENAsdu();
-    void mSetConfENAsdu(char*);
+    char* mGetConfENFAsdu();
+    void mSetConfENFAsdu(char*);
+    char* mGetConfENLAsdu();
+    void mSetConfENLAsdu(char*);
     char* mGetConfEnDSet();
     void mSetConfEnDSet(char*);
     char* mGetConfENMAdrWM3000();
