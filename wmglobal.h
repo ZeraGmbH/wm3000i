@@ -90,12 +90,13 @@
 //                  die wm3000 blieb bis jetzt dann mit fehlermeldung unexpected answer stehen . busy wird jetzt recovert.
 //                  einbau berechnung rcf ratio correction factor. und grossanzeige um rcf erweitert. interface (measure)
 //                  erweitert. kontext menu ergänzt für die nachkommastellenzahl von rcf zu editieren.
-// v2.27 05.11.2019 neue kommandos für first asdu und last asdu und der automatismus aus dem bildschirmdialog
+// v2.27 16.08.2018 Andreas Müller keine inhaltliche Änderung nur version hochgezählt.
+// v2.28 05.11.2019 neue kommandos für first asdu und last asdu und der automatismus aus dem bildschirmdialog
 //                  wurde übernommen dass wenn die anzahl der samples gesetzt wird ... dann ebenfalls die asdu's
 //                  mit gesetzt werden
 
 
-#define WMVersion "V2.27"
+#define WMVersion "V2.28"
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
