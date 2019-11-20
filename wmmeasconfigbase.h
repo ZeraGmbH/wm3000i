@@ -28,7 +28,7 @@ public:
     ~WMMeasConfigBase();
 
 public slots:
-    virtual void ReceiveFormatInfoSlot( int m, int m2, int n, cFormatInfo * fi );
+    virtual void ReceiveFormatInfoSlot(bool dc, int m, int m2, int n, cFormatInfo * fi );
     virtual void TotalRMScheckedSlot();
     virtual void H1RMScheckedSlot();
 
@@ -43,6 +43,7 @@ private:
     cFormatInfo m_Format[4];
     int m_nDisplayMode;
     int m_nLPDisplayMode;
+    bool dcMode;
 
     void init();
     virtual void Actualize();

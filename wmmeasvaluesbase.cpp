@@ -39,7 +39,7 @@ void WMMeasValuesBase::init()
     m_Format[2] = cFormatInfo(7,4,AngleUnit[Anglegrad]);
     m_Format[3] = cFormatInfo(6,4,RCFUnit[nix]);
     m_Timer.setSingleShot(true);
-    connect(this,SIGNAL(SendFormatInfoSignal(int,int,int, cFormatInfo*)),m_pContextMenu,SLOT(ReceiveFormatInfoSlot(int,int,int, cFormatInfo*)));
+    connect(this,SIGNAL(SendFormatInfoSignal(bool,int,int,int, cFormatInfo*)),m_pContextMenu,SLOT(ReceiveFormatInfoSlot(bool,int,int,int, cFormatInfo*)));
     connect(m_pContextMenu,SIGNAL(SendFormatInfoSignal(int,int,int, cFormatInfo*)),this,SLOT(ReceiveFormatInfoSlot(int,int,int, cFormatInfo*)));
     connect(&m_Timer, SIGNAL(timeout()), this, SLOT(saveConfiguration()));
     LoadSession(".ses");
@@ -313,7 +313,7 @@ void WMMeasValuesBase::SaveSession(QString session)
 
 void WMMeasValuesBase::contextMenuEvent( QContextMenuEvent * )
 {
-    emit SendFormatInfoSignal( m_nDisplayMode,m_nLPDisplayMode, 4, m_Format);
+    emit SendFormatInfoSignal(m_ConfData.m_bDCmeasurement, m_nDisplayMode,m_nLPDisplayMode, 4, m_Format);
     m_pContextMenu->show();
 }
 
