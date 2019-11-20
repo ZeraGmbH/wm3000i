@@ -10,12 +10,16 @@
 
 #include "ethadress.h"
 
-const int ConfVersion = 8;
+const int ConfVersion8 = 8;
+const int ConfVersion9 = 9; // m_bDCmearurement hinzugefügt
+const int ConfVersion10 = 10; // m_bOffsetCorrectionN, m_bOffsetCorrectionX hinzugefügt
 
 class cConfData
 {
 public:
-    cConfData(){};
+    cConfData(){}
+
+    void setConfVersion();
     
     void serialize(QDataStream&);
     bool deserialize(QDataStream&);
@@ -26,6 +30,8 @@ public:
     bool m_bOECorrection; // eigenfehlerkorrektur ein/aus
     bool m_bOENewLoad; // true wenn eigenfehler geladen oder editiert wurden
     bool m_bDCmeasurement; // true wenn dc messung
+    bool m_bOffsetCorrectionN; // true wenn kanal n korrigiert werden soll
+    bool m_bOffsetCorrectionX; // dito für x
     int m_nMeasMode; // mess modus
     int m_nMeasPeriod; // wieviele perioden eine messung dauert
     int m_nIntegrationTime; // nach ablauf dieser zeit wird filter im dsp ausgekoppelt

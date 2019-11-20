@@ -17,6 +17,7 @@
 #include "wmmeasvaluesbase.h"
 #include "wmoeviewbase.h"
 #include "wmrawactualvalbase.h"
+#include "wmoffsetvalbase.h"
 #include "wmviewbase.h"
 #include "logfileview.h"
 #include "lbrowser.h"
@@ -102,6 +103,8 @@ int main(int argc, char *argv[])
         g_WMView->configureWM1000Items();
 
     g_WMDevice->setDC(bdc);
+    if (!bdc)
+        g_WMView->configureWMwoDC();
 
 
     cReleaseInfo *g_ReleaseView = new cReleaseInfo(g_app);
@@ -136,6 +139,13 @@ int main(int argc, char *argv[])
     QObject::connect(g_WMDevice,SIGNAL(SendConfDataSignal(cConfData*)),g_WMActValView,SLOT(SetConfInfoSlot(cConfData*))); // device sendet konfigurationsdaten an rawactualanzeige
     QObject::connect(g_WMDevice,SIGNAL(SendActValuesSignal(cwmActValues*)),g_WMActValView,SLOT(ReceiveAVDataSlot( cwmActValues*))); // senden von istwerten
 
+    WMOffsetValBase *g_WMOffsetView = new WMOffsetValBase(g_WMView);
+    QObject::connect(g_WMView,SIGNAL(UIansichtOffsetActionToggled(bool)),g_WMOffsetView,SLOT(ShowHideJustSlot(bool)));
+    QObject::connect(g_WMOffsetView,SIGNAL(isVisibleSignal(bool)),g_WMView,SIGNAL(UIansichtOffsetActionSet(bool))); //schliessen der offsetanzeige
+    QObject::connect(g_WMView,SIGNAL(SaveSessionSignal(QString)),g_WMOffsetView,SLOT(SaveSession(QString))); // fenster grösse und position einrichten
+    QObject::connect(g_WMView,SIGNAL(LoadSessionSignal(QString)),g_WMOffsetView,SLOT(LoadSession(QString))); // fenster grösse und position einrichten
+    QObject::connect(g_WMDevice,SIGNAL(SendJustValuesSignal(tJustValues*)),g_WMOffsetView,SLOT(ReceiveJustDataSlot(tJustValues*))); // device sendet konfigurationsdaten an rawactualanzei
+    QObject::connect(g_WMDevice,SIGNAL(SendConfDataSignal(cConfData*)),g_WMOffsetView,SLOT(SetConfInfoSlot(cConfData*)));
 
     CLogFileView* g_WMSCPILogFileView;
     if (bconvent)
@@ -181,9 +191,12 @@ int main(int argc, char *argv[])
     QObject::connect(g_WMView,SIGNAL(UIJustageAmplitudeActionActivated()),g_WMDevice,SLOT(JustageAmplitudeSlot())); // welchsel in den amplituden justage modus wenn jumper
     QObject::connect(g_WMView,SIGNAL(UIJustagePhaseActionActivated()),g_WMDevice,SLOT(JustagePhaseSlot())); // automatischer phasenabgleich wenn jumper
     QObject::connect(g_WMView,SIGNAL(UIJustageKoeffBerechnungActionActivated()),g_WMDevice,SLOT(JustagePhaseBerechnungSlot())); // automatischer phasenabgleich wenn jumper
+    QObject::connect(g_WMView,SIGNAL(UIJustageOffsetActionActivated()),g_WMDevice,SLOT(JustageOffsetSlot())); // automatischer phasenabgleich wenn jumper
+    QObject::connect(g_WMView,SIGNAL(UIJustageOffsetBerechnungActionActivated()),g_WMDevice,SLOT(JustageOffsetBerechnungSlot()));
+    QObject::connect(g_WMView,SIGNAL(UIJustageOffsetVarActionActivated()),g_WMDevice,SLOT(JustageOffsetVarSlot()));
 
-    QObject::connect(g_WMView,SIGNAL(UIJustageOffsetActionActivated()),g_WMDevice,SLOT(JustageOffsetSlot())); // automatischer offsetabgleich wenn jumper
-    QObject::connect(g_WMView,SIGNAL(UIJustageOffsetBerechnungActionActivated()),g_WMDevice,SLOT(JustageOffsetBerechnungSlot())); // automatischer phasenabgleich wenn jumper
+    QObject::connect(g_WMView,SIGNAL(UIMessungOffsetKanalNActivated()),g_WMDevice,SLOT(OffsetMessungChannelNSlot())); // ermitteln des offset von prüfling kanal n
+    QObject::connect(g_WMView,SIGNAL(UIMessungOffsetKanalXActivated()),g_WMDevice,SLOT(OffsetMessungChannelXSlot()));
 
     QObject::connect((QObject*)g_WMView,SIGNAL(JustFlashProgSignal()),g_WMDevice,SLOT(JustageFlashProgSlot())); // welchsel in den amplituden justage modus wenn jumper
     QObject::connect((QObject*)g_WMView,SIGNAL(JustFlashExportSignal(QString)),g_WMDevice,SLOT(JustageFlashExportSlot(QString))); // automatischer phasenabgleich wenn jumper
@@ -192,7 +205,7 @@ int main(int argc, char *argv[])
     QObject::connect(g_WMView,SIGNAL(UIhilfeInfo_ber_QtActionActivated()),g_app,SLOT(aboutQt())); // informationen zu Qt
     QObject::connect(g_WMView,SIGNAL(UIhilfeInfo_ber_ZeraActionActivated()),g_WMInfo,SLOT(AboutZeraSlot())); // informationen zu Zera
     QObject::connect(g_WMView,SIGNAL(UIhilfeInfoActionActivated()),g_WMInfo,SLOT(AboutWM3000Slot())); // informationen zu WM3000
-     QObject::connect(g_WMView,SIGNAL(UIhilfeSelbsttestActionActivated()),g_WMDevice,SLOT(SelfTestManuell())); // manuellen selbststest starten
+    QObject::connect(g_WMView,SIGNAL(UIhilfeSelbsttestActionActivated()),g_WMDevice,SLOT(SelfTestManuell())); // manuellen selbststest starten
 
     QObject::connect(g_WMDevice,SIGNAL(SendConfDataSignal(cConfData*)),g_WMView,SLOT(SetViewConfDataInfoSlot(cConfData*))); //  device sendet configurationsdaten an das hauptfenster
     QObject::connect(g_WMDevice,SIGNAL(JustifiedSignal(bool)),g_WMView,SLOT(SetJustifiedSlot(bool))); //  device sendet info ob justiert oder nicht an das hauptfenster
@@ -204,8 +217,8 @@ int main(int argc, char *argv[])
     QObject::connect(g_WMDevice,SIGNAL(AbortProgramSignal()),g_app,SLOT(quit()));
 
     cwm3000DeviceServer* wm3000DeviceServer = new cwm3000DeviceServer(6315); // ein wm3000 device server auf port 6315
-   QObject::connect(g_WMDevice,SIGNAL(SendConfDataSignal(cConfData*)),wm3000DeviceServer,SLOT(ReceiveDeviceConfiguration(cConfData*))); // wm3000 sendet konfiguration ans interface
-   QObject::connect(wm3000DeviceServer,SIGNAL(SendDeviceConfiguration(cConfData*)),g_WMDevice,SLOT(SetConfDataSlot(cConfData*))); // interface sendet konfiguration an wm3000
+    QObject::connect(g_WMDevice,SIGNAL(SendConfDataSignal(cConfData*)),wm3000DeviceServer,SLOT(ReceiveDeviceConfiguration(cConfData*))); // wm3000 sendet konfiguration ans interface
+    QObject::connect(wm3000DeviceServer,SIGNAL(SendDeviceConfiguration(cConfData*)),g_WMDevice,SLOT(SetConfDataSlot(cConfData*))); // interface sendet konfiguration an wm3000
     QObject::connect(wm3000DeviceServer,SIGNAL(RemoteCtrlInfo(bool)),g_WMView,SLOT(RemoteCtrlInfoSlot(bool))); // server sendet remote ctrl info an view
     QObject::connect(wm3000DeviceServer,SIGNAL(RemoteCtrlInfo(bool)),g_WMRangeDialog,SLOT(RemoteCtrlInfoSlot(bool))); // server sendet remote ctrl info an view
     QObject::connect(wm3000DeviceServer,SIGNAL(RemoteCtrlInfo(bool)),g_WMConfDialog,SLOT(RemoteCtrlInfoSlot(bool))); // server sendet remote ctrl info an view
@@ -215,6 +228,10 @@ int main(int argc, char *argv[])
     QObject::connect((QObject*)g_WMDevice,SIGNAL(SelftestDone(int)),wm3000DeviceServer,SLOT(ReceiveSelftestResult(int))); // setzen des selbsttest ergebnisses
     QObject::connect(wm3000DeviceServer,SIGNAL(RequestSelftest()),(QObject*)g_WMDevice,SLOT(SelfTestRemote())); // selbsttest (remote) starten
 
+    QObject::connect((QObject*)g_WMDevice,SIGNAL(OffsetValue(double)),wm3000DeviceServer,SLOT(ReceiveOffsetNXResult(double))); // rückgabe des offset wertes an interface
+    QObject::connect(wm3000DeviceServer,SIGNAL(RequestChannelNOffsetMeasure()),(QObject*)g_WMDevice,SLOT(OffsetMessungChannelNRemote())); // selbsttest (remote) starten
+    QObject::connect(wm3000DeviceServer,SIGNAL(RequestChannelXOffsetMeasure()),(QObject*)g_WMDevice,SLOT(OffsetMessungChannelXRemote())); // selbsttest (remote) starten
+
     QObject::connect((QObject*)g_WMDevice,SIGNAL(AffectStatus(uchar, ushort)),wm3000DeviceServer,SLOT(ReceiveAffectStatus(uchar, ushort))); // setzen des selbsttest ergebnisses
 
 
@@ -223,7 +240,7 @@ int main(int argc, char *argv[])
     QObject::connect(wm3000DeviceServer,SIGNAL(ResetETHStatus()),(QObject*)g_WMDevice,SLOT(EN61850ResetStatusSlot())); // rücksetzen eth status info
     QObject::connect(wm3000DeviceServer,SIGNAL(SendRangeCommand(cConfData*)),(QObject*)g_WMDevice,SLOT(SetRangeSlot(cConfData*))); // bereiche setzen
     QObject::connect((QObject*)g_WMDevice,SIGNAL(SendRangeListSignal(cWMRangeList&,cWMRangeList&)),wm3000DeviceServer,SLOT(SetRangeListSlot( cWMRangeList&,  cWMRangeList&))); // bereichlisten übertragen
-        QObject::connect((QObject*)g_WMDevice,SIGNAL(SendVersionInfo(tVersSerial*)),wm3000DeviceServer,SLOT(ReceiveVersionInfo(tVersSerial*))); // version info übertragen
+    QObject::connect((QObject*)g_WMDevice,SIGNAL(SendVersionInfo(tVersSerial*)),wm3000DeviceServer,SLOT(ReceiveVersionInfo(tVersSerial*))); // version info übertragen
 
     QObject::connect(wm3000DeviceServer,SIGNAL(SendDefaultConfigCommand()),(QObject*)g_WMDevice,SLOT(DefaultSettingsMeasurementSlot())); // default konfig setzen
     QObject::connect((QObject*)g_WMDevice,SIGNAL(RangeAutomaticDone()),wm3000DeviceServer,SLOT(ReceiveRangeAutomaticDone())); // bereich automatic fertig

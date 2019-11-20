@@ -1452,26 +1452,78 @@ case ConfigurationTestTMode:
 	break; // TriggerMeasureGetPhaseCorrCh1
               }
 	
+    case MeasureGetOffsetCorrCh0:
+    case TriggerMeasureGetOffsetCorrCh0:
+    {
+        QString pcs;
+        if (m_ConfData.m_bSimulation)
+        {
+            AHS = wm3000Idle;
+        }
+        else
+        {
+            pcs = PCBIFace->iFaceSock->GetAnswer(); // antwort lesen
+            m_JustValues.PhaseCorrCh1 = pcs.toFloat();
+
+            PCBIFace->readOffsetCorrection(0, Range(m_ConfData.m_sRangeN,m_sNRangeList)->Selector(), ActValues.RMSNSek);
+            AHS++;
+        }
+
+        break; // TriggerMeasureGetOffsetCorrCh0
+    }
+
+
+    case MeasureGetOffsetCorrCh1:
+    case TriggerMeasureGetOffsetCorrCh1:
+    {
+        QString ocs;
+        if (m_ConfData.m_bSimulation)
+        {
+            AHS = wm3000Idle;
+        }
+        else
+        {
+            ocs = PCBIFace->iFaceSock->GetAnswer(); // antwort lesen
+            m_JustValues.OffsetCorrCh0 = ocs.toFloat();
+
+            switch (m_ConfData.m_nMeasMode)
+            {
+                case In_IxDiff:
+                case In_IxAbs:
+                    PCBIFace->readOffsetCorrection(1, Range(m_ConfData.m_sRangeX,m_sNRangeList)->Selector(), ActValues.RMSXSek);
+                break;
+                default:
+                    PCBIFace->readOffsetCorrection(1, Range(m_ConfData.m_sRangeECT,m_sECTRangeList)->Selector(), ActValues.RMSXSek);
+                break;
+            }
+            AHS++;
+        }
+
+        break; // TriggerMeasureGetOffsetCorrCh1
+    }
+
+
     case MeasureCorrection:	
     case TriggerMeasureCorrection:
 	{
-	    QString pcs;
-	    if (m_ConfData.m_bSimulation) {
+        QString ocs;
+        if (m_ConfData.m_bSimulation)
+        {
 	    }
 	    else
 	    { 
-		pcs = PCBIFace->iFaceSock->GetAnswer(); // antwort lesen
-		m_JustValues.PhaseCorrCh1 = pcs.toFloat();
-	
-		CorrActValues();
-		CmpActValues(false);
-		emit SendActValuesSignal(&ActValues); 
-		emit MeasureReady();
+            ocs = PCBIFace->iFaceSock->GetAnswer(); // antwort lesen
+            m_JustValues.OffsetCorrCh1 = ocs.toFloat();
+
+            CorrActValues();
+            CmpActValues(false);
+            emit SendActValuesSignal(&ActValues);
+            emit MeasureReady();
 	    }
 	
 	    AHS = wm3000Idle; // wir sind so oder so fertig
 	    break; // TriggerMeasureCorrection
-              }
+     }
 	
 	
     case RestartMeasurementStart:
@@ -1549,8 +1601,11 @@ case ConfigurationTestTMode:
 	}
 	else
 	{
+        QString key;
+        int sign;
+        double offsetCorr;
 	    float tmpFloat[4];
-                  float *source = DspIFace->data(RMSValData);
+        float *source = DspIFace->data(RMSValData);
 	    float *dest = (float*) tmpFloat;
 	    for (uint i=0; i < 4; i++) *dest++ = *source++;     
 		    		    
@@ -1560,6 +1615,24 @@ case ConfigurationTestTMode:
 	    tmpFloat[1] *= 2.0; // hanning fenster korrektur    
 	    tmpFloat[1] *= m_JustValues.GainCorrCh0; 
 	    tmpFloat[1] /= 1.41421356; // rms der grundwelle
+
+        if (m_ConfData.m_bDCmeasurement)
+        {
+            // wir korrigieren die offsetwerte aus der permanenten offset korrektur
+            sign = signum(tmpFloat[1]);
+            tmpFloat[0] = sign * tmpFloat[0] + m_JustValues.OffsetCorrCh0;
+            tmpFloat[1] = sign * tmpFloat[1] + m_JustValues.OffsetCorrCh0;
+
+            // wir korrigieren die offsetwerte aus der temp. offset korrektur
+            CWMRange* r = Range(m_ConfData.m_sRangeN, m_sNRangeList);
+            if (measOffsetCorrectionHash.contains(key = r->getOffsKorrKey()))
+                offsetCorr = measOffsetCorrectionHash[key];
+            else
+                offsetCorr = 0.0;
+
+            tmpFloat[0] = fabs(tmpFloat[0] + offsetCorr);
+            tmpFloat[1] = fabs(tmpFloat[1] + offsetCorr);
+        }
 	    
 	    ActValues.dspActValues.rmsnf = tmpFloat[0];
 	    ActValues.RMSN1Sek = tmpFloat[1]; // der rms wert der grundwelle
@@ -1571,8 +1644,37 @@ case ConfigurationTestTMode:
 	    
 	    if (m_ConfData.m_nMeasMode != In_nConvent) // für nconvent die korrektur nicht berücksichtigen
 	    {
-		tmpFloat[2] *= m_JustValues.GainCorrCh1; 
-		tmpFloat[3] *= m_JustValues.GainCorrCh1; 
+            tmpFloat[2] *= m_JustValues.GainCorrCh1;
+            tmpFloat[3] *= m_JustValues.GainCorrCh1;
+
+            if (m_ConfData.m_bDCmeasurement)
+            {
+                CWMRange* r;
+                sign = signum(tmpFloat[3]);
+                // wir korrigieren die offsetwerte aus der permanenten offset korrektur
+                tmpFloat[2] = sign * tmpFloat[2] + m_JustValues.OffsetCorrCh1;
+                tmpFloat[3] = sign * tmpFloat[3] + m_JustValues.OffsetCorrCh1;
+
+                // wir korrigieren die offsetwerte aus der temp. offset korrektur
+                switch (m_ConfData.m_nMeasMode)
+                {
+                case In_IxAbs:
+                case In_IxDiff:
+                    r = Range(m_ConfData.m_sRangeX, m_sXRangeList);
+                    break;
+                case In_ECT:
+                    r = Range(m_ConfData.m_sRangeECT, m_sECTRangeList);
+                    break;
+                }
+
+                if (measOffsetCorrectionHash.contains(key = r->getOffsKorrKey()))
+                    offsetCorr = measOffsetCorrectionHash[key];
+                else
+                    offsetCorr = 0.0;
+
+                tmpFloat[2] = fabs(tmpFloat[2] + offsetCorr);
+                tmpFloat[3] = fabs(tmpFloat[3] + offsetCorr);
+            }
 	    }
 	    
 	    ActValues.dspActValues.rmsxf = tmpFloat[2];
@@ -1816,7 +1918,7 @@ case ConfigurationTestTMode:
 	break;
 	
 	
-    case CmpPhCoeffStart:
+    case CmpPhaseCoeffStart:
 	StopMeasurement(); // die kumulieren jetzt nur
 	m_pProgressDialog = new Q3ProgressDialog( trUtf8("Berechnung läuft ..."), 0, 4/*m_PhaseCalcInfoList.count()*/, g_WMView, 0, FALSE, 0 ); // ein progress dialog 
 	m_pProgressDialog->setCaption("Phasenkorrekturkoeffizienten"); //überschrift
@@ -1827,14 +1929,14 @@ case ConfigurationTestTMode:
 	break; // CmpPhCoeffStart
 	
 	
-    case CmpPhCoeffCh0:	
+    case CmpPhaseCoeffCh0:
 	lprogress++;
 	m_pProgressDialog->setProgress(lprogress);
 	AHS++;
 	m_ActTimer->start(3000,wm3000Continue);
 	break;
 	
-    case CmpPhCoeffCh1:	
+    case CmpPhaseCoeffCh1:
 	if (m_ConfData.m_bSimulation) { // fehler aufgetreten -> abbruch
 	    AHS = wm3000Idle;
 	}
@@ -1847,7 +1949,7 @@ case ConfigurationTestTMode:
 	}
 	break;	
 	
-    case CmpPhCoeffCh2:	
+    case CmpPhaseCoeffCh2:
 	if (m_ConfData.m_bSimulation) { // fehler aufgetreten -> abbruch
 	    AHS = wm3000Idle;
 	}
@@ -1860,7 +1962,8 @@ case ConfigurationTestTMode:
 	}
 	break;
 	
-    case CmpPhCoeffFinished:
+    case CmpPhaseCoeffFinished:
+    case CmpOffsetCoeffFinished:
 	if (m_ConfData.m_bSimulation) { // fehler aufgetreten -> abbruch
 	    AHS = wm3000Idle;
 	}
@@ -1873,6 +1976,50 @@ case ConfigurationTestTMode:
 	    AHS = wm3000Idle;
 	}
 	break; // CmpPhCoeffFinished
+
+    case CmpOffsetCoeffStart:
+        StopMeasurement(); // die kumulieren jetzt nur
+        m_pProgressDialog = new Q3ProgressDialog( trUtf8("Berechnung läuft ..."), 0, 4, g_WMView, 0, FALSE, 0 ); // ein progress dialog
+        m_pProgressDialog->setCaption("Offsetkorrekturkoeffizienten"); //überschrift
+        m_pProgressDialog->setMinimumDuration(0); // sofort sichtbar
+        lprogress = 0; // int. progress counter
+        AHS++;
+        m_ActTimer->start(0,wm3000Continue);
+        break; // CmpOffsetCoeffStart
+
+    case CmpOffsetCoeffCh0:
+        lprogress++;
+        m_pProgressDialog->setProgress(lprogress);
+        AHS++;
+        m_ActTimer->start(3000,wm3000Continue);
+        break;
+
+    case CmpOffsetCoeffCh1:
+        if (m_ConfData.m_bSimulation) { // fehler aufgetreten -> abbruch
+            AHS = wm3000Idle;
+        }
+        else
+        {
+            lprogress++;
+            m_pProgressDialog->setProgress(lprogress);
+            PCBIFace->cmpOffsetCoefficient("ch0"); // offsetkorrektur koeffizienten berechnen lassen
+            AHS++;
+        }
+        break;
+
+    case CmpOffsetCoeffCh2:
+        if (m_ConfData.m_bSimulation)
+        {   // fehler aufgetreten -> abbruch
+            AHS = wm3000Idle;
+        }
+        else
+        {
+            lprogress++;
+            m_pProgressDialog->setProgress(lprogress);
+            PCBIFace->cmpOffsetCoefficient("ch1"); // offsetkorrektur koeffizienten berechnen lassen
+            AHS++;
+        }
+        break;
 	
     case PhaseNodeMeasStart:
 	m_PhaseJustLogfile.remove(); // beim starten wird das log file gelöscht
@@ -1885,7 +2032,7 @@ case ConfigurationTestTMode:
 	m_pProgressDialog->setMinimumDuration(0); // sofort sichtbar
 	lprogress = 0; // int. progress counter
 	m_pProgressDialog->setProgress(lprogress);
-	QObject::connect(m_pAbortButton,SIGNAL(pressed()),this,SLOT(PhaseJustAbortSlot())); 
+    QObject::connect(m_pAbortButton,SIGNAL(pressed()),this,SLOT(JustAbortSlot()));
 	AHS++;
 	m_ActTimer->start(0,wm3000Continue);
 	N = 0; // durchlaufzähler
@@ -2596,6 +2743,55 @@ case ConfigurationTestTMode:
         break;
 
 
+    case OffsetMeasChannelNStart:
+        m_pProgressDialog = new Q3ProgressDialog( trUtf8("Messung..."), 0, 2, g_WMView, 0, FALSE, 0 );
+        m_pProgressDialog->setCaption(trUtf8("Offsetmessung Kanal N"));
+        m_pProgressDialog->setMinimumDuration(0); // sofort sichtbar
+        m_OffsetMeasState = AHS + 1; // hier müssen wir später weitermachen
+        QObject::connect(this,SIGNAL(MeasureReady()),this,SLOT(OffsetJustSyncSlot()));
+        AHS = wm3000Idle;
+        break;
+
+    case OffsetMeasChannelNSync:
+    case OffsetMeasChannelXSync:
+        m_pProgressDialog->setProgress(1);
+        m_OffsetMeasState = AHS + 1; // hier müssen wir später weitermachen
+        QObject::connect(this,SIGNAL(MeasureReady()),this,SLOT(OffsetJustSyncSlot()));
+        AHS = wm3000Idle;
+        break;
+
+    case OffsetMeasChannelNFinished:
+        m_pProgressDialog->setProgress(2);
+        offs0 = ActValues.VekNSek.re();
+        if (m_ConfData.m_bOffsetCorrectionN)
+            offs0 += m_JustValues.OffsetCorrDevN;
+        m_JustValues.OffsetCorrDevN = offs0;
+        emit OffsetValue(offs0);
+        delete m_pProgressDialog;
+        emit SendJustValuesSignal(&m_JustValues);
+        AHS = wm3000Idle;
+        break;
+
+    case OffsetMeasChannelXStart:
+        m_pProgressDialog = new Q3ProgressDialog( trUtf8("Messung..."), 0, 2, g_WMView, 0, FALSE, 0 );
+        m_pProgressDialog->setCaption(trUtf8("Offsetmessung Kanal X"));
+        m_pProgressDialog->setMinimumDuration(0); // sofort sichtbar
+        m_OffsetMeasState = AHS + 1; // hier müssen wir später weitermachen
+        QObject::connect(this,SIGNAL(MeasureReady()),this,SLOT(OffsetJustSyncSlot()));
+        AHS = wm3000Idle;
+        break;
+
+    case OffsetMeasChannelXFinished:
+        m_pProgressDialog->setProgress(2);
+        offs0 = ActValues.VekXSek.re();
+        if (m_ConfData.m_bOffsetCorrectionX)
+            offs0 += m_JustValues.OffsetCorrDevX;
+        m_JustValues.OffsetCorrDevX = offs0;
+        emit OffsetValue(offs0);
+        delete m_pProgressDialog;
+        emit SendJustValuesSignal(&m_JustValues);
+        AHS = wm3000Idle;
+        break;
 
     case PhaseNodeMeasFinished:
         delete m_pProgressDialog;
@@ -2998,7 +3194,7 @@ void cWM3000I::JustagePhaseSlot(void)
 void cWM3000I::JustagePhaseBerechnungSlot(void)
 {
 //    SetPhaseCalcInfo();
-    emit StartStateMachine(CmpPhCoeffStart);
+    emit StartStateMachine(CmpPhaseCoeffStart);
 }
 
 
@@ -3072,7 +3268,19 @@ void cWM3000I::SelfTestRemote(void)
 {
     SetSelfTestInfo(true);
     m_pAbortButton = 0; // kein abbruch möglich
-    emit StartStateMachine(SelftestStart);    
+    emit StartStateMachine(SelftestStart);
+}
+
+
+void cWM3000I::OffsetMessungChannelNRemote()
+{
+    emit StartStateMachine(OffsetMeasChannelNStart);
+}
+
+
+void cWM3000I::OffsetMessungChannelXRemote()
+{
+    emit StartStateMachine(OffsetMeasChannelXStart);
 }
 
 
@@ -3108,7 +3316,7 @@ void cWM3000I::DefaultSettingsMeasurementSlot() // wird nach *rst aufgerufen
 
 void cWM3000I::DefaultSettings(cConfData& cdata) // alle einstellungen default
 {
-    cdata.m_nVersion = ConfVersion;
+    cdata.setConfVersion();
     cdata.m_bRunning = true; // läuft oder läuft nicht
     cdata.m_bSimulation = false; 
     cdata.Language = de; // default deutsch
@@ -3147,6 +3355,8 @@ void cWM3000I::DefaultSettingsMeasurement(cConfData& cdata) // alle mess einstel
 {
     cdata.m_bOECorrection = false;
     cdata.m_bDCmeasurement = false;
+    cdata.m_bOffsetCorrectionN = false;
+    cdata.m_bOffsetCorrectionX = false;
     cdata.m_nMeasMode = In_IxAbs;
     cdata.m_fxPhaseShift = 0.0;
     cdata.m_fxTimeShift = 0.0;
@@ -3173,15 +3383,22 @@ void cWM3000I::PhaseJustSyncSlot()
     emit StartStateMachine(m_PhaseNodeMeasState); // bei der justage weitermachen
 }
 
-void cWM3000I::PhaseJustAbortSlot()
+
+void cWM3000I::OffsetJustSyncSlot()
 {
-    m_pAbortButton->setEnabled(false);
-/* abbbruch in state machine behandelt     
-    while (m_PhaseNodeMeasInfoList.count() > 1)
-	m_PhaseNodeMeasInfoList.removeLast();
-*/	
+    QObject::disconnect(this,0,this,SLOT(OffsetJustSyncSlot()));
+    emit StartStateMachine(m_OffsetMeasState); // bei der justage weitermachen
 }
 
+
+void cWM3000I::JustAbortSlot()
+{
+    m_pAbortButton->setEnabled(false);
+/* abbbruch in state machine behandelt
+    while (m_PhaseNodeMeasInfoList.count() > 1)
+    m_PhaseNodeMeasInfoList.removeLast();
+*/
+}
 
 void cWM3000I::SelftestSyncSlot()
 {
@@ -3409,6 +3626,12 @@ void cWM3000I::SetSelfTestInfo(bool remote)
 }
 
 
+int cWM3000I::signum(double value)
+{
+    return (value>0)?1:((value<0)?-1:0);
+}
+
+
 void cWM3000I::SetConfDataSlot(cConfData *cd) // signal kommt vom konfigurations dialog oder interface
 { // oder aus statemachine 
     // we limit the number of
@@ -3525,7 +3748,7 @@ bool cWM3000I::LoadSettings(QString session)
 void cWM3000I::WriteSettings(QString session)
 {
     QFileInfo fi(session);
-    QString ls = QString("%1/.wm3000i/%2%3").arg(wm3000iHome).arg(fi.fileName());
+    QString ls = QString("%1/.wm3000i/wm3000i%2").arg(wm3000iHome).arg(fi.fileName());
     QFile file(ls); 
 //    file.remove();
     if ( file.open( QIODevice::Unbuffered | QIODevice::WriteOnly ) ) {
@@ -3929,13 +4152,20 @@ void cWM3000I::SetDspWMCmdList()
         DspIFace->addCycListItem( s = QString("COSINUS(1,%1,SCHAN)").arg(nSMeas)); // einheitswurzeln (cosinus)
     DspIFace->addCycListItem( s = QString("MULNCC(%1,MESSSIGNAL0,SCHAN)").arg(nSMeas)); // mit signal multiplizieren
 	DspIFace->addCycListItem( s = QString("INTEGRAL(%1,SCHAN,TEMP2)").arg(nSMeas)); // re = integral
-	
-	// amplitude grundwelle = sqr(im^2 + re^2) bzw. geometrische summe und phasenlage 
-	DspIFace->addCycListItem( s = "ADDVVG(TEMP1,TEMP2,AMPL1N)"); 
-//	DspIFace->addCycListItem( s = "ADDVVG(TEMP1,TEMP2,FAMPL1N)"); 
-	
-    DspIFace->addCycListItem( s = "ARCTAN(TEMP1,TEMP2,PHIN)");
-	
+
+    // amplitude grundwelle = sqr(im^2 + re^2) bzw. geometrische summe und phasenlage
+    if (m_ConfData.m_bDCmeasurement)
+    {   // bei dc interessiert uns eingentlich nur der realteil (temp2);
+        DspIFace->addCycListItem( s = "COPYVAL(TEMP2,AMPL1N)");
+        DspIFace->addCycListItem( s = "COPYVAL(TEMP1,PHIN)");
+    }
+    else
+    {
+        DspIFace->addCycListItem( s = "ADDVVG(TEMP1,TEMP2,AMPL1N)");
+        // DspIFace->addCycListItem( s = "ADDVVG(TEMP1,TEMP2,FAMPL1N)");
+        DspIFace->addCycListItem( s = "ARCTAN(TEMP1,TEMP2,PHIN)");
+    }
+
 	// rms wert berechnung 
 	DspIFace->addCycListItem( s = QString("RMSN(%1,MESSSIGNAL0,RMSN)").arg(nSMeas));
 //	DspIFace->addCycListItem( s = QString("RMSN(%1,MESSSIGNAL0,FRMSN)").arg(nSMeas));
@@ -4238,6 +4468,15 @@ void cWM3000I::CmpActValues(bool withLP) {  // here we will do all the necessary
     ActValues.RMSNSek = ( val * ActValues.dspActValues.rmsnf ) / rej; 
     re = ( val * ActValues.dspActValues.ampl1nf ) / rej;
     ActValues.VekNSek = complex (re,0.0); // der winkel für vekn ist 0 .... definition !!!
+
+    // wir haben u.u. eine offsetkorrektur für kanal n "A" die wir nach der skalierung berücksichtigen müssen
+
+    if (m_ConfData.m_bOffsetCorrectionN && m_ConfData.m_bDCmeasurement)
+    {
+        //ActValues.RMSNSek = sqrt( fabs(ActValues.RMSNSek * ActValues.RMSNSek - m_JustValues.OffsetCorrDevN * m_JustValues.OffsetCorrDevN));
+        ActValues.RMSNSek -= fabs(m_JustValues.OffsetCorrDevN);
+        ActValues.VekNSek -= m_JustValues.OffsetCorrDevN;
+    }
 	
     switch (m_ConfData.m_nMeasMode) // für dut messart abhängig
     {
@@ -4279,6 +4518,13 @@ void cWM3000I::CmpActValues(bool withLP) {  // here we will do all the necessary
         ActValues.VekXSek = complex(re,im);
         ActValues.VekDXSek = ActValues.VekXSek - ActValues.VekNSek;
         break;
+    }
+
+    if (m_ConfData.m_bOffsetCorrectionX && m_ConfData.m_bDCmeasurement)
+    {
+        //ActValues.RMSXSek = sqrt(fabs(ActValues.RMSXSek * ActValues.RMSXSek - m_JustValues.OffsetCorrDevX * m_JustValues.OffsetCorrDevX));
+        ActValues.RMSXSek -= fabs(m_JustValues.OffsetCorrDevX);
+        ActValues.VekXSek -= m_JustValues.OffsetCorrDevX;
     }
 
     // alle winkel werden vom dsp ermittelt und  dphi ist schon mit tdsync frequenzabhängig korrigiert
@@ -4326,9 +4572,17 @@ void cWM3000I::CmpActValues(bool withLP) {  // here we will do all the necessary
     ActValues.AngleError = normWinkelrad_PIPI(ActValues.AngleError);
 //    if (fabs(ActValues.AngleError) > PI ) ActValues.AngleError -= sign(ActValues.AngleError) * 2 * PI;
 	      
-    double absN;
-    absN = fabs(ActValues.VekN);
-    double err = (fabs(ActValues.VekX) -absN) / absN;
+    double err;
+
+    if (m_ConfData.m_bDCmeasurement)
+        err = (ActValues.VekX.re() - ActValues.VekN.re()) / ActValues.VekN.re();
+    else
+    {
+        double absN;
+        absN = fabs(ActValues.VekN);
+        err = (fabs(ActValues.VekX) -absN) / absN;
+    }
+
     ActValues.AmplErrorIEC = 100.0 * err;
     ActValues.RCF = 1.0 / (1.0 + err);
     ActValues.AmplErrorANSI = (ActValues.AmplErrorIEC/100.0 + ( (1.0+ActValues.AmplErrorIEC/100.0) * (4.0 / 3.0) * ActValues.AngleError )) * 100.0;
@@ -4339,16 +4593,70 @@ void cWM3000I::CmpActValues(bool withLP) {  // here we will do all the necessary
 
 void cWM3000I::CorrActValues() {  // here we will do all the necessary corrections with use of adjustment values
     const float PI_180 = 0.017453293;
-    
+    int sign;
+    double offsetCorr;
+    QString key;
+    CWMRange* r;
+
     ActValues.dspActValues.rmsnf *= m_JustValues.GainCorrCh0;
     ActValues.dspActValues.ampl1nf *= m_JustValues.GainCorrCh0;
     ActValues.dspActValues.phin += m_JustValues.PhaseCorrCh0 * PI_180;
     ActValues.dspActValues.dphif += m_JustValues.PhaseCorrCh0 * PI_180;
-    
-    if ( m_ConfData.m_nMeasMode != In_nConvent) { // wenn nicht nconvent 
-	ActValues.dspActValues.rmsxf *= m_JustValues.GainCorrCh1; // x kanal auch korrigieren
-	ActValues.dspActValues.ampl1xf *= m_JustValues.GainCorrCh1;
-	ActValues.dspActValues.phix += m_JustValues.PhaseCorrCh1 * PI_180;
-	ActValues.dspActValues.dphif -= m_JustValues.PhaseCorrCh1 * PI_180;
+
+    if (m_ConfData.m_bDCmeasurement)
+    {
+        // wir korrigieren die offsetwerte aus der permanenten offset korrektur
+        // im rms können wir aber das vorzeichen nicht mehr sehen .....
+        sign = signum(ActValues.dspActValues.ampl1nf);
+        ActValues.dspActValues.rmsnf = sign * ActValues.dspActValues.rmsnf + m_JustValues.OffsetCorrCh0;
+        ActValues.dspActValues.ampl1nf /= 2.0;
+        ActValues.dspActValues.ampl1nf += m_JustValues.OffsetCorrCh0;
+
+        // wir korrigieren die offsetwerte aus der temp. offset korrektur
+        r = Range(m_ConfData.m_sRangeN, m_sNRangeList);
+        if (measOffsetCorrectionHash.contains(key = r->getOffsKorrKey()))
+            offsetCorr = measOffsetCorrectionHash[key];
+        else
+            offsetCorr = 0.0;
+
+        ActValues.dspActValues.rmsnf = fabs(ActValues.dspActValues.rmsnf + offsetCorr);
+        ActValues.dspActValues.ampl1nf += offsetCorr;
+    }
+
+    if ( m_ConfData.m_nMeasMode != In_nConvent)
+    { // wenn nicht nconvent
+        ActValues.dspActValues.rmsxf *= m_JustValues.GainCorrCh1; // x kanal auch korrigieren
+        ActValues.dspActValues.ampl1xf *= m_JustValues.GainCorrCh1;
+        ActValues.dspActValues.phix += m_JustValues.PhaseCorrCh1 * PI_180;
+        ActValues.dspActValues.dphif -= m_JustValues.PhaseCorrCh1 * PI_180;
+
+        if (m_ConfData.m_bDCmeasurement)
+        {
+            // wir korrigieren die offsetwerte aus der permanenten offset korrektur
+            sign = signum(ActValues.dspActValues.ampl1xf);
+            ActValues.dspActValues.rmsxf = sign * ActValues.dspActValues.rmsxf + m_JustValues.OffsetCorrCh1;
+            ActValues.dspActValues.ampl1xf /= 2.0;
+            ActValues.dspActValues.ampl1xf += m_JustValues.OffsetCorrCh1;
+
+            // wir korrigieren die offsetwerte aus der temp. offset korrektur
+            switch (m_ConfData.m_nMeasMode)
+            {
+            case In_IxAbs:
+            case In_IxDiff:
+                r = Range(m_ConfData.m_sRangeX, m_sXRangeList);
+                break;
+            case In_ECT:
+                r = Range(m_ConfData.m_sRangeECT, m_sECTRangeList);
+                break;
+            }
+
+            if (measOffsetCorrectionHash.contains(key = r->getOffsKorrKey()))
+                offsetCorr = measOffsetCorrectionHash[key];
+            else
+                offsetCorr = 0.0;
+
+            ActValues.dspActValues.rmsxf = fabs(ActValues.dspActValues.rmsxf + offsetCorr);
+            ActValues.dspActValues.ampl1xf += offsetCorr;
+        }
     }
 }

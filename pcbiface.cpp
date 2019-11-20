@@ -61,6 +61,7 @@ void cPCBIFace::ActionHandler(int entryAHS)
     case cmpOffsetCoefficientFinished:
     case SetTModeFinished:
     case SetDiffAbsModeFinished:
+    case ReadOffsetCorrectionFinished:
     case ReadPhaseCorrectionFinished:	
     case ReadGainCorrectionFinished:
     case SetSyncTimingFinished:	
@@ -141,6 +142,11 @@ void cPCBIFace::ActionHandler(int entryAHS)
 	AHS++;
 	break; // ReadPhaseCorrectionStart
 	
+    case ReadOffsetCorrectionStart:
+    SendReadOffsetCorrectionCommand();
+    AHS++;
+    break; // ReadOffsetCorrectionStart
+
     case setPhaseNodeInfoStart:
 	SendsetPhaseNInfoCommand();
 	AHS++;
@@ -321,6 +327,15 @@ void cPCBIFace::readPhaseCorrection(int ch, QString sRange, float actVal)
 }
 
 
+void cPCBIFace::readOffsetCorrection(int ch, QString sRange, float actVal)
+{
+    m_nP1 = ch;
+    m_sP1 = sRange;
+    m_fP1 = actVal;
+    m_ActTimer->start(0,ReadOffsetCorrectionStart);
+}
+
+
 void cPCBIFace::setPhaseNodeInfo(QString chn, QString rng, int index, float node, float arg)
 {
     m_sP1 = chn;
@@ -493,6 +508,14 @@ void cPCBIFace::SendReadPhaseCorrectionCommand()
     QString cmds = QString("calc:ch%1:%2:cph %3?\n").arg(m_nP1).arg(m_sP1).arg(m_fP1);
     iFaceSock->SendQuery(cmds);
 }
+
+
+void cPCBIFace::SendReadOffsetCorrectionCommand()
+{
+    QString cmds = QString("calc:ch%1:%2:coff %3?\n").arg(m_nP1).arg(m_sP1).arg(m_fP1);
+    iFaceSock->SendQuery(cmds);
+}
+
 
 void cPCBIFace::SendsetPhaseNInfoCommand()
 {

@@ -41,6 +41,15 @@ void WMViewBase::configureWM1000Items()
 }
 
 
+void WMViewBase::configureWMwoDC()
+{
+    ui->Messung->removeAction(ui->messungOffsetabgleichWM3000Action);
+    ui->Messung->removeAction(ui->messungOffsetKanalNAction);
+    ui->Messung->removeAction(ui->messungOffsetKanalXAction);
+    ui->Ansicht->removeAction(ui->ansichtOffsetAction);
+}
+
+
 void WMViewBase::init()
 {
     m_bJustified = false;
@@ -56,8 +65,11 @@ void WMViewBase::init()
     connect(wmEdit2,SIGNAL(textMessage(QString)),this,SLOT(ReceiveResultFileSlot(QString)));
     ui->ansichtFehlerMessungAction->setChecked(false);
     ui->ansichtIstwerteAction->setChecked(false);
+    ui->ansichtOffsetAction->setChecked(false);
     ui->ansichtDialogAction->setChecked(false);
     ui->ansichtEigenfehlerAction->setChecked(false);
+    ui->ansichtEN61850Action->setChecked(false);
+
     LoadSession(".ses");
 
     connect(ui->ansichtFehlerMessungAction,SIGNAL(toggled(bool)),this,SIGNAL(UIansichtFehlerMessungActionToggled(bool))); // öffnen der fehlermesswert anzeige
@@ -71,6 +83,10 @@ void WMViewBase::init()
     connect(ui->ansichtIstwerteAction,SIGNAL(toggled(bool)),this,SIGNAL(UIansichtIstwerteActionToggled(bool))); // öffnen der eigenfehler anzeige
     connect(ui->ansichtIstwerteAction,SIGNAL(toggled(bool)),this,SLOT(SaveDefaultSessionSlot(bool))); // öffnen der eigenfehler anzeige
     connect(this,SIGNAL(UIansichtIstwerteActionSet(bool)),ui->ansichtIstwerteAction,SLOT(setChecked(bool)));
+
+    connect(ui->ansichtOffsetAction,SIGNAL(toggled(bool)),this,SIGNAL(UIansichtOffsetActionToggled(bool))); // öffnen der eigenfehler anzeige
+    connect(ui->ansichtOffsetAction,SIGNAL(toggled(bool)),this,SLOT(SaveDefaultSessionSlot(bool))); // öffnen der eigenfehler anzeige
+    connect(this,SIGNAL(UIansichtOffsetActionSet(bool)),ui->ansichtOffsetAction,SLOT(setChecked(bool)));
 
     connect(ui->ansichtDialogAction,SIGNAL(toggled(bool)),this,SIGNAL(UIansichtDialogActionToggled(bool))); // öffnen der eigenfehler anzeige
     connect(ui->ansichtDialogAction,SIGNAL(toggled(bool)),this,SLOT(SaveDefaultSessionSlot(bool))); // öffnen der eigenfehler anzeige
@@ -88,7 +104,9 @@ void WMViewBase::init()
     connect(ui->JustageKoeffBerechnungAction,SIGNAL(activated()),this,SIGNAL(UIJustageKoeffBerechnungActionActivated()));
     connect(ui->JustageOffsetAction,SIGNAL(activated()),this,SIGNAL(UIJustageOffsetActionActivated()));
     connect(ui->JustageOffsetberechnungAction,SIGNAL(activated()),this,SIGNAL(UIJustageOffsetBerechnungActionActivated()));
-
+    connect(ui->messungOffsetabgleichWM3000Action,SIGNAL(activated()),this,SIGNAL(UIJustageOffsetVarActionActivated()));
+    connect(ui->messungOffsetKanalNAction,SIGNAL(activated()),this,SIGNAL(UIMessungOffsetKanalNActivated()));
+    connect(ui->messungOffsetKanalXAction,SIGNAL(activated()),this,SIGNAL(UIMessungOffsetKanalXActivated()));
     connect(ui->hilfeInfo_ber_QtAction,SIGNAL(activated()),this,SIGNAL(UIhilfeInfo_ber_QtActionActivated()));
     connect(ui->hilfeInfo_ber_ZeraAction,SIGNAL(activated()),this,SIGNAL(UIhilfeInfo_ber_ZeraActionActivated()));
     connect(ui->hilfeInfoAction,SIGNAL(activated()),this,SIGNAL(UIhilfeInfoActionActivated()));
@@ -424,13 +442,14 @@ bool WMViewBase::LoadSession(QString session)
     QFile file(ls);
     if ( file.open( IO_ReadOnly ) ) {
     QDataStream stream( &file );
-    int mA, iA, dA, eA, enA;
-    stream >> mA >> iA >> dA >> eA >> enA;
+    int mA, iA, oA, dA, eA, enA;
+    stream >> mA >> iA >> oA >> dA >> eA >> enA;
     stream >> m_widGeometry;
     file.close();
 
         ui->ansichtFehlerMessungAction->setChecked(mA);
         ui->ansichtIstwerteAction->setChecked(iA);
+        ui->ansichtOffsetAction->setChecked(oA);
         ui->ansichtDialogAction->setChecked(dA);
         ui->ansichtEigenfehlerAction->setChecked(eA);
         ui->ansichtEN61850Action->setChecked(enA);
@@ -474,6 +493,7 @@ void WMViewBase::SaveSession(QString session)
     QDataStream stream( &file );
         stream << (int)ui->ansichtFehlerMessungAction->isChecked()
                    << (int)ui->ansichtIstwerteAction->isChecked()
+                   << (int)ui->ansichtOffsetAction->isChecked()
                    << (int)ui->ansichtDialogAction->isChecked()
                    << (int)ui->ansichtEigenfehlerAction->isChecked()
                    << (int)ui->ansichtEN61850Action->isChecked();

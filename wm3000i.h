@@ -150,6 +150,8 @@ enum wm3000ActionHandlerState {
     TriggerMeasureGetGainCorrCh1,
     TriggerMeasureGetPhaseCorrCh0,
     TriggerMeasureGetPhaseCorrCh1,			// 90
+    TriggerMeasureGetOffsetCorrCh0,
+    TriggerMeasureGetOffsetCorrCh1,
     TriggerMeasureCorrection,
     
     MeasureStart,
@@ -159,6 +161,8 @@ enum wm3000ActionHandlerState {
     MeasureGetGainCorrCh1,
     MeasureGetPhaseCorrCh0,
     MeasureGetPhaseCorrCh1, // 100
+    MeasureGetOffsetCorrCh0,
+    MeasureGetOffsetCorrCh1,
     MeasureCorrection, // hier ist messung zu ende
     
     MeasureLPStart,
@@ -189,11 +193,11 @@ enum wm3000ActionHandlerState {
     SenseProtectionOffResetMaximum,
     SenseProtectionOffFinished,
     
-    CmpPhCoeffStart,
-    CmpPhCoeffCh0,
-    CmpPhCoeffCh1,
-    CmpPhCoeffCh2,
-    CmpPhCoeffFinished,
+    CmpPhaseCoeffStart,
+    CmpPhaseCoeffCh0,
+    CmpPhaseCoeffCh1,
+    CmpPhaseCoeffCh2,
+    CmpPhaseCoeffFinished,
 
     CmpOffsetCoeffStart,
     CmpOffsetCoeffCh0,
@@ -277,13 +281,16 @@ enum wm3000ActionHandlerState {
 class tJustValues
 {
 public:
-    tJustValues(){ GainCorrCh0 = 1; GainCorrCh1 = 1; PhaseCorrCh0 = 0; PhaseCorrCh1 = 0;};
+    tJustValues(){ GainCorrCh0 = 1; GainCorrCh1 = 1; PhaseCorrCh0 = 0; PhaseCorrCh1 = 0; OffsetCorrCh0 = 0; OffsetCorrCh1 = 0; OffsetCorrDevN = 0; OffsetCorrDevX = 0;}
     float GainCorrCh0;
     float GainCorrCh1;
     float PhaseCorrCh0;
     float PhaseCorrCh1;
+    float OffsetCorrCh0;
+    float OffsetCorrCh1;
+    float OffsetCorrDevN;
+    float OffsetCorrDevX;
 };
-
 
 
 class cWMessageBox: public QMessageBox
@@ -338,6 +345,8 @@ public slots:
     void OffsetMessungChannelXSlot(void);
     void SelfTestManuell();
     void SelfTestRemote();
+    void OffsetMessungChannelNRemote();
+    void OffsetMessungChannelXRemote();
     
     // slots, die vom bereichauswahl menu aktiviert werden
     void SetRangeSlot(cConfData*); 
@@ -361,8 +370,9 @@ private slots:
     void XIFaceDoneSlot(); // wenn gültige daten da sind vom einen oder anderen server
     void DspIFaceErrorSlot(); // wenn fehler aufgetreten sind am dsp server
     void pcbIFaceErrorSlot(); // dito für leitenkarten server
-    void PhaseJustSyncSlot(); // zur synchronisation des justageablaufes mit configuration und messung
-    void PhaseJustAbortSlot();
+    void PhaseJustSyncSlot(); // zur synchronisation des justageablaufes mit configuration und messung 
+    void OffsetJustSyncSlot(); // dito
+    void JustAbortSlot();
     void SelftestSyncSlot(); // zur synchronisation des selbsttest ablaufes mit configuration und messung
     void SelftestAbortSlot();
     void OverLoadMaxQuitSlot();
@@ -371,6 +381,7 @@ signals:
     void SendConfDataSignal(cConfData*); // konfigurationsdaten senden
     void SendOEDataSignal(cOwnError*); // eigenfehlerdaten senden
     void SendActValuesSignal(cwmActValues*); // istwerte senden
+    void SendJustValuesSignal(tJustValues*);
     void SendLPSignal(cwmActValues*); // es werden alle istwerte versendet, es sollaber nur der lp aktualisiert werden
     void SendIOStringSignal(QString); //  scpi input/output senden
     void SendLogFileSizeSignal(const long); // logfile grösse senden
@@ -386,6 +397,7 @@ signals:
     void SendVersionInfo(tVersSerial*); // wir versenden die versions , serial , chksum info 
     void AffectStatus(uchar, ushort); // zum setzen, rücksetzen der scpi status systeme
     void SelftestDone(int); // 0 ok  -1 fehler
+    void OffsetValue(double);
     void JustifiedSignal(bool);
     void FreqQuestionable(bool);
     
@@ -434,6 +446,7 @@ private:
     void offsetCorrectionHash2File();
     void readOffsetCorrectionFile();
     void SetSelfTestInfo(bool); // manuell oder remote
+    int signum(double value);
     
     QTimer *MeasureTimer;
     QTimer *MeasureLPTimer; 
@@ -463,8 +476,8 @@ private:
     /*wm3000ActionHandlerState*/ int m_OffsetMeasState; // hier merken wir uns wo´s weiter geht
     /*wm3000ActionHandlerState*/ int m_SelftestState; // hier merken wir uns wo´s weiter geht
     Q3ValueList<float> JustValueList;
-    QHash<QString, double> adjOffsetCorrectionHash; // offset correction is in lsb !!!!!
-    QHash<QString, double> measOffsetCorrectionHash; // this hash is filled from file ... i think
+    QHash<QString, double> adjOffsetCorrectionHash; // offset korrektur in lsb hier sammeln wir während des abgleiches
+    QHash<QString, double> measOffsetCorrectionHash; // wenn abgleich durchgelaufen ist werden die werte hierhin kopiert
     QString m_sJustText;
     QPushButton* m_pAbortButton;
     QString JDataFile;

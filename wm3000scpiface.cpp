@@ -233,7 +233,7 @@ void cWM3000SCPIFace::ReceiveSelftestResult(int r)
 }
 
 
-void cWM3000SCPIFace::ReceiveOffsetNXResult(double offs)
+void cWM3000SCPIFace::ReceiveNXOffset(double offs)
 {
     if (m_nWait4What == wait4Offsetresult)
     {
@@ -1073,6 +1073,34 @@ char* cWM3000SCPIFace::mGetConfCompOecOn()
 }
 
 
+char *cWM3000SCPIFace::mGetConfCompOffskN()
+{
+    QString rs;
+
+    m_ConfDataTarget = m_ConfDataActual;
+    if (m_ConfDataActual.m_bOffsetCorrectionN)
+    rs = "1";
+    else
+    rs = "0";
+
+    return sAlloc(rs);
+}
+
+
+char *cWM3000SCPIFace::mGetConfCompOffskX()
+{
+    QString rs;
+
+    m_ConfDataTarget = m_ConfDataActual;
+    if (m_ConfDataActual.m_bOffsetCorrectionX)
+    rs = "1";
+    else
+    rs = "0";
+
+    return sAlloc(rs);
+}
+
+
 void cWM3000SCPIFace::mSetConfCompOecOn(char* s)
 {
     ushort us;
@@ -1082,6 +1110,29 @@ void cWM3000SCPIFace::mSetConfCompOecOn(char* s)
 //	emit SendConfiguration(&m_ConfData);
     }
 }
+
+
+void cWM3000SCPIFace::mSetConfCompOffskN(char* s)
+{
+    ushort us;
+    if ( GetParameter(&s, us, 0, 1, 10, true) )
+    {
+    m_ConfDataTarget.m_bOffsetCorrectionN = ( us ==1 );
+//	emit SendConfiguration(&m_ConfData);
+    }
+}
+
+
+void cWM3000SCPIFace::mSetConfCompOffskX(char* s)
+{
+    ushort us;
+    if ( GetParameter(&s, us, 0, 1, 10, true) )
+    {
+    m_ConfDataTarget.m_bOffsetCorrectionX = ( us ==1 );
+//	emit SendConfiguration(&m_ConfData);
+    }
+}
+
 
 
 /*
@@ -1848,6 +1899,8 @@ void cWM3000SCPIFace::SCPICmd( int cmd,char* s) {
 		  case SetConfCompPhcPhase: mSetConfCompPhcPhase(s);break;
 		  case SetConfCompOecFile: mSetConfCompOecFile(s);break;
 		  case SetConfCompOecOn: mSetConfCompOecOn(s);break;
+          case SetConfCompOffskN: mSetConfCompOffskN(s);break;
+          case SetConfCompOffskX: mSetConfCompOffskX(s);break;
 //		  case SetConfCompMode: mSetConfCompMode(s);break;
 		  case SetConfOperMode: mSetConfOperMode(s);break;
           case SetConfOperSignal: mSetConfOperSignal(s);break;
@@ -1902,6 +1955,8 @@ void cWM3000SCPIFace::SCPICmd( int cmd,char* s) {
 	case SetConfCompPhcPhase:
 	case SetConfCompOecFile: 
 	case SetConfCompOecOn: 
+    case SetConfCompOffskN:
+    case SetConfCompOffskX:
 //	case SetConfCompMode: 
 	case SetConfOperMode: 
     case SetConfOperSignal:
@@ -1981,6 +2036,8 @@ char* cWM3000SCPIFace::SCPIQuery( int cmd, char* s) {
 	case GetConfCompPhcPhase: an = mGetConfCompPhcPhase();break;
 	case GetConfCompOecFile: an = mGetConfCompOecFile();break;
 	case GetConfCompOecOn: an = mGetConfCompOecOn();break;
+    case GetConfCompOffskN: an = mGetConfCompOffskN();break;
+    case GetConfCompOffskX: an = mGetConfCompOffskX();break;
 //	case GetConfCompModeCatalog: an = mGetConfCompModeCatalog();break;
 //	case GetConfCompMode: an = mGetConfCompMode();break;
 	case GetConfOperModeCatalog: an = mGetConfOperModeCatalog();break;
@@ -2044,6 +2101,8 @@ char* cWM3000SCPIFace::SCPIQuery( int cmd, char* s) {
 	case GetConfCompPhcPhase:
 	case GetConfCompOecFile:
 	case GetConfCompOecOn:
+    case GetConfCompOffskN:
+    case GetConfCompOffskX:
 //	case GetConfCompModeCatalog:
 //	case GetConfCompMode:
 	case GetConfOperModeCatalog:
@@ -2071,53 +2130,55 @@ char* cWM3000SCPIFace::SCPIQuery( int cmd, char* s) {
 // die vollständige scpi kommando liste
 
 cNodeSCPI* Configuration;
-                    cNodeSCPI* ConfigurationOperation;
-                                             cNodeSCPI* ConfigurationOperationMode;
-		                                     cNodeSCPI* ConfigurationOperationModeCatalog;
-                                             cNodeSCPI* ConfigurationOperationSignal;
-                                             cNodeSCPI* ConfigurationOperationSignalCatalog;
-	      cNodeSCPI* ConfigurationComputation;
-	                                cNodeSCPI* ConfigurationComputationMode;
-				          cNodeSCPI* ConfigurationComputationModeCatalog;	
-			    cNodeSCPI* ConfigurationComputationOECorrection;
-			                        cNodeSCPI* ConfigurationComputationOECorrectionOn;
- 				          cNodeSCPI* ConfigurationComputationOECorrectionFile;
-	                                cNodeSCPI* ConfigurationComputationPHCorrection;
-				          cNodeSCPI* ConfigurationComputationPHCorrectionPhase;	
-				          cNodeSCPI* ConfigurationComputationPHCorrectionTime;	  
-	      cNodeSCPI* ConfigurationMeasure;
-	                                cNodeSCPI* ConfigurationMeasureSigFrequency;
-			    cNodeSCPI* ConfigurationMeasureSRate;		
-			    cNodeSCPI* ConfigurationMeasureMPeriod; 
-                                              cNodeSCPI* ConfigurationMeasureIntegrationTime;
-                    cNodeSCPI* ConfigurationSynchronization; 					      	                                			    cNodeSCPI* ConfigurationSynchronizationSource;
-		                  cNodeSCPI* ConfigurationSynchronizationPeriod;
-	      cNodeSCPI* ConfigurationRatio; 					      
-	                                cNodeSCPI* ConfigurationRatioN;					                                cNodeSCPI* ConfigurationRatioX;
-			    cNodeSCPI* ConfigurationRatioECT;
-			    
-                    cNodeSCPI* ConfigurationEN61850; 					   		                                                      cNodeSCPI* ConfigurationEN61850MacAdress;
-			                        cNodeSCPI* ConfigurationEN61850MacAdressMergingUnit;
-				          cNodeSCPI* ConfigurationEN61850MacAdressWM3000;	
-			    cNodeSCPI* ConfigurationEN61850DataSet;
-                cNodeSCPI* ConfigurationEN61850FAsdu;
-                cNodeSCPI* ConfigurationEN61850LAsdu;
-			    cNodeSCPI* ConfigurationEN61850UserPriority;	  
-			    cNodeSCPI* ConfigurationEN61850Cfi;	  
-			    cNodeSCPI* ConfigurationEN61850Vid;
-			    cNodeSCPI* ConfigurationEN61850Appid;
+    cNodeSCPI* ConfigurationOperation;
+        cNodeSCPI* ConfigurationOperationMode;
+        cNodeSCPI* ConfigurationOperationModeCatalog;
+        cNodeSCPI* ConfigurationOperationSignal;
+        cNodeSCPI* ConfigurationOperationSignalCatalog;
+    cNodeSCPI* ConfigurationComputation;
+        cNodeSCPI* ConfigurationComputationMode;
+            cNodeSCPI* ConfigurationComputationModeCatalog;
+        cNodeSCPI* ConfigurationComputationOECorrection;
+            cNodeSCPI* ConfigurationComputationOECorrectionOn;
+            cNodeSCPI* ConfigurationComputationXOffset;
+            cNodeSCPI* ConfigurationComputationNOffset;
+            cNodeSCPI* ConfigurationComputationOECorrectionFile;
+            cNodeSCPI* ConfigurationComputationPHCorrection;
+                cNodeSCPI* ConfigurationComputationPHCorrectionPhase;
+                cNodeSCPI* ConfigurationComputationPHCorrectionTime;
+    cNodeSCPI* ConfigurationMeasure;
+        cNodeSCPI* ConfigurationMeasureSigFrequency;
+        cNodeSCPI* ConfigurationMeasureSRate;
+        cNodeSCPI* ConfigurationMeasureMPeriod;
+        cNodeSCPI* ConfigurationMeasureIntegrationTime;
+    cNodeSCPI* ConfigurationSynchronization; 					      	                                			    cNodeSCPI* ConfigurationSynchronizationSource;
+        cNodeSCPI* ConfigurationSynchronizationPeriod;
+    cNodeSCPI* ConfigurationRatio;
+        cNodeSCPI* ConfigurationRatioN;
+        cNodeSCPI* ConfigurationRatioX;
+        cNodeSCPI* ConfigurationRatioECT;
+    cNodeSCPI* ConfigurationEN61850; 					   		                                                      cNodeSCPI* ConfigurationEN61850MacAdress;
+        cNodeSCPI* ConfigurationEN61850MacAdressMergingUnit;
+        cNodeSCPI* ConfigurationEN61850MacAdressWM3000;
+        cNodeSCPI* ConfigurationEN61850DataSet;
+        cNodeSCPI* ConfigurationEN61850FAsdu;
+        cNodeSCPI* ConfigurationEN61850LAsdu;
+        cNodeSCPI* ConfigurationEN61850UserPriority;
+        cNodeSCPI* ConfigurationEN61850Cfi;
+        cNodeSCPI* ConfigurationEN61850Vid;
+        cNodeSCPI* ConfigurationEN61850Appid;
 			    			    
 //	      cNodeSCPI* ConfigurationLogFile;				  
 //			    cNodeSCPI* ConfigurationLogFileSize;	
-			 
-	      cNodeSCPI* ConfigurationApply;
+
+    cNodeSCPI* ConfigurationApply;
 			    
 		    
 cNodeSCPI* Measure;
 cNodeSCPI* Initiate;
 cNodeSCPI* Fetch;
 cNodeSCPI* Read;
-                   cNodeSCPI* ReadLoadpoint;
+cNodeSCPI* ReadLoadpoint;
 	      
 	     
 cNodeSCPI* Sense;
@@ -2259,17 +2320,18 @@ cNode* cWM3000SCPIFace::InitScpiCmdTree(cNode* cn) {
     ConfigurationMeasureSRate=new cNodeSCPI("SRATE",isQuery | isCommand,ConfigurationMeasureMPeriod,NULL,SetConfMeasSRate,GetConfMeasSRate);
     ConfigurationMeasureSigFrequency=new cNodeSCPI("SIGFREQUENCY",isQuery | isCommand,ConfigurationMeasureSRate,NULL,SetConfMeasSFreq,GetConfMeasSFreq);
     ConfigurationMeasure=new cNodeSCPI("MEASURE",isNode,ConfigurationSynchronization,ConfigurationMeasureSigFrequency,nixCmd,nixCmd);
+
+
     ConfigurationComputationPHCorrectionTime=new cNodeSCPI("TIME",isQuery | isCommand,NULL,NULL,SetConfCompPhcTime,GetConfCompPhcTime);
     ConfigurationComputationPHCorrectionPhase=new cNodeSCPI("PHASE",isQuery | isCommand,ConfigurationComputationPHCorrectionTime,NULL,SetConfCompPhcPhase,GetConfCompPhcPhase);
     ConfigurationComputationPHCorrection=new cNodeSCPI("PHCORRECTION",isNode,NULL,ConfigurationComputationPHCorrectionPhase,nixCmd,nixCmd);
     ConfigurationComputationOECorrectionFile=new cNodeSCPI("FILE",isQuery | isCommand,NULL,NULL,SetConfCompOecFile,GetConfCompOecFile);
     ConfigurationComputationOECorrectionOn=new cNodeSCPI("ON",isQuery | isCommand,ConfigurationComputationOECorrectionFile,NULL,SetConfCompOecOn,GetConfCompOecOn);
     ConfigurationComputationOECorrection=new cNodeSCPI("OECORRECTION",isNode,ConfigurationComputationPHCorrection,ConfigurationComputationOECorrectionOn,nixCmd,nixCmd);
-  
-//    ConfigurationComputationModeCatalog=new cNodeSCPI("CATALOG",isQuery,NULL,NULL,nixCmd,GetConfCompModeCatalog);
-//    ConfigurationComputationMode=new cNodeSCPI("MODE",isNode | isCommand | isQuery,ConfigurationComputationOECorrection,ConfigurationComputationModeCatalog,SetConfCompMode,GetConfCompMode);
-    
-    ConfigurationComputation=new cNodeSCPI("COMPUTATION",isNode,ConfigurationMeasure,ConfigurationComputationOECorrection,nixCmd,nixCmd);
+    ConfigurationComputationXOffset=new cNodeSCPI("XOFFSET",isQuery | isCommand,ConfigurationComputationOECorrection,NULL,SetConfCompOffskX,GetConfCompOffskX);
+    ConfigurationComputationNOffset=new cNodeSCPI("NOFFSET",isQuery | isCommand,ConfigurationComputationXOffset,NULL,SetConfCompOffskN,GetConfCompOffskN);
+    ConfigurationComputation=new cNodeSCPI("COMPUTATION",isNode,ConfigurationMeasure,ConfigurationComputationNOffset,nixCmd,nixCmd);
+
     ConfigurationOperationSignalCatalog=new cNodeSCPI("CATALOG",isQuery,NULL,NULL,nixCmd,GetConfOperSignalCatalog);
     ConfigurationOperationSignal=new cNodeSCPI("SIGNAL",isNode | isQuery | isCommand,ConfigurationComputation,ConfigurationOperationSignalCatalog,SetConfOperSignal,GetConfOperSignal);
     ConfigurationOperationModeCatalog=new cNodeSCPI("CATALOG",isQuery,NULL,NULL,nixCmd,GetConfOperModeCatalog);

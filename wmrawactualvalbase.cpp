@@ -137,6 +137,11 @@ void WMRawActualValBase::ReceiveAVDataSlot( cwmActValues *ActValues )
             if (AmplDispMode == x1_SQRT2 && !m_pConfData->m_bDCmeasurement)
                 ampl/=1.414213562;
 
+            if ((m_pConfData->m_nMeasMode == In_ECT) && (AmplPrimSekMode == sek))
+                ui->XxAmplDisp -> setText( QString("%1 V").arg(ampl,10,'f',5) );
+            else
+                ui->XxAmplDisp -> setText( QString("%1 A").arg(ampl,10,'f',5) );
+
             phi = m_ActValues.PHIX;
             if (WinkelDispMode == techpos)
                 phi = PI2 - phi;
@@ -180,11 +185,22 @@ void WMRawActualValBase::SetConfInfoSlot(cConfData *cd)
     {
         ui->XnPhaseDisp->setVisible(false);
         ui->XxPhaseDisp->setVisible(false);
+        ui->dXxPhaseDisp->setVisible(false);
+        ui->FreqDisp->setVisible(false);
+        ui->FreqLabel->setVisible(false);
+        ui->dXxAmplDisp->setVisible(false);
+        ui->dXxLabel->setVisible(false);
+        AmplDispMode = x1;  // im fall von dc messung lassen wir nur x1 zu !!!
     }
     else
     {
         ui->XnPhaseDisp->setVisible(true);
         ui->XxPhaseDisp->setVisible(true);
+        ui->dXxPhaseDisp->setVisible(true);
+        ui->FreqDisp->setVisible(true);
+        ui->FreqLabel->setVisible(true);
+        ui->dXxAmplDisp->setVisible(true);
+        ui->dXxLabel->setVisible(true);
     }
     resize(ui->gridLayout->minimumSize());
 }

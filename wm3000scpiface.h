@@ -125,6 +125,10 @@ enum wm3000SCPICmdType  { nixWCmd = LastCommonCommand, // 13
 			  SetConfCompOecFile,
 			  GetConfCompOecOn,
 			  SetConfCompOecOn,
+              GetConfCompOffskN,
+              SetConfCompOffskN,
+              GetConfCompOffskX,
+              SetConfCompOffskX,
 //			  GetConfCompModeCatalog,
 //			  SetConfCompMode,
 //			  GetConfCompMode,
@@ -214,7 +218,7 @@ public slots:
     void ReceiveLPValue(cwmActValues*);
     void ReceiveVersionInfo(tVersSerial*);
     void ReceiveSelftestResult(int);
-    void ReceiveOffsetNXResult(double offs);
+    void ReceiveNXOffset(double offs);
 
 protected slots:    
     virtual void ExecuteCommand(int); // ausführen kommandos statemachine
@@ -352,6 +356,10 @@ private:
     void mSetConfCompOecFile(char*);
     char* mGetConfCompOecOn();
     void mSetConfCompOecOn(char*);
+    char* mGetConfCompOffskN();
+    char* mGetConfCompOffskX();
+    void mSetConfCompOffskN(char*);
+    void mSetConfCompOffskX(char*);
 //    char* mGetConfCompModeCatalog();
 //    void mSetConfCompMode(char*);
 //    char* mGetConfCompMode();

@@ -93,9 +93,9 @@
     <addaction name="messungStartAction"/>
     <addaction name="messungSpeichernMesswerteAction"/>
     <addaction name="separator"/>
-    <addaction name="actionOffsetabgleich"/>
-    <addaction name="actionOffsetmessung_Kanal_N"/>
-    <addaction name="actionOffsetmessung_Kanal_X"/>
+    <addaction name="messungOffsetabgleichWM3000Action"/>
+    <addaction name="messungOffsetKanalNAction"/>
+    <addaction name="messungOffsetKanalXAction"/>
     <addaction name="separator"/>
     <addaction name="messungSimulationAction"/>
    </widget>
@@ -105,6 +105,7 @@
     </property>
     <addaction name="ansichtFehlerMessungAction"/>
     <addaction name="ansichtIstwerteAction"/>
+    <addaction name="ansichtOffsetAction"/>
     <addaction name="ansichtEigenfehlerAction"/>
     <addaction name="ansichtDialogAction"/>
     <addaction name="ansichtEN61850Action"/>
@@ -781,17 +782,17 @@
     <string>Polnisch</string>
    </property>
   </action>
-  <action name="actionOffsetabgleich">
+  <action name="messungOffsetabgleichWM3000Action">
    <property name="text">
     <string>Offsetabgleich WM3000</string>
    </property>
   </action>
-  <action name="actionOffsetmessung_Kanal_N">
+  <action name="messungOffsetKanalNAction">
    <property name="text">
     <string>Offsetmessung Kanal N</string>
    </property>
   </action>
-  <action name="actionOffsetmessung_Kanal_X">
+  <action name="messungOffsetKanalXAction">
    <property name="text">
     <string>Offsetmessung Kanal X</string>
    </property>
@@ -804,6 +805,14 @@
   <action name="JustageOffsetberechnungAction">
    <property name="text">
     <string>Offsetberechnung</string>
+   </property>
+  </action>
+  <action name="ansichtOffsetAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Offset</string>
    </property>
   </action>
  </widget>
