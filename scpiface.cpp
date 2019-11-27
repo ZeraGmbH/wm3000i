@@ -263,10 +263,26 @@ void cSCPIFace::OPCCommand()
 
 char* cSCPIFace::OPCQuery()
 {   // kann falls anders sein soll überschrieben werden, wir lassen nur seq. kommandos zu
+    /*
     char* out;
     out = (char*) malloc(3);
     strcpy(out,"+1");
     return out;
+    */
+
+    // es wurde überschrieben
+    char* out;
+
+    out = 0; // kein output
+    if (m_bnoOperationPendingFlag) // wenn keine konfiguration pending ist geben wir direkt eine anrwort
+    {
+        out = (char*) malloc(3);
+        strcpy(out,"+1");
+        return out;
+    }
+    else
+        setOPCQState(OQAS); // ansonsten merken wir uns daß eine *opc? anfrage war
+
 }
 
 
@@ -447,6 +463,25 @@ char* cSCPIFace::GetDeviceSRE()
 char* cSCPIFace::GetDeviceSTB()
 {
     return RegConversion(m_nSTB);
+}
+
+
+int cSCPIFace::getOPCQState()
+{
+    return m_nOPCQState;
+}
+
+
+void cSCPIFace::setOPCQState(opcStates state)
+{
+    if ((m_nOPCQState) == OQAS && (state == OQIS))
+    // d.h. es war eine *opc? abfrage während wir dabei waren zu konfigurieren, was jetzt abgeschlossen ist
+    {
+        QString s;
+        emit SendAnswer(s = QString("+1")); // dann senden wir jetzt die antwort darauf
+    }
+
+    m_nOPCQState = state;
 }
 
 

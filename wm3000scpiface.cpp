@@ -72,6 +72,15 @@ void cWM3000SCPIFace::setConfiguration(cConfData* cd)
 void cWM3000SCPIFace::ReceiveConfiguration(cConfData* cd)
 {
     m_ConfDataActual = /*m_ConfDataTarget = */ *cd;
+    if (getOPCQState() == OQAS) // wenn wir in opc query active state sind
+    {
+        // d.h. es war eine *opc? abfrage während wir dabei waren zu konfigurieren
+        {
+            QString s;
+            emit SendAnswer(s = QString("+1")); // dann senden wir jetzt die antwort darauf
+            setOPCQState(OQIS); // und wechseln wieder in den operation query idle state
+        }
+    }
 }
 
 
@@ -589,6 +598,7 @@ void cWM3000SCPIFace::mConfigurationApply(char*)
         m_bAddEventError = true;
 
     emit SendConfiguration(&m_ConfDataTarget);
+    SetnoOperFlag(false); // wir warten darauf daß konfigurieren fertig wird
     m_ConfDataActual = m_ConfDataTarget;
 }
 
