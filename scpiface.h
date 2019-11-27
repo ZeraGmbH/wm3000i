@@ -213,7 +213,6 @@ public:
     char* GetDeviceESR();
     char* GetDeviceSRE();
     char* GetDeviceSTB();
-    int getOPCQState();
     void setOPCQState(opcStates state);
     
     
