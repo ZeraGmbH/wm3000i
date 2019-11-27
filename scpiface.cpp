@@ -301,7 +301,6 @@ char* cSCPIFace::OPCQuery()
     }
 
     return out;
-
 }
 
 
@@ -485,6 +484,15 @@ char* cSCPIFace::GetDeviceSTB()
 }
 
 
+<<<<<<< HEAD
+=======
+int cSCPIFace::getOPCQState()
+{
+    return m_nOPCQState;
+}
+
+
+>>>>>>> versuch opc? auf konfiguration zu synchronisieren
 void cSCPIFace::setOPCQState(opcStates state)
 {
     if ((m_nOPCQState) == OQAS && (state == OQIS))
