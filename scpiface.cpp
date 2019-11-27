@@ -299,7 +299,6 @@ char* cSCPIFace::OPCQuery()
         m_bnoOperationPendingFlag = true;
         setOPCQState(OQAS); // ansonsten merken wir uns daß eine *opc? anfrage war
     }
-
     return out;
 }
 
@@ -484,8 +483,6 @@ char* cSCPIFace::GetDeviceSTB()
 }
 
 
-<<<<<<< HEAD
-=======
 int cSCPIFace::getOPCQState()
 {
     return m_nOPCQState;
@@ -493,6 +490,8 @@ int cSCPIFace::getOPCQState()
 
 
 >>>>>>> versuch opc? auf konfiguration zu synchronisieren
+=======
+>>>>>>> some bugfixes on the way to synchronize *opc? queries to running configuration tasks
 void cSCPIFace::setOPCQState(opcStates state)
 {
     if ((m_nOPCQState) == OQAS && (state == OQIS))
