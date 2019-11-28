@@ -226,8 +226,8 @@ void cSCPIFace::AffectSCPIStatus(uchar action, ushort stat)
     {
         // d.h. es war eine *opc? abfrage während wir dabei waren zu konfigurieren
         {
-            QString s;
-            emit SendAnswer(s = QString("+1")); // dann senden wir jetzt die antwort darauf
+            //QString s;
+            //emit SendAnswer(s = QString("+1")); // dann senden wir jetzt die antwort darauf
             setOPCQState(OQIS); // und wechseln wieder in den operation query idle state
         }
     }

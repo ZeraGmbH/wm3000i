@@ -1665,7 +1665,7 @@ void cWM3000SCPIFace::ExecuteCommand(int entryState) // ausführen eines common 
 	break;
 	
     case ifSelftestFinished:
-	s = QString("%1").arg(SelftestResult);
+    s = QString("+%1").arg(SelftestResult);
 	answ = sAlloc(s);
 	m_pSMachineTimer->start(0, ExecCmdPartFinished); // teil kommando fertig
 	break;
