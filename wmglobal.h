@@ -93,7 +93,8 @@
 // v2.27 16.08.2018 Andreas Müller keine inhaltliche Änderung nur version hochgezählt.
 // v2.28 05.11.2019 neue kommandos für first asdu und last asdu und der automatismus aus dem bildschirmdialog
 //                  wurde übernommen dass wenn die anzahl der samples gesetzt wird ... dann ebenfalls die asdu's
-//                  mit gesetzt werden
+//                  mit gesetzt werden. *tst? antwortet jetzt richtig mit +0 oder +1. *opc? snchronisiert jetzt
+//                  auf fertig werden der konfiguration
 
 
 #define WMVersion "V2.28"
