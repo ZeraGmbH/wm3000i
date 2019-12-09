@@ -19,8 +19,9 @@
 
 //#define FVWM 1
 
-//#define TheDevice "127.0.0.1"
-#define TheDevice "192.168.7.230"
+
+#define TheDevice "127.0.0.1"
+//#define TheDevice "192.168.7.230"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
@@ -95,10 +96,9 @@
 //                  wurde übernommen dass wenn die anzahl der samples gesetzt wird ... dann ebenfalls die asdu's
 //                  mit gesetzt werden. *tst? antwortet jetzt richtig mit +0 oder +1. *opc? snchronisiert jetzt
 //                  auf fertig werden der konfiguration
-// v2.29 29.11.2019 Versionsnummer geändert, um den Update-Prozess nicht zu gefährden
-// v2.30 09.12.2019 bugfix : rücksetzen noOperationCompleteFlag wenn conf. ready
+// v2.29 09.12.2019 bugfix : rücksetzen noOperationCompleteFlag wenn conf. ready
 
-#define WMVersion "V2.30"
+#define WMVersion "V2.29"
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
