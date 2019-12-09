@@ -220,16 +220,21 @@ void cSCPIFace::AffectSCPIStatus(uchar action, ushort stat)
 	break;
 	
     case ResetOperStat:
-	m_pOperationStat->ResetConditionBit(stat);
-    if ((stat == OperConfiguring) && (m_nOPCQState == OQAS))
-    // wenn wir in opc query active state sind und die Configuration fertig war
+    m_pOperationStat->ResetConditionBit(stat);
+    if (stat == OperConfiguring)
     {
-        // d.h. es war eine *opc? abfrage während wir dabei waren zu konfigurieren
+        if (m_nOPCQState == OQAS)
+        // wenn wir in opc query active state sind und die Configuration fertig war
         {
-            //QString s;
-            //emit SendAnswer(s = QString("+1")); // dann senden wir jetzt die antwort darauf
-            setOPCQState(OQIS); // und wechseln wieder in den operation query idle state
+            // d.h. es war eine *opc? abfrage während wir dabei waren zu konfigurieren
+            {
+                //QString s;
+                //emit SendAnswer(s = QString("+1")); // dann senden wir jetzt die antwort darauf
+                setOPCQState(OQIS); // und wechseln wieder in den operation query idle state
+            }
         }
+        else
+            SetnoOperFlag(true);
     }
 	break;
 	
