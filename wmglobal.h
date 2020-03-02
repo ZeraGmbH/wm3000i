@@ -19,7 +19,6 @@
 
 //#define FVWM 1
 
-
 #define TheDevice "127.0.0.1"
 //#define TheDevice "192.168.7.230"
 
