@@ -4408,6 +4408,9 @@ void cWM3000I::CmpActFrequency()
     }
 
     ActValues.Frequenz = m_ConfData.m_fSFreq * ActValues.dspActValues.kfkorrf;
+    if (ActValues.Frequenz < 6.0) //
+        ActValues.Frequenz = 0.0;
+
 
     bool bFreqQuestionable = (fabs(ActValues.Frequenz-fsoll) > 1.0);
     emit FreqQuestionable(bFreqQuestionable);
