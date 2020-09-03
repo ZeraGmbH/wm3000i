@@ -4187,10 +4187,20 @@ void cWM3000I::SetDspWMCmdList()
         DspIFace->addCycListItem( s = QString("COSINUS(1,%1,SCHAN)").arg(nSMeas)); // einheitswurzeln (cosinus)
     DspIFace->addCycListItem( s = QString("MULNCC(%1,MESSSIGNAL1,SCHAN)").arg(nSMeas)); // mit signal multiplizieren
 	DspIFace->addCycListItem( s = QString("INTEGRAL(%1,SCHAN,TEMP2)").arg(nSMeas)); // re = integral
-	// amplitude grundwelle = sqr(im^2 + re^2) bzw. geometrische summe und phasenlage 
-	DspIFace->addCycListItem( s = "ADDVVG(TEMP1,TEMP2,AMPL1X)"); 
-	DspIFace->addCycListItem( s = "ARCTAN(TEMP1,TEMP2,PHIX)");
-	// rms wert berechnung 	
+
+    // amplitude grundwelle = sqr(im^2 + re^2) bzw. geometrische summe und phasenlage
+    if (m_ConfData.m_bDCmeasurement)
+    {   // bei dc interessiert uns eingentlich nur der realteil (temp2);
+        DspIFace->addCycListItem( s = "COPYVAL(TEMP2,AMPL1X)");
+        DspIFace->addCycListItem( s = "COPYVAL(TEMP1,PHIX)");
+    }
+    else
+    {
+        DspIFace->addCycListItem( s = "ADDVVG(TEMP1,TEMP2,AMPL1X)");
+        DspIFace->addCycListItem( s = "ARCTAN(TEMP1,TEMP2,PHIX)");
+    }
+
+    // rms wert berechnung
 	DspIFace->addCycListItem( s = QString("RMSN(%1,MESSSIGNAL1,RMSX)").arg(nSMeas)); // rmswert berechnen
 	// ermitteln der zeit zwischen pps und 1. samplewert	
 	DspIFace->addCycListItem( s = "COPYDATA(CH2,0,MESSSIGNAL0)"); // auf  kanal 2 PPS2SampleTime ... kopiert nur die ersten 80 oder 256 samples
@@ -4433,7 +4443,7 @@ void cWM3000I::CmpActValues(bool withLP) {  // here we will do all the necessary
     ActValues.TDSync = ActValues.dspActValues.tdsync / TDBase;
 	
     CWMRange* r = Range(m_ConfData.m_sRangeN,m_sNRangeList);
-    
+
     double val,rej,im,re;
     val = r->Value();
     rej = r->Rejection();
