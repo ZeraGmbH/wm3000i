@@ -20,7 +20,7 @@
 //#define FVWM 1
 
 #define TheDevice "127.0.0.1"
-//#define TheDevice "192.168.7.230"
+//#define TheDevice "192.168.6.142"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
@@ -130,7 +130,7 @@ enum SignalFreqs {F16,F50,F60,MaxFreq}; // -> feste abtastfrequenzen
 enum SampleRates {S80,S256,MaxSRate}; // abtastraten
 // alt jetzt sensemode enum tsmode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, adcXadcN = 5, sensXadcNECT = 11}; // testmodi innerhalb der hardware
 enum SenseMode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, sensNsensX0V, anzSenseMode}; // sense modes innerhalb der hardware
-enum JustMode {sensNadcXPhase, sensXadcNPhase, sensECTadcNPhase, sensNsensXOffset, sensNOffset, sensXOffset, sensECTOffset}; // justage modes
+enum JustMode {sensNadcXPhase, sensXadcNPhase, sensECTadcNPhase, sensNsensXOffset, sensNOffset, sensXOffset, sensECTOffset, adcNPhase, adcXPhase}; // justage modes
 enum MeasMode {In_IxDiff,In_ECT,In_nConvent,In_IxAbs,maxMMode}; // messmodi, in_ixabs wird (wurde) nur für justage zwecke verwendet
 
 enum SignalModes {AC, DC, maxSMode}; // signal modi
@@ -219,11 +219,13 @@ public:
 
 class cJustMeasInfo
 {
+
 public:
-    cJustMeasInfo(const QString rngN, const QString rngX, SenseMode sm, MeasMode mm, JustMode jm, int nS, int nIgn, int nMeas )
-        :m_srngN(rngN), m_srngX(rngX), m_nSMode(sm), m_nMMode(mm), m_nJMode(jm), m_nnS(nS), m_nIgnore(nIgn), m_nnMeas(nMeas){}
-    QString m_srngN; // bereich kanal n
-    QString m_srngX; // bereich kanal x
+    cJustMeasInfo(const QString rngN, const QString rngX, const QString rngStore, SenseMode sm, MeasMode mm, JustMode jm, int nS, int nIgn, int nMeas )
+        :m_srngN(rngN), m_srngX(rngX), m_srngStore(rngStore), m_nSMode(sm), m_nMMode(mm), m_nJMode(jm), m_nnS(nS), m_nIgnore(nIgn), m_nnMeas(nMeas){}
+    QString m_srngN; // bereich kanal n der angewählt wird
+    QString m_srngX; // bereich kanal x ......
+    QString m_srngStore; // der bereich auf dem die justage daten gespeichert werden
     SenseMode m_nSMode; // sense mode (was zu testen bzw. justieren ist)
     MeasMode m_nMMode; // in welchem messmodus
     JustMode m_nJMode; // welcher justage modues
