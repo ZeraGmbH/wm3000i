@@ -2105,8 +2105,8 @@ case ConfigurationTestTMode:
 	    NewConfData.m_fxTimeShift = 0.0; // dito
 	    NewConfData.m_nSyncSource = Intern; // es muss intern synchronisiert sein 
 	    NewConfData.m_nTSync = 1000; // 1 sec. ist ok
-	    NewConfData.m_nIntegrationTime = 2; // 1 sec.
-	    NewConfData.m_nMeasPeriod = 16; // 
+        NewConfData.m_nIntegrationTime = 1; // 1 sec.
+        NewConfData.m_nMeasPeriod = 8; //
 	    N = 0; // 1. stützstelle
 	    AHS++;
 	    // kein break wir laufen einfach drüber
@@ -2181,13 +2181,19 @@ case ConfigurationTestTMode:
 	    m_PhaseNodeMeasState = PhaseNodeMeasExec3; // ab jetzt messen wir wirklich
 	    mCount = PhaseNodeMeasInfo->m_nnMeas; // und setzen den zähler dafür
         switch (PhaseNodeMeasInfo->m_nJMode)
-	    {
+        { // geht anders .... aber ist so übersichtlicher
+        case adcNPhase:
+            m_sJustText = trUtf8("Messung Kanal N, %1 läuft").arg(PhaseNodeMeasInfo->m_srngStore);
+            break;
+        case adcXPhase:
+            m_sJustText = trUtf8("Messung Kanal X, %1 läuft").arg(PhaseNodeMeasInfo->m_srngStore);
+            break;
         case sensNadcXPhase:
-            m_sJustText = trUtf8("Messung Kanal N, %1 läuft").arg(PhaseNodeMeasInfo->m_srngN);
+            m_sJustText = trUtf8("Messung Kanal N, %1 läuft").arg(PhaseNodeMeasInfo->m_srngStore);
             break;
         case sensXadcNPhase:
         case sensECTadcNPhase:
-            m_sJustText = trUtf8("Messung Kanal X, %1 läuft").arg(PhaseNodeMeasInfo->m_srngX);
+            m_sJustText = trUtf8("Messung Kanal X, %1 läuft").arg(PhaseNodeMeasInfo->m_srngStore);
             break;
         default:
             break;
@@ -2203,23 +2209,30 @@ case ConfigurationTestTMode:
     case PhaseNodeMeasExec3:
 	{
         int i;
-	    ph0 = ActValues.dspActValues.phin - PI/2;
-	    ph1 = ActValues.dspActValues.phix - PI/2;
-        switch (PhaseNodeMeasInfo->m_nJMode)
-	    {
-        case sensNadcXPhase:
-		ph0 = ph0 - (ph1 -PI); // -PI ... weil sensorik so ist
-		break; 
-        case sensXadcNPhase:
-		ph0 = ph1 - (ph0 - PI); // -PI ... wat wohl sonst 
-		break;
-        case sensECTadcNPhase:
-		ph0 = ph1 - ph0; // bei ect abgeleich nixxx jedreht
-	    default: 
-		break;
-	    }
+        ph0 = ActValues.PHIN;
+        ph1 = ActValues.PHIX;
 
-	    ph0 *= 57.295779; // 360/(2*PI) winkel sind im bogenmass
+        switch (PhaseNodeMeasInfo->m_nJMode)
+        {
+        case adcNPhase:
+            break; // wir wollten den kanal n adc messen ->fertig
+        case adcXPhase:
+            ph0 = ph1;
+            break; // wir wollten kanal x adc messen
+        case sensNadcXPhase:
+            ph0 = ph0 - (ph1 -PI); // -PI ... weil sensorik so ist
+            break; // wir wollten kanal n sense messen
+        case sensXadcNPhase:
+            ph0 = ph1 - (ph0 - PI); // -PI ... wat wohl sonst
+            break;
+        case sensECTadcNPhase:
+            ph0 = ph1 - ph0;
+            break; // wir wollten kanal x bzw. ect sense messen
+        default:
+            break;
+        }
+
+        ph0 *= 57.295779; // 360/(2*PI) winkel sind im bogenmass
         JustValueList.append(ph0); // wir schreiben den winkel wert in die liste
 	    
 	    mCount--;
@@ -2246,27 +2259,17 @@ case ConfigurationTestTMode:
 	
     case PhaseNodeMeasExec4:
 	{
-	    CWMRange* lr;
-	    QString sel;
-	    
         switch (PhaseNodeMeasInfo->m_nJMode)
 	    {
+        case adcNPhase:
         case sensNadcXPhase:
-            //PCBIFace->setNodeInfoFreq("ch0", PhaseNodeMeasInfo->m_srng0, N, PhaseJustFreq[N]);
-            lr = Range(PhaseNodeMeasInfo->m_srngN,m_sNRangeList);
-            sel = lr->Selector();
-            PCBIFace->setPhaseNodeInfo("ch0", sel, N, ph0, PhaseJustFreq[N]);
+            PCBIFace->setPhaseNodeInfo("ch0", PhaseNodeMeasInfo->m_srngStore, N, ph0, PhaseJustFreq[N]);
             break;
+        case adcXPhase:
         case sensXadcNPhase:
-            lr = Range(PhaseNodeMeasInfo->m_srngX,m_sXRangeList);
-            sel = lr->Selector();
-            PCBIFace->setPhaseNodeInfo("ch1", sel, N, ph0, PhaseJustFreq[N]);
-            break; // wir wollten kanal x adc messen
         case sensECTadcNPhase:
-            lr = Range(PhaseNodeMeasInfo->m_srngX,m_sECTRangeList);
-            sel = lr->Selector();
-            PCBIFace->setPhaseNodeInfo("ch1", sel, N, ph0, PhaseJustFreq[N]);
-            break; // wir wollten kanal x adc N aber für ect messen
+            PCBIFace->setPhaseNodeInfo("ch1", PhaseNodeMeasInfo->m_srngStore, N, ph0, PhaseJustFreq[N]);
+            break;
         default:
             break;
 	    }
@@ -2358,8 +2361,8 @@ case ConfigurationTestTMode:
         NewConfData.m_fxTimeShift = 0.0; // dito
         NewConfData.m_nSyncSource = Intern; // es muss intern synchronisiert sein
         NewConfData.m_nTSync = 1000; // 1 sec. ist ok
-        NewConfData.m_nIntegrationTime = 2; // 1 sec.
-        NewConfData.m_nMeasPeriod = 16; //
+        NewConfData.m_nIntegrationTime = 1; // 1 sec.
+        NewConfData.m_nMeasPeriod = 8; //
         NewConfData.m_bDCmeasurement = true;
 
         m_ActTimer->start(0,wm3000Continue); // wir starten selbst damit es weiter geht
@@ -3225,7 +3228,7 @@ void cWM3000I::JustageFlashImportSlot(QString s)
 void cWM3000I::JustageOffsetSlot()
 {
     SetOffsetCalcInfo();
-    SetOffsetMeasInfo(4,10); // zum ermitteln der offsetkorrekturen
+    SetOffsetMeasInfo(4,20); // zum ermitteln der offsetkorrekturen
     emit StartStateMachine(OffsetMeasWM3000Start);
 }
 
@@ -3429,14 +3432,32 @@ void cWM3000I::SetPhaseCalcInfo() // wir init. die liste damit die statemachine 
     // ad-wandler abgleich findet nicht mehr statt
     // m_CalcInfoList.append(new cCalcInfo(chn,"adw80"));
     // m_CalcInfoList.append(new cCalcInfo(chn,"adw256"));
+
+    // jetzt doch wieder .....
+    // wir benötigen phasenkorrekturwerte in abhängigkeit von der adwandler samplerate
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW80.16"));
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW80.50"));
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW80.60"));
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW256.16"));
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW256.50"));
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW256.60"));
+
     for (uint i = 0; i < m_sNRangeList.count()-1; i++)
     m_CalcInfoList.append(new cCalcInfo(chn, m_sNRangeList.at(i)->Selector()));
+
     chn = "ch1";
-    // ad-wandler abgleich findet nicht mehr statt
     // m_CalcInfoList.append(new cCalcInfo(chn,"adw80"));
     // m_CalcInfoList.append(new cCalcInfo(chn,"adw256"));
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW80.16"));
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW80.50"));
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW80.60"));
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW256.16"));
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW256.50"));
+    m_CalcInfoList.append(new cCalcInfo(chn,"ADW256.60"));
+
     for (uint i = 0; i < m_sXRangeList.count()-1; i++)
     m_CalcInfoList.append(new cCalcInfo(chn, m_sXRangeList.at(i)->Selector()));
+
     for (uint i = 0; i < m_sECTRangeList.count()-1; i++)
     m_CalcInfoList.append(new cCalcInfo(chn, m_sECTRangeList.at(i)->Selector()));
 }    
@@ -3446,27 +3467,32 @@ void cWM3000I::SetPhaseNodeMeasInfo() // wir init. die liste damit die statemach
 {
     m_PhaseNodeMeasInfoList.clear();
     m_PhaseNodeMeasInfoList.setAutoDelete( TRUE );
-    
-/* wir gleichen die ad-wandler nicht mehr ab   
-    // zuerst die adwandler abgleichen
-    m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo( "3.75V", "3.75V", adcNadcX, Un_UxAbs, S80, 4, 10)); // bereiche optimal für hw freq messung, modus adc/adc, für 80 samples/periode und 2 messungen einshwingzeit, 6 messungen für stützstellenermittlung
-    m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo( "3.75V", "3.75V", adcNadcX, Un_UxAbs, S256, 4, 10));
-    m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo( "3.75V", "3.75V", adcXadcN, Un_UxAbs, S80, 4, 10)); // bereiche optimal für hw freq messung, modus adc/adc, für 80 samples/periode und 2 messungen einschwingzeit, 6 messungen für stützstellenermittlung
-    m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo( "3.75V", "3.75V", adcXadcN, Un_UxAbs, S256, 4, 10));
-*/  
-    
-    // die liste für alle konv. bereiche in kanal n
-    for (uint i = 0; i < m_sNRangeList.count()-1; i++)
-        m_PhaseNodeMeasInfoList.append(new cJustMeasInfo( m_sNRangeList.at(i)->Name(), m_sXRangeList.at(i)->Name(), sensNadcX, In_IxAbs, sensNadcXPhase, S80, 4, 10));
-    
-    // die liste für alle konv. bereiche in kanal x
-    for (uint i = 0; i < m_sXRangeList.count()-1; i++)
-        m_PhaseNodeMeasInfoList.append(new cJustMeasInfo(m_sXRangeList.at(i)->Name(), m_sXRangeList.at(i)->Name(), sensXadcN, In_IxAbs, sensXadcNPhase, S80, 4, 10));
+       
+    /* wir gleichen die ad-wandler nicht mehr ab
+        // zuerst die adwandler abgleichen
+        m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo( "3.75V", "3.75V", adcNadcX, Un_UxAbs, S80, 4, 10)); // bereiche optimal für hw freq messung, modus adc/adc, für 80 samples/periode und 2 messungen einschwingzeit, 6 messungen für stützstellenermittlung
+        m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo( "3.75V", "3.75V", adcNadcX, Un_UxAbs, S256, 4, 10));
+        m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo( "3.75V", "3.75V", adcXadcN, Un_UxAbs, S80, 4, 10)); // bereiche optimal für hw freq messung, modus adc/adc, für 80 samples/periode und 2 messungen einschwingzeit, 6 messungen für stützstellenermittlung
+        m_PhaseNodeMeasInfoList.append(new cPhaseNodeMeasInfo( "3.75V", "3.75V", adcXadcN, Un_UxAbs, S256, 4, 10));
+    */
+        // jetzt doch wieder
+        m_PhaseNodeMeasInfoList.append(new cJustMeasInfo( "5mA", "5mA", "ADW80.50", adcNadcX, In_IxAbs, adcNPhase, S80, 4, 20)); // bereiche optimal für hw freq messung, modus adc/adc, für 80 samples/periode und 4 messungen einschwingzeit, 10 messungen für stützstellenermittlung
+        m_PhaseNodeMeasInfoList.append(new cJustMeasInfo( "5mA", "5mA", "ADW256.50", adcNadcX, In_IxAbs, adcNPhase, S256, 4, 20));
+        m_PhaseNodeMeasInfoList.append(new cJustMeasInfo( "5mA", "5mA", "ADW80.50", adcNadcX, In_IxAbs, adcXPhase, S80, 4, 20));
+        m_PhaseNodeMeasInfoList.append(new cJustMeasInfo( "5mA", "5mA", "ADW256.50", adcNadcX, In_IxAbs, adcXPhase, S256, 4, 20));
 
-    // + die liste der ect bereiche in kanal x
-    for (uint i = 0; i < m_sECTRangeList.count()-1; i++) 
-        m_PhaseNodeMeasInfoList.append(new cJustMeasInfo("5mA",m_sECTRangeList.at(i)->Name(), sensXadcN, In_ECT, sensECTadcNPhase, S80, 4, 10));
-    
+        // die liste für alle konv. bereiche in kanal n
+        for (uint i = 0; i < m_sNRangeList.count()-1; i++)
+        m_PhaseNodeMeasInfoList.append(new cJustMeasInfo( m_sNRangeList.at(i)->Name(), "5mA", m_sNRangeList.at(i)->Name(), sensNadcX, In_IxAbs, sensNadcXPhase, S80, 4, 20));
+
+        // die liste für alle konv. bereiche in kanal x
+        for (uint i = 0; i < m_sXRangeList.count()-1; i++)
+        m_PhaseNodeMeasInfoList.append(new cJustMeasInfo("5mA", m_sXRangeList.at(i)->Name(), m_sXRangeList.at(i)->Name(), sensXadcN, In_IxAbs, sensXadcNPhase, S80, 4, 20));
+
+        // + die liste der evt bereiche in kanal x
+        for (uint i = 0; i < m_sECTRangeList.count()-1; i++) // i = 0 wäre der safety range.... jetzt nicht mehr
+        m_PhaseNodeMeasInfoList.append(new cJustMeasInfo("5mA", m_sECTRangeList.at(i)->Name(), m_sECTRangeList.at(i)->Selector(), sensXadcN, In_ECT, sensECTadcNPhase, S80, 4, 20));
+
 }    
 
 
@@ -3503,7 +3529,7 @@ void cWM3000I::SetOffsetMeasInfo(int te, int tm)
         {
             // für diesen bereich haben wir noch keine eintrag in die liste , was zu tun ist
             adjOffsetCorrectionHash[key] = 0.0; // platzhalter
-            m_OffsetMeasInfoList.append(new cJustMeasInfo(m_sNRangeList.at(i)->Name(), m_sXRangeList.at(0)->Name(), sensNsensX0V, In_IxAbs, sensNOffset, S80, te, tm));
+            m_OffsetMeasInfoList.append(new cJustMeasInfo(m_sNRangeList.at(i)->Name(), m_sXRangeList.at(0)->Name(),m_sNRangeList.at(i)->Name(), sensNsensX0V, In_IxAbs, sensNOffset, S80, te, tm));
         }
     }
 
@@ -3524,7 +3550,7 @@ void cWM3000I::SetOffsetMeasInfo(int te, int tm)
                 j--;
             }
             else
-                m_OffsetMeasInfoList.append(new cJustMeasInfo(m_sNRangeList.at(0)->Name(), m_sXRangeList.at(i)->Name(), sensNsensX0V, In_IxAbs, sensXOffset, S80, te, tm));
+                m_OffsetMeasInfoList.append(new cJustMeasInfo(m_sNRangeList.at(0)->Name(), m_sXRangeList.at(i)->Name(),m_sXRangeList.at(i)->Name(), sensNsensX0V, In_IxAbs, sensXOffset, S80, te, tm));
         }
     }
 
@@ -3535,7 +3561,7 @@ void cWM3000I::SetOffsetMeasInfo(int te, int tm)
         {
             // für diesen bereich haben wir noch keine eintrag in die liste , was zu tun ist
             adjOffsetCorrectionHash[key] = 0.0; // platzhalter
-            m_OffsetMeasInfoList.append(new cJustMeasInfo(m_sNRangeList.at(0)->Name(), m_sECTRangeList.at(i)->Name(), sensNsensX0V, In_ECT, sensECTOffset, S80, te, tm));
+            m_OffsetMeasInfoList.append(new cJustMeasInfo(m_sNRangeList.at(0)->Name(), m_sECTRangeList.at(i)->Name(),m_sECTRangeList.at(i)->Selector(), sensNsensX0V, In_ECT, sensECTOffset, S80, te, tm));
         }
     }
 }
