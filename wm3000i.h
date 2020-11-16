@@ -197,17 +197,22 @@ enum wm3000ActionHandlerState {
     CmpPhaseCoeffCh0,
     CmpPhaseCoeffCh1,
     CmpPhaseCoeffCh2,
+    CmpPhaseSetStatus,
+    CmpPhaseSetStatus2,
     CmpPhaseCoeffFinished,
 
     CmpOffsetCoeffStart,
     CmpOffsetCoeffCh0,
     CmpOffsetCoeffCh1,
     CmpOffsetCoeffCh2, // 140
+    CmpOffsetSetStatus,
+    CmpOffsetSetStatus2,
     CmpOffsetCoeffFinished,
    
     PhaseNodeMeasStart,
-    PhaseNodeMeasCoefficientClearN,			// 120
-    PhaseNodeMeasCoefficientClearN2,
+    PhaseNodeMeasCoefficientClearNode,			// 120
+    PhaseNodeMeasCoefficientClearStatus,
+    PhaseNodeMeasCoefficientClearNodeStatus,
     PhaseNodeMeasCoefficientClearNFinished,
     PhaseNodeMeasBaseConfiguration,
     PhaseNodeMeasNodeConfig, // für jeden knoten muss etwas umkonfiguriert werden
@@ -219,8 +224,9 @@ enum wm3000ActionHandlerState {
     PhaseNodeMeasFinished,			// 130
 
     OffsetMeasWM3000Start,
-    OffsetMeasWM3000CoefficientClearN,
-    OffsetMeasWM3000CoefficientClearN2,
+    OffsetMeasWM3000CoefficientClearNode,
+    OffsetMeasWM3000CoefficientClearStatus,
+    OffsetMeasWM3000CoefficientClearNodeStatus,
     OffsetMeasWM3000CoefficientClearNFinished,
     OffsetMeasWM3000BaseConfiguration,
     OffsetMeasWM3000Exec1, // 160

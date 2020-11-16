@@ -1962,6 +1962,37 @@ case ConfigurationTestTMode:
 	}
 	break;
 	
+    case CmpPhaseSetStatus:
+    if (m_ConfData.m_bSimulation) { // fehler aufgetreten -> abbruch
+        AHS = wm3000Idle;
+    }
+    else
+    {
+        PhaseCalcInfo = m_CalcInfoList.first();
+        PCBIFace->setPhaseStatus(PhaseCalcInfo->m_sChannel, PhaseCalcInfo->m_sRange, 1); // wir setzen den status auf justiert
+        AHS++;
+    }
+    break; // CmpPhaseSetStatus
+
+    case CmpPhaseSetStatus2:
+    if (m_ConfData.m_bSimulation) { // fehler aufgetreten -> abbruch
+        AHS = wm3000Idle;
+    }
+    else
+    {
+        m_CalcInfoList.removeFirst();
+        if (m_CalcInfoList.isEmpty())
+        {
+            AHS++; // dann sind wir fertig
+        }
+        else
+        {
+            AHS--; // sonst zum nächsten
+        }
+        m_ActTimer->start(0,wm3000Continue); // wir starten selbst damit es weiter geht
+    }
+    break; // CmpPhaseSetStatus2
+
     case CmpPhaseCoeffFinished:
     case CmpOffsetCoeffFinished:
 	if (m_ConfData.m_bSimulation) { // fehler aufgetreten -> abbruch
@@ -2020,6 +2051,38 @@ case ConfigurationTestTMode:
             AHS++;
         }
         break;
+
+    case CmpOffsetSetStatus:
+    if (m_ConfData.m_bSimulation) { // fehler aufgetreten -> abbruch
+        AHS = wm3000Idle;
+    }
+    else
+    {
+        OffsetCalcInfo = m_CalcInfoList.first();
+        PCBIFace->setOffsetStatus(OffsetCalcInfo->m_sChannel, OffsetCalcInfo->m_sRange, 1); // wir setzen den status auf justiert
+        AHS++;
+    }
+    break; // CmpoffsetSetStatus
+
+    case CmpOffsetSetStatus2:
+    if (m_ConfData.m_bSimulation) { // fehler aufgetreten -> abbruch
+        AHS = wm3000Idle;
+    }
+    else
+    {
+        m_CalcInfoList.removeFirst();
+        if (m_CalcInfoList.isEmpty())
+        {
+            AHS++; // dann sind wir fertig
+        }
+        else
+        {
+            AHS--; // sonst zum nächsten
+        }
+        m_ActTimer->start(0,wm3000Continue); // wir starten selbst damit es weiter geht
+    }
+    break; // CmpOffsetSetStatus2
+
 	
     case PhaseNodeMeasStart:
 	m_PhaseJustLogfile.remove(); // beim starten wird das log file gelöscht
@@ -2038,13 +2101,19 @@ case ConfigurationTestTMode:
 	N = 0; // durchlaufzähler
 	break; // PhaseNodeMeasStart
 	
-    case PhaseNodeMeasCoefficientClearN:
+    case PhaseNodeMeasCoefficientClearNode:
     PhaseCalcInfo = m_CalcInfoList.first();
 	PCBIFace->setPhaseNodeInfo(PhaseCalcInfo->m_sChannel, PhaseCalcInfo->m_sRange, 0, 0.0, 0.0); // wir setzen jeweils die 1. stützstelle und lassen im anschluss daran die koeffizienten berechnen
 	AHS++;
-	break; // PhaseCoefficientClearN
-	
-    case PhaseNodeMeasCoefficientClearN2:
+    break; // PhaseCoefficientClearNode
+
+    case PhaseNodeMeasCoefficientClearStatus:
+    PhaseCalcInfo = m_CalcInfoList.first();
+    PCBIFace->setPhaseStatus(PhaseCalcInfo->m_sChannel, PhaseCalcInfo->m_sRange, 0);
+    AHS++;
+    break;
+
+    case PhaseNodeMeasCoefficientClearNodeStatus:
 	if (m_ConfData.m_bSimulation)  // fehler oder abbruch
 	{	    
 	    AHS = wm3000Idle;
@@ -2071,6 +2140,7 @@ case ConfigurationTestTMode:
 	    else
 	    {
 		AHS--;
+        AHS--;
 		m_ActTimer->start(0,wm3000Continue); // wir starten selbst damit es weiter geht
 	    }
 	}
@@ -2340,6 +2410,11 @@ case ConfigurationTestTMode:
 	break;
               } // PhaseNodeMeasExec5 
 	
+    case PhaseNodeMeasFinished:
+        delete m_pProgressDialog;
+        JustagePhaseBerechnungSlot(); // berechnung noch starten
+        AHS = wm3000Idle;
+        break;
 
     case OffsetMeasWM3000Start:
     case OffsetMeasWM3000StartVar:
@@ -2369,13 +2444,19 @@ case ConfigurationTestTMode:
         AHS++;
         break;
 
-    case OffsetMeasWM3000CoefficientClearN:
+    case OffsetMeasWM3000CoefficientClearNode:
         OffsetCalcInfo = m_CalcInfoList.first();
         PCBIFace->setOffsetNodeInfo(OffsetCalcInfo->m_sChannel, OffsetCalcInfo->m_sRange, 0, 0.0, 0.0); // wir setzen jeweils die 1. stützstelle und lassen im anschluss daran die koeffizienten berechnen
         AHS++;
-        break; // OffsetMeasCoefficientClearN
+        break; // OffsetMeasCoefficientClearNode
 
-    case OffsetMeasWM3000CoefficientClearN2:
+    case OffsetMeasWM3000CoefficientClearStatus:
+        OffsetCalcInfo = m_CalcInfoList.first();
+        PCBIFace->setOffsetStatus(OffsetCalcInfo->m_sChannel, OffsetCalcInfo->m_sRange, 0); // wir setzen den status zu 0
+        AHS++;
+        break; // OffsetMeasCoefficientClearNode
+
+    case OffsetMeasWM3000CoefficientClearNodeStatus:
         if (m_ConfData.m_bSimulation)  // fehler oder abbruch
         {
             AHS = wm3000Idle;
@@ -2400,6 +2481,7 @@ case ConfigurationTestTMode:
             }
             else
             {
+                AHS--;
                 AHS--;
                 m_ActTimer->start(0,wm3000Continue); // wir starten selbst damit es weiter geht
             }
@@ -2793,12 +2875,6 @@ case ConfigurationTestTMode:
         emit OffsetValue(offs0);
         delete m_pProgressDialog;
         emit SendJustValuesSignal(&m_JustValues);
-        AHS = wm3000Idle;
-        break;
-
-    case PhaseNodeMeasFinished:
-        delete m_pProgressDialog;
-        JustagePhaseBerechnungSlot(); // berechnung noch starten
         AHS = wm3000Idle;
         break;
 	
@@ -3196,7 +3272,7 @@ void cWM3000I::JustagePhaseSlot(void)
 
 void cWM3000I::JustagePhaseBerechnungSlot(void)
 {
-//    SetPhaseCalcInfo();
+    SetPhaseCalcInfo();
     emit StartStateMachine(CmpPhaseCoeffStart);
 }
 
@@ -3242,6 +3318,7 @@ void cWM3000I::JustageOffsetVarSlot()
 
 void cWM3000I::JustageOffsetBerechnungSlot()
 {
+    SetOffsetCalcInfo();
     emit StartStateMachine(CmpOffsetCoeffStart);
 }
 
