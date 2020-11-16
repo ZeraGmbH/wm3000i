@@ -14,396 +14,426 @@
         <translation>Tryb</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="90"/>
-        <location filename="confdialogbase.ui" line="277"/>
+        <location filename="confdialogbase.ui" line="93"/>
+        <location filename="confdialogbase.ui" line="361"/>
         <source>Messung</source>
         <translation>Pomiar</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="102"/>
+        <location filename="confdialogbase.ui" line="105"/>
         <source>In/&amp;Ix</source>
         <translation>In/&amp;Ix</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="115"/>
+        <location filename="confdialogbase.ui" line="118"/>
         <source>In/&amp;ECT</source>
         <translation>In/&amp;ECT</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="118"/>
-        <location filename="confdialogbase.ui" line="584"/>
+        <location filename="confdialogbase.ui" line="121"/>
+        <location filename="confdialogbase.ui" line="668"/>
         <source>Alt+E</source>
         <translation>Alt+E</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="134"/>
+        <location filename="confdialogbase.ui" line="137"/>
         <source>In/n&amp;Convent</source>
         <translation>In/n&amp;Convent</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="137"/>
+        <location filename="confdialogbase.ui" line="140"/>
         <source>Alt+C</source>
         <translation>Alt+C</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="146"/>
+        <location filename="confdialogbase.ui" line="159"/>
+        <source>Signal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="confdialogbase.ui" line="171"/>
+        <source>AC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="confdialogbase.ui" line="181"/>
+        <source>DC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="confdialogbase.ui" line="193"/>
         <source>Berechnung</source>
         <translation>Obliczanie</translation>
     </message>
     <message utf8="true">
-        <location filename="confdialogbase.ui" line="156"/>
+        <location filename="confdialogbase.ui" line="214"/>
         <source>Phasenfehler Prüfling</source>
         <translation>Błąd kątowy przekładnika badanego</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="162"/>
+        <location filename="confdialogbase.ui" line="220"/>
         <source>&amp;Totzeit[ms]:</source>
         <translation>&amp;Opóźnienie[ms]:</translation>
     </message>
     <message utf8="true">
-        <location filename="confdialogbase.ui" line="175"/>
+        <location filename="confdialogbase.ui" line="233"/>
         <source>&amp;Phasenlage[°]:</source>
         <translation>&amp;Błąd kątowy[°]:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="221"/>
+        <location filename="confdialogbase.ui" line="279"/>
+        <source>Offset Korrektur</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="confdialogbase.ui" line="285"/>
+        <source>Kanal N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="confdialogbase.ui" line="292"/>
+        <source>Kanal X</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="confdialogbase.ui" line="304"/>
         <source>Korrektur Normwandler</source>
         <translation>Poprawka przekładnika wzorcowego</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="227"/>
+        <location filename="confdialogbase.ui" line="310"/>
         <source>A&amp;ktiv</source>
         <translation>A&amp;ktywne</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="230"/>
+        <location filename="confdialogbase.ui" line="313"/>
         <source>Alt+K</source>
         <translation>Alt+K</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="315"/>
+        <location filename="confdialogbase.ui" line="399"/>
         <source>Integrationszeit</source>
         <translation>Czas całkowania</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="321"/>
+        <location filename="confdialogbase.ui" line="405"/>
         <source>&amp;Zeit[sec]:</source>
         <translation>&amp;Czas[s]:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="375"/>
+        <location filename="confdialogbase.ui" line="459"/>
         <source>Signalfrequenz</source>
         <translation>Częstotliwość sygnału</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="390"/>
+        <location filename="confdialogbase.ui" line="474"/>
         <source>16.66 Hz</source>
         <translation>16.66 Hz</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="406"/>
+        <location filename="confdialogbase.ui" line="490"/>
         <source>50 Hz</source>
         <translation>50 Hz</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="422"/>
+        <location filename="confdialogbase.ui" line="506"/>
         <source>60 Hz</source>
         <translation>60 Hz</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="432"/>
+        <location filename="confdialogbase.ui" line="516"/>
         <source>Abtastungen</source>
         <translation>Próbki</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="438"/>
+        <location filename="confdialogbase.ui" line="522"/>
         <source>  80 / Periode</source>
         <translation>80 / Okres</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="445"/>
+        <location filename="confdialogbase.ui" line="529"/>
         <source>256 / Periode</source>
         <translation>256 / Okres</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="480"/>
+        <location filename="confdialogbase.ui" line="564"/>
         <source>Messintervall</source>
         <translation>Przedział pomiaru</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="495"/>
+        <location filename="confdialogbase.ui" line="579"/>
         <source>&amp;Perioden:</source>
         <translation>&amp;Okresów:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="547"/>
+        <location filename="confdialogbase.ui" line="631"/>
         <source>Synchronisation</source>
         <translation>Synchronizacja</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="561"/>
+        <location filename="confdialogbase.ui" line="645"/>
         <source>PPS-Signal</source>
         <translation>Sygnał PPS</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="581"/>
+        <location filename="confdialogbase.ui" line="665"/>
         <source>&amp;Extern</source>
         <translation>&amp;Zewnętrzny</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="597"/>
+        <location filename="confdialogbase.ui" line="681"/>
         <source>&amp;Intern</source>
         <translation>&amp;Wewnętrzny</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="600"/>
+        <location filename="confdialogbase.ui" line="684"/>
         <source>Alt+I</source>
         <translation>Alt+I</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="651"/>
+        <location filename="confdialogbase.ui" line="735"/>
         <source>&amp;TSync[ms]:</source>
         <translation>&amp;TSync[ms]:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="699"/>
+        <location filename="confdialogbase.ui" line="783"/>
         <source>Strenge EN61850 Synchronisation</source>
         <translation>Pełna synchronizacja EN 61850</translation>
     </message>
     <message utf8="true">
-        <location filename="confdialogbase.ui" line="751"/>
-        <location filename="confdialogbase.cpp" line="201"/>
+        <location filename="confdialogbase.ui" line="835"/>
+        <location filename="confdialogbase.cpp" line="207"/>
         <source>Teilerverhältnisse</source>
         <translation>Przekładnie</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="766"/>
+        <location filename="confdialogbase.ui" line="850"/>
         <source>ECT</source>
         <translation>ECT</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="797"/>
-        <location filename="confdialogbase.ui" line="960"/>
-        <location filename="confdialogbase.ui" line="1076"/>
-        <location filename="confdialogbase.ui" line="1187"/>
+        <location filename="confdialogbase.ui" line="881"/>
+        <location filename="confdialogbase.ui" line="1044"/>
+        <location filename="confdialogbase.ui" line="1160"/>
+        <location filename="confdialogbase.ui" line="1271"/>
         <source>Sek:</source>
         <translation>Wt:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="835"/>
-        <location filename="confdialogbase.ui" line="944"/>
-        <location filename="confdialogbase.ui" line="1134"/>
-        <location filename="confdialogbase.ui" line="1225"/>
+        <location filename="confdialogbase.ui" line="919"/>
+        <location filename="confdialogbase.ui" line="1028"/>
+        <location filename="confdialogbase.ui" line="1218"/>
+        <location filename="confdialogbase.ui" line="1309"/>
         <source>Prim:</source>
         <translation>Pierw:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="845"/>
-        <location filename="confdialogbase.ui" line="855"/>
-        <location filename="confdialogbase.ui" line="970"/>
-        <location filename="confdialogbase.ui" line="980"/>
-        <location filename="confdialogbase.ui" line="1235"/>
-        <location filename="confdialogbase.ui" line="1245"/>
+        <location filename="confdialogbase.ui" line="929"/>
+        <location filename="confdialogbase.ui" line="939"/>
+        <location filename="confdialogbase.ui" line="1054"/>
+        <location filename="confdialogbase.ui" line="1064"/>
+        <location filename="confdialogbase.ui" line="1319"/>
+        <location filename="confdialogbase.ui" line="1329"/>
         <source>/3</source>
         <translation>/3</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="865"/>
-        <location filename="confdialogbase.ui" line="875"/>
-        <location filename="confdialogbase.ui" line="990"/>
-        <location filename="confdialogbase.ui" line="1000"/>
-        <location filename="confdialogbase.ui" line="1255"/>
-        <location filename="confdialogbase.ui" line="1265"/>
+        <location filename="confdialogbase.ui" line="949"/>
+        <location filename="confdialogbase.ui" line="959"/>
+        <location filename="confdialogbase.ui" line="1074"/>
+        <location filename="confdialogbase.ui" line="1084"/>
+        <location filename="confdialogbase.ui" line="1339"/>
+        <location filename="confdialogbase.ui" line="1349"/>
         <source>/sqrt(3)</source>
         <translation>/sqrt(3)</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="894"/>
-        <location filename="confdialogbase.ui" line="1051"/>
+        <location filename="confdialogbase.ui" line="978"/>
+        <location filename="confdialogbase.ui" line="1135"/>
         <source>N</source>
         <translation>N</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1156"/>
+        <location filename="confdialogbase.ui" line="1240"/>
         <source>X</source>
         <translation>X</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1279"/>
+        <location filename="confdialogbase.ui" line="1363"/>
         <source>nConvent</source>
         <translation>nConvent</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1291"/>
+        <location filename="confdialogbase.ui" line="1375"/>
         <source>MAC adresses 61850-9-2</source>
         <translation>Adresy MAC 61850-9-2</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1302"/>
+        <location filename="confdialogbase.ui" line="1386"/>
         <source>Source:</source>
         <translation>Źródło:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1315"/>
+        <location filename="confdialogbase.ui" line="1399"/>
         <source>Destination: </source>
         <translation>Przeznaczenie:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1346"/>
-        <location filename="confdialogbase.ui" line="1393"/>
-        <location filename="confdialogbase.ui" line="1437"/>
-        <location filename="confdialogbase.ui" line="1481"/>
-        <location filename="confdialogbase.ui" line="1525"/>
-        <location filename="confdialogbase.ui" line="1569"/>
-        <location filename="confdialogbase.ui" line="1617"/>
-        <location filename="confdialogbase.ui" line="1664"/>
-        <location filename="confdialogbase.ui" line="1708"/>
-        <location filename="confdialogbase.ui" line="1752"/>
-        <location filename="confdialogbase.ui" line="1796"/>
-        <location filename="confdialogbase.ui" line="1840"/>
+        <location filename="confdialogbase.ui" line="1430"/>
+        <location filename="confdialogbase.ui" line="1477"/>
+        <location filename="confdialogbase.ui" line="1521"/>
+        <location filename="confdialogbase.ui" line="1565"/>
+        <location filename="confdialogbase.ui" line="1609"/>
+        <location filename="confdialogbase.ui" line="1653"/>
+        <location filename="confdialogbase.ui" line="1701"/>
+        <location filename="confdialogbase.ui" line="1748"/>
+        <location filename="confdialogbase.ui" line="1792"/>
+        <location filename="confdialogbase.ui" line="1836"/>
+        <location filename="confdialogbase.ui" line="1880"/>
+        <location filename="confdialogbase.ui" line="1924"/>
         <source>FF</source>
         <translation>FF</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1368"/>
-        <location filename="confdialogbase.ui" line="1415"/>
-        <location filename="confdialogbase.ui" line="1459"/>
-        <location filename="confdialogbase.ui" line="1503"/>
-        <location filename="confdialogbase.ui" line="1547"/>
-        <location filename="confdialogbase.ui" line="1639"/>
-        <location filename="confdialogbase.ui" line="1686"/>
-        <location filename="confdialogbase.ui" line="1730"/>
-        <location filename="confdialogbase.ui" line="1774"/>
-        <location filename="confdialogbase.ui" line="1818"/>
+        <location filename="confdialogbase.ui" line="1452"/>
+        <location filename="confdialogbase.ui" line="1499"/>
+        <location filename="confdialogbase.ui" line="1543"/>
+        <location filename="confdialogbase.ui" line="1587"/>
+        <location filename="confdialogbase.ui" line="1631"/>
+        <location filename="confdialogbase.ui" line="1723"/>
+        <location filename="confdialogbase.ui" line="1770"/>
+        <location filename="confdialogbase.ui" line="1814"/>
+        <location filename="confdialogbase.ui" line="1858"/>
+        <location filename="confdialogbase.ui" line="1902"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1897"/>
+        <location filename="confdialogbase.ui" line="1981"/>
         <source>Priority tagged</source>
         <translation>Oznaczony priorytetowo</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1903"/>
+        <location filename="confdialogbase.ui" line="1987"/>
         <source>User priority:</source>
         <translation>Priorytet użytkownika:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1928"/>
-        <location filename="confdialogbase.ui" line="1998"/>
-        <location filename="confdialogbase.ui" line="2024"/>
+        <location filename="confdialogbase.ui" line="2012"/>
+        <location filename="confdialogbase.ui" line="2082"/>
+        <location filename="confdialogbase.ui" line="2108"/>
         <source>0</source>
         <translation>0</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1938"/>
+        <location filename="confdialogbase.ui" line="2022"/>
         <source>TPID:</source>
         <translation>TPID:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1963"/>
+        <location filename="confdialogbase.ui" line="2047"/>
         <source>8100</source>
         <translation>8100</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="1973"/>
+        <location filename="confdialogbase.ui" line="2057"/>
         <source>CFI:</source>
         <translation>CFI:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2008"/>
+        <location filename="confdialogbase.ui" line="2092"/>
         <source>VID:</source>
         <translation>VID:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2047"/>
+        <location filename="confdialogbase.ui" line="2131"/>
         <source>Ethertype header</source>
         <translation>Nagłówek EtherType</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2053"/>
+        <location filename="confdialogbase.ui" line="2137"/>
         <source>Ethertype:</source>
         <translation>EtherType:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2072"/>
+        <location filename="confdialogbase.ui" line="2156"/>
         <source>88BA</source>
         <translation>88BA</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2082"/>
+        <location filename="confdialogbase.ui" line="2166"/>
         <source>APPID:</source>
         <translation>APPID:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2098"/>
+        <location filename="confdialogbase.ui" line="2182"/>
         <source>0000</source>
         <translation>0000</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2124"/>
+        <location filename="confdialogbase.ui" line="2208"/>
         <source>Data set</source>
         <translation>Zbiór danych</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2130"/>
+        <location filename="confdialogbase.ui" line="2214"/>
         <source>First ASDU:</source>
         <translation>Pierwszy ASDU:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2146"/>
-        <location filename="confdialogbase.ui" line="2166"/>
-        <location filename="confdialogbase.ui" line="2189"/>
+        <location filename="confdialogbase.ui" line="2230"/>
+        <location filename="confdialogbase.ui" line="2250"/>
+        <location filename="confdialogbase.ui" line="2273"/>
         <source>1</source>
         <translation>1</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2153"/>
+        <location filename="confdialogbase.ui" line="2237"/>
         <source>Last ASDU:</source>
         <translation>Ostatni ASDU:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2173"/>
+        <location filename="confdialogbase.ui" line="2257"/>
         <source>Set:</source>
         <translation>Zbiór:</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2202"/>
+        <location filename="confdialogbase.ui" line="2286"/>
         <source>Log</source>
         <translation>Log</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2210"/>
+        <location filename="confdialogbase.ui" line="2294"/>
         <source>Logfile</source>
         <translation>LogFile</translation>
     </message>
     <message utf8="true">
-        <location filename="confdialogbase.ui" line="2216"/>
+        <location filename="confdialogbase.ui" line="2300"/>
         <source>Grösse</source>
         <translation>Rozmiar</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2241"/>
+        <location filename="confdialogbase.ui" line="2325"/>
         <source>Kb</source>
         <translation>Kb</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2310"/>
+        <location filename="confdialogbase.ui" line="2394"/>
         <source>&amp;OK</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2326"/>
+        <location filename="confdialogbase.ui" line="2410"/>
         <source>&amp;Abbruch</source>
         <translation>&amp;Anuluj</translation>
     </message>
     <message>
-        <location filename="confdialogbase.ui" line="2329"/>
+        <location filename="confdialogbase.ui" line="2413"/>
         <source>Alt+A</source>
         <translation>Alt+A</translation>
     </message>
     <message utf8="true">
-        <location filename="confdialogbase.cpp" line="201"/>
+        <location filename="confdialogbase.cpp" line="207"/>
         <source>Bitte überprüfen! 
 Erlaubt mV,V,kV
  oder mA,A,kA</source>
@@ -579,17 +609,17 @@ lub mA,A,kA</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="128"/>
+        <location filename="main.cpp" line="152"/>
         <source>WM1000I SCPI Kommunikation</source>
         <translation>Komunikacja SCPI WM1000I</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="130"/>
+        <location filename="main.cpp" line="154"/>
         <source>WM3000I SCPI Kommunikation</source>
         <translation>Komunikacja SCPI WM3000I</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="151"/>
+        <location filename="main.cpp" line="175"/>
         <source>WM3000U Bedienungsanleitung</source>
         <translation>Instrukcja obsługi WM3000U</translation>
     </message>
@@ -740,12 +770,17 @@ lub mA,A,kA</translation>
         <translation>Kąt</translation>
     </message>
     <message>
-        <location filename="wmmeasconfigbase.ui" line="351"/>
+        <location filename="wmmeasconfigbase.ui" line="331"/>
+        <source>RCF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wmmeasconfigbase.ui" line="402"/>
         <source>&amp;OK</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="wmmeasconfigbase.ui" line="367"/>
+        <location filename="wmmeasconfigbase.ui" line="418"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Anuluj</translation>
     </message>
@@ -758,46 +793,52 @@ lub mA,A,kA</translation>
         <translation>Pomiar błędu</translation>
     </message>
     <message>
-        <location filename="wmmeasvaluesbase.ui" line="46"/>
+        <location filename="wmmeasvaluesbase.ui" line="49"/>
         <source>LP(X):</source>
         <translation>Pkt.(X):</translation>
     </message>
     <message>
-        <location filename="wmmeasvaluesbase.ui" line="80"/>
+        <location filename="wmmeasvaluesbase.ui" line="83"/>
         <source>LP(N):</source>
         <translation>Pkt.(N):</translation>
     </message>
     <message>
-        <location filename="wmmeasvaluesbase.ui" line="105"/>
+        <location filename="wmmeasvaluesbase.ui" line="108"/>
         <source>F:</source>
         <translation>E:</translation>
     </message>
     <message>
-        <location filename="wmmeasvaluesbase.ui" line="130"/>
+        <location filename="wmmeasvaluesbase.ui" line="133"/>
+        <source>RCF:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wmmeasvaluesbase.ui" line="158"/>
         <source>phi:</source>
         <translation>phi:</translation>
     </message>
     <message>
-        <location filename="wmmeasvaluesbase.ui" line="147"/>
-        <location filename="wmmeasvaluesbase.ui" line="172"/>
+        <location filename="wmmeasvaluesbase.ui" line="175"/>
+        <location filename="wmmeasvaluesbase.ui" line="200"/>
         <source>---.---</source>
         <translation>---.---</translation>
     </message>
     <message>
-        <location filename="wmmeasvaluesbase.ui" line="197"/>
-        <location filename="wmmeasvaluesbase.ui" line="222"/>
+        <location filename="wmmeasvaluesbase.ui" line="225"/>
+        <location filename="wmmeasvaluesbase.ui" line="250"/>
+        <location filename="wmmeasvaluesbase.ui" line="275"/>
         <source>-.-</source>
         <translation>-.-</translation>
     </message>
     <message>
-        <location filename="wmmeasvaluesbase.ui" line="239"/>
-        <location filename="wmmeasvaluesbase.ui" line="264"/>
-        <location filename="wmmeasvaluesbase.ui" line="289"/>
+        <location filename="wmmeasvaluesbase.ui" line="292"/>
+        <location filename="wmmeasvaluesbase.ui" line="317"/>
+        <location filename="wmmeasvaluesbase.ui" line="342"/>
         <source>%</source>
         <translation>%</translation>
     </message>
     <message utf8="true">
-        <location filename="wmmeasvaluesbase.ui" line="305"/>
+        <location filename="wmmeasvaluesbase.ui" line="383"/>
         <source>°</source>
         <translation>°</translation>
     </message>
@@ -848,6 +889,30 @@ lub mA,A,kA</translation>
         <location filename="wmoeviewbase.ui" line="281"/>
         <source>--------</source>
         <translation>--------</translation>
+    </message>
+</context>
+<context>
+    <name>WMOffsetValBase</name>
+    <message>
+        <location filename="wmoffsetvalbase.ui" line="29"/>
+        <source>Offset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wmoffsetvalbase.ui" line="38"/>
+        <location filename="wmoffsetvalbase.ui" line="77"/>
+        <source>---------</source>
+        <translation type="unfinished">---------</translation>
+    </message>
+    <message>
+        <location filename="wmoffsetvalbase.ui" line="51"/>
+        <source>In:</source>
+        <translation type="unfinished">In:</translation>
+    </message>
+    <message>
+        <location filename="wmoffsetvalbase.ui" line="64"/>
+        <source>Ix:</source>
+        <translation type="unfinished">Ix:</translation>
     </message>
 </context>
 <context>
@@ -916,53 +981,55 @@ lub mA,A,kA</translation>
 <context>
     <name>WMRawActualValBase</name>
     <message>
-        <location filename="wmrawactualvalbase.ui" line="29"/>
+        <location filename="wmrawactualvalbase.ui" line="35"/>
         <source>Vektoren</source>
         <translation>Wektory</translation>
     </message>
     <message>
-        <location filename="wmrawactualvalbase.ui" line="60"/>
-        <location filename="wmrawactualvalbase.ui" line="112"/>
-        <location filename="wmrawactualvalbase.ui" line="122"/>
-        <location filename="wmrawactualvalbase.ui" line="135"/>
-        <location filename="wmrawactualvalbase.ui" line="212"/>
+        <location filename="wmrawactualvalbase.ui" line="69"/>
+        <location filename="wmrawactualvalbase.ui" line="121"/>
+        <location filename="wmrawactualvalbase.ui" line="131"/>
+        <location filename="wmrawactualvalbase.ui" line="144"/>
+        <location filename="wmrawactualvalbase.ui" line="221"/>
         <source>---------</source>
         <translation>---------</translation>
     </message>
     <message>
-        <location filename="wmrawactualvalbase.ui" line="89"/>
+        <location filename="wmrawactualvalbase.ui" line="98"/>
         <source>--------</source>
         <translation>--------</translation>
     </message>
     <message>
-        <location filename="wmrawactualvalbase.ui" line="102"/>
+        <location filename="wmrawactualvalbase.ui" line="111"/>
         <source>--------- </source>
         <translation>---------</translation>
     </message>
     <message>
-        <location filename="wmrawactualvalbase.ui" line="151"/>
+        <location filename="wmrawactualvalbase.ui" line="160"/>
         <source>Ix:</source>
         <translation>Ix:</translation>
     </message>
     <message>
-        <location filename="wmrawactualvalbase.ui" line="167"/>
+        <location filename="wmrawactualvalbase.ui" line="176"/>
         <source>F:</source>
         <translation>F:</translation>
     </message>
     <message>
-        <location filename="wmrawactualvalbase.ui" line="183"/>
+        <location filename="wmrawactualvalbase.ui" line="192"/>
         <source>In:</source>
         <translation>In:</translation>
     </message>
     <message>
-        <location filename="wmrawactualvalbase.ui" line="196"/>
+        <location filename="wmrawactualvalbase.ui" line="205"/>
         <source>dIx:</source>
         <translation>dIx:</translation>
     </message>
     <message utf8="true">
-        <location filename="wmrawactualvalbase.cpp" line="109"/>
-        <location filename="wmrawactualvalbase.cpp" line="132"/>
-        <location filename="wmrawactualvalbase.cpp" line="148"/>
+        <location filename="wmrawactualvalbase.cpp" line="29"/>
+        <location filename="wmrawactualvalbase.cpp" line="31"/>
+        <location filename="wmrawactualvalbase.cpp" line="119"/>
+        <location filename="wmrawactualvalbase.cpp" line="150"/>
+        <location filename="wmrawactualvalbase.cpp" line="174"/>
         <source>°</source>
         <translation>°</translation>
     </message>
@@ -981,16 +1048,16 @@ lub mA,A,kA</translation>
     </message>
     <message>
         <location filename="wmviewbase.ui" line="65"/>
-        <location filename="wmviewbase.ui" line="160"/>
-        <location filename="wmviewbase.ui" line="163"/>
-        <location filename="wmviewbase.ui" line="166"/>
+        <location filename="wmviewbase.ui" line="169"/>
+        <location filename="wmviewbase.ui" line="172"/>
+        <location filename="wmviewbase.ui" line="175"/>
         <source>&amp;Eigenfehlertabelle</source>
         <translation>&amp;Tabela błędów wzorca</translation>
     </message>
     <message>
         <location filename="wmviewbase.ui" line="73"/>
-        <location filename="wmviewbase.ui" line="391"/>
-        <location filename="wmviewbase.ui" line="394"/>
+        <location filename="wmviewbase.ui" line="400"/>
+        <location filename="wmviewbase.ui" line="403"/>
         <source>E&amp;rgebnisdatei</source>
         <translation>P&amp;lik wyników</translation>
     </message>
@@ -1000,601 +1067,627 @@ lub mA,A,kA</translation>
         <translation>&amp;Pomiar</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="100"/>
+        <location filename="wmviewbase.ui" line="104"/>
         <source>&amp;Ansicht</source>
         <translation>&amp;Widok</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="110"/>
+        <location filename="wmviewbase.ui" line="115"/>
         <source>&amp;Einstellungen</source>
         <translation>&amp;Ustawienia</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="117"/>
+        <location filename="wmviewbase.ui" line="122"/>
         <source>&amp;Hilfe</source>
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="130"/>
+        <location filename="wmviewbase.ui" line="135"/>
         <source>&amp;Sprache</source>
         <translation>&amp;Język</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="138"/>
+        <location filename="wmviewbase.ui" line="143"/>
         <source>&amp;Justage</source>
         <translation>&amp;Adiustacja</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="169"/>
+        <location filename="wmviewbase.ui" line="178"/>
         <source>Menu Eigenfehlertabelle</source>
         <translation>Menu - Tabela błędów wzorca</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="177"/>
-        <location filename="wmviewbase.ui" line="180"/>
+        <location filename="wmviewbase.ui" line="186"/>
+        <location filename="wmviewbase.ui" line="189"/>
         <source>&amp;Beenden</source>
         <translation>&amp;Wyjście</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="183"/>
+        <location filename="wmviewbase.ui" line="192"/>
         <source>Beendet das laufende Programm</source>
         <translation>Zakończ aktualny program</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="186"/>
+        <location filename="wmviewbase.ui" line="195"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="194"/>
-        <location filename="wmviewbase.ui" line="197"/>
-        <location filename="wmviewbase.ui" line="534"/>
+        <location filename="wmviewbase.ui" line="203"/>
+        <location filename="wmviewbase.ui" line="206"/>
+        <location filename="wmviewbase.ui" line="543"/>
         <source>&amp;Bereich</source>
         <translation>&amp;Zakres</translation>
     </message>
     <message utf8="true">
-        <location filename="wmviewbase.ui" line="200"/>
+        <location filename="wmviewbase.ui" line="209"/>
         <source>Bereiche auswählen</source>
         <translation>Wybór zakresów</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="203"/>
+        <location filename="wmviewbase.ui" line="212"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="211"/>
-        <location filename="wmviewbase.ui" line="214"/>
+        <location filename="wmviewbase.ui" line="220"/>
+        <location filename="wmviewbase.ui" line="223"/>
         <source>&amp;Speichern Sitzung</source>
         <translation>&amp;Zapisz sesję</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="217"/>
+        <location filename="wmviewbase.ui" line="226"/>
         <source>Speichert alle aktuellen Einstellungen in einer Datei</source>
         <translation>Zapisuje wszystkie bieżące ustawienia do pliku</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="225"/>
-        <location filename="wmviewbase.ui" line="228"/>
+        <location filename="wmviewbase.ui" line="234"/>
+        <location filename="wmviewbase.ui" line="237"/>
         <source>&amp;Laden Sitzung</source>
         <translation>&amp;Załaduj sesję</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="231"/>
+        <location filename="wmviewbase.ui" line="240"/>
         <source>Liesst alle Einstellungen aus einer Datei</source>
         <translation>Odczyt wszystkich ustawień z pliku</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="239"/>
-        <location filename="wmviewbase.ui" line="242"/>
+        <location filename="wmviewbase.ui" line="248"/>
+        <location filename="wmviewbase.ui" line="251"/>
         <source>&amp;Start</source>
         <translation>&amp;Start</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="245"/>
-        <location filename="wmviewbase.cpp" line="124"/>
+        <location filename="wmviewbase.ui" line="254"/>
+        <location filename="wmviewbase.cpp" line="145"/>
         <source>Messung starten</source>
         <translation>Uruchomienie pomiaru</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="248"/>
+        <location filename="wmviewbase.ui" line="257"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="259"/>
+        <location filename="wmviewbase.ui" line="268"/>
         <source>S&amp;imulation</source>
         <translation>S&amp;ymulacja</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="262"/>
+        <location filename="wmviewbase.ui" line="271"/>
         <source>Si&amp;mulation</source>
         <translation>Sy&amp;mulacja</translation>
     </message>
     <message utf8="true">
-        <location filename="wmviewbase.ui" line="265"/>
+        <location filename="wmviewbase.ui" line="274"/>
         <source>Simulierte Messung durchführen</source>
         <translation>Uruchomienie pomiarów symulowanych</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="276"/>
+        <location filename="wmviewbase.ui" line="285"/>
         <source>&amp;Fehlerwerte</source>
         <translation>&amp;Wartości błędu</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="279"/>
+        <location filename="wmviewbase.ui" line="288"/>
         <source>&amp;FehlerMessung</source>
         <translation>&amp;Pomiar błędu</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="282"/>
+        <location filename="wmviewbase.ui" line="291"/>
         <source>Fehlermesswerte Fenster</source>
         <translation>Okno pomiaru błędu</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="293"/>
-        <location filename="wmviewbase.ui" line="296"/>
+        <location filename="wmviewbase.ui" line="302"/>
+        <location filename="wmviewbase.ui" line="305"/>
         <source>&amp;Eigenfehler</source>
         <translation>&amp;Błąd przekładnika wzorcowego</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="299"/>
+        <location filename="wmviewbase.ui" line="308"/>
         <source>Eigenfehler Fenster</source>
         <translation>Okno błędu przekładnika wzorcowego</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="310"/>
-        <location filename="wmviewbase.ui" line="313"/>
+        <location filename="wmviewbase.ui" line="319"/>
+        <location filename="wmviewbase.ui" line="322"/>
         <source>&amp;Dialog</source>
         <translation>&amp;Dialog</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="316"/>
+        <location filename="wmviewbase.ui" line="325"/>
         <source>Dialog Fenster</source>
         <translation>Okno dialogowe</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="324"/>
-        <location filename="wmviewbase.ui" line="327"/>
+        <location filename="wmviewbase.ui" line="333"/>
+        <location filename="wmviewbase.ui" line="336"/>
         <source>&amp;Konfiguration</source>
         <translation>&amp;Konfiguracja</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="330"/>
+        <location filename="wmviewbase.ui" line="339"/>
         <source>Messeinrichtung konfigurieren</source>
         <translation>Konfigurowanie urządzenia</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="338"/>
-        <location filename="wmviewbase.ui" line="341"/>
+        <location filename="wmviewbase.ui" line="347"/>
+        <location filename="wmviewbase.ui" line="350"/>
         <source>&amp;Info</source>
         <translation>&amp;Info</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="344"/>
+        <location filename="wmviewbase.ui" line="353"/>
         <source>Informationen zur Messeinrichtung</source>
         <translation>Informacje o urządzeniu pomiarowym</translation>
     </message>
     <message utf8="true">
-        <location filename="wmviewbase.ui" line="352"/>
+        <location filename="wmviewbase.ui" line="361"/>
         <source>Info über &amp;Zera</source>
         <translation>Info o &amp;Zera</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="355"/>
+        <location filename="wmviewbase.ui" line="364"/>
         <source>Informationen zu Zera</source>
         <translation>Informacje o ZERA</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="358"/>
+        <location filename="wmviewbase.ui" line="367"/>
         <source>Informationen zu ZERA</source>
         <translation>Informacje o ZERA</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="366"/>
-        <location filename="wmviewbase.ui" line="369"/>
+        <location filename="wmviewbase.ui" line="375"/>
+        <location filename="wmviewbase.ui" line="378"/>
         <source>&amp;Manual</source>
         <translation>&amp;Ręcznie</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="372"/>
+        <location filename="wmviewbase.ui" line="381"/>
         <source>Lesen Sie hier die Bedienungsanleitung</source>
         <translation>Przeczytaj instrukcję obsługi online</translation>
     </message>
     <message utf8="true">
-        <location filename="wmviewbase.ui" line="380"/>
+        <location filename="wmviewbase.ui" line="389"/>
         <source>Info über &amp;Qt</source>
         <translation>Info o &amp;Qt</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="383"/>
+        <location filename="wmviewbase.ui" line="392"/>
         <source>Informationen zu Qt</source>
         <translation>Informacje o Qt</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="397"/>
+        <location filename="wmviewbase.ui" line="406"/>
         <source>Schliesst die geladene Eigenfehlertabelle</source>
         <translation>Zamyka tabelę błędów wzorca</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="408"/>
+        <location filename="wmviewbase.ui" line="417"/>
         <source>&amp;Vektoren</source>
         <translation>&amp;Wektory</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="411"/>
+        <location filename="wmviewbase.ui" line="420"/>
         <source>Istwerte</source>
         <translation>Rzeczywiste wartości</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="414"/>
+        <location filename="wmviewbase.ui" line="423"/>
         <source>Istwerte Fenster</source>
         <translation>Okno rzeczywistych wartości</translation>
     </message>
     <message utf8="true">
-        <location filename="wmviewbase.ui" line="422"/>
-        <location filename="wmviewbase.ui" line="425"/>
-        <location filename="wmviewbase.ui" line="506"/>
-        <location filename="wmviewbase.ui" line="509"/>
+        <location filename="wmviewbase.ui" line="431"/>
+        <location filename="wmviewbase.ui" line="434"/>
+        <location filename="wmviewbase.ui" line="515"/>
+        <location filename="wmviewbase.ui" line="518"/>
         <source>&amp;Öffnen</source>
         <translation>&amp;Otwórz</translation>
     </message>
     <message utf8="true">
-        <location filename="wmviewbase.ui" line="428"/>
+        <location filename="wmviewbase.ui" line="437"/>
         <source>Öffnen einer Eigenfehlertabelle</source>
         <translation>Otwórz tabelę błędów wzorca</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="436"/>
-        <location filename="wmviewbase.ui" line="439"/>
-        <location filename="wmviewbase.ui" line="464"/>
-        <location filename="wmviewbase.ui" line="467"/>
+        <location filename="wmviewbase.ui" line="445"/>
+        <location filename="wmviewbase.ui" line="448"/>
+        <location filename="wmviewbase.ui" line="473"/>
+        <location filename="wmviewbase.ui" line="476"/>
         <source>&amp;Schliessen</source>
         <translation>&amp;Zamknij</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="442"/>
+        <location filename="wmviewbase.ui" line="451"/>
         <source>Schliessen der Eigenfehlertabelle</source>
         <translation>Zamknij tabelę błędów wzorca</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="450"/>
-        <location filename="wmviewbase.ui" line="453"/>
-        <location filename="wmviewbase.ui" line="478"/>
-        <location filename="wmviewbase.ui" line="481"/>
+        <location filename="wmviewbase.ui" line="459"/>
+        <location filename="wmviewbase.ui" line="462"/>
+        <location filename="wmviewbase.ui" line="487"/>
+        <location filename="wmviewbase.ui" line="490"/>
         <source>&amp;Bearbeiten</source>
         <translation>&amp;Edytuj</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="456"/>
+        <location filename="wmviewbase.ui" line="465"/>
         <source>Bearbeiten einer Eigenfehlertabelle</source>
         <translation>Edycja tabeli błędów wzorca</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="470"/>
+        <location filename="wmviewbase.ui" line="479"/>
         <source>Schliessen der Ergebnisdatei</source>
         <translation>Zamknij plik wyników</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="484"/>
+        <location filename="wmviewbase.ui" line="493"/>
         <source>Bearbeiten einer Ergebnisdatei</source>
         <translation>Edycja pliku wyników</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="492"/>
+        <location filename="wmviewbase.ui" line="501"/>
         <source>Speichern &amp;Messwerte</source>
         <translation>Zapisz &amp;wyniki</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="495"/>
+        <location filename="wmviewbase.ui" line="504"/>
         <source>Speichern Messwerte</source>
         <translation>Zapisz wyniki</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="498"/>
+        <location filename="wmviewbase.ui" line="507"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message utf8="true">
-        <location filename="wmviewbase.ui" line="512"/>
+        <location filename="wmviewbase.ui" line="521"/>
         <source>Öffnen der Ergebnisdatei</source>
         <translation>Otwórz plik wyników</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="520"/>
-        <location filename="wmviewbase.ui" line="523"/>
+        <location filename="wmviewbase.ui" line="529"/>
+        <location filename="wmviewbase.ui" line="532"/>
         <source>&amp;Neu</source>
         <translation>&amp;Nowy</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="531"/>
+        <location filename="wmviewbase.ui" line="540"/>
         <source>&amp;Bereiche</source>
         <translation>&amp;Zakresy</translation>
     </message>
     <message utf8="true">
-        <location filename="wmviewbase.ui" line="537"/>
+        <location filename="wmviewbase.ui" line="546"/>
         <source>Bereiche anwählen</source>
         <translation>Wybór zakresów</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="540"/>
+        <location filename="wmviewbase.ui" line="549"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="548"/>
+        <location filename="wmviewbase.ui" line="557"/>
         <source>BereichAuto</source>
         <translation>Auto-zakres</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="551"/>
+        <location filename="wmviewbase.ui" line="560"/>
         <source>BAuto</source>
         <translation>Auto</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="559"/>
+        <location filename="wmviewbase.ui" line="568"/>
         <source>&amp;Amplitude</source>
         <translation>&amp;Amplituda</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="562"/>
+        <location filename="wmviewbase.ui" line="571"/>
         <source>Amplitude</source>
         <translation>Amplituda</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="565"/>
+        <location filename="wmviewbase.ui" line="574"/>
         <source>Amplitudenabgleich mit externer Steuerung</source>
         <translation>Adiustacja amplitudy pod kontrolą zewnętrzną</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="573"/>
+        <location filename="wmviewbase.ui" line="582"/>
         <source>&amp;Phase</source>
         <translation>&amp;Faza</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="576"/>
+        <location filename="wmviewbase.ui" line="585"/>
         <source>Phasen</source>
         <translation>Faza</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="579"/>
+        <location filename="wmviewbase.ui" line="588"/>
         <source>Phasenlage Justage automatisch</source>
         <translation>Automatyczna adiustacja kąta fazowego</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="587"/>
+        <location filename="wmviewbase.ui" line="596"/>
         <source>Action</source>
         <translation>Akcja</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="595"/>
+        <location filename="wmviewbase.ui" line="604"/>
         <source>Action_2</source>
         <translation>Akcja_2</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="603"/>
+        <location filename="wmviewbase.ui" line="612"/>
         <source>Action_3</source>
         <translation>Akcja_3</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="611"/>
+        <location filename="wmviewbase.ui" line="620"/>
         <source>Action_4</source>
         <translation>Akcja_4</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="619"/>
+        <location filename="wmviewbase.ui" line="628"/>
         <source>Phasen&amp;berechnung</source>
         <translation>&amp;Obliczenie fazy</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="622"/>
+        <location filename="wmviewbase.ui" line="631"/>
         <source>Phasenberechnung</source>
         <translation>Obliczenie fazy</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="625"/>
+        <location filename="wmviewbase.ui" line="634"/>
         <source>Phasenlage Koeffizientenberechnung</source>
         <translation>Obliczenie współczynników kąta fazowego</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="636"/>
-        <location filename="wmviewbase.ui" line="639"/>
+        <location filename="wmviewbase.ui" line="645"/>
+        <location filename="wmviewbase.ui" line="648"/>
         <source>E&amp;N61850</source>
         <translation>E&amp;N61850</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="642"/>
+        <location filename="wmviewbase.ui" line="651"/>
         <source>EN61850 Statusanzeige</source>
         <translation>EN61850 Wskaźnik statusu</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="654"/>
-        <location filename="wmviewbase.ui" line="657"/>
+        <location filename="wmviewbase.ui" line="663"/>
+        <location filename="wmviewbase.ui" line="666"/>
         <source>Deutsch</source>
         <translation>Niemiecki</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="669"/>
-        <location filename="wmviewbase.ui" line="672"/>
-        <location filename="wmviewbase.ui" line="684"/>
-        <location filename="wmviewbase.ui" line="687"/>
+        <location filename="wmviewbase.ui" line="678"/>
+        <location filename="wmviewbase.ui" line="681"/>
+        <location filename="wmviewbase.ui" line="693"/>
+        <location filename="wmviewbase.ui" line="696"/>
         <source>Englisch</source>
         <translation>Angielski</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="695"/>
+        <location filename="wmviewbase.ui" line="704"/>
         <source>F&amp;lash programmieren</source>
         <translation>Programowanie F&amp;lash</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="698"/>
-        <location filename="wmviewbase.ui" line="709"/>
-        <location filename="wmviewbase.ui" line="720"/>
-        <location filename="wmviewbase.ui" line="753"/>
+        <location filename="wmviewbase.ui" line="707"/>
+        <location filename="wmviewbase.ui" line="718"/>
+        <location filename="wmviewbase.ui" line="729"/>
+        <location filename="wmviewbase.ui" line="762"/>
         <source>new item</source>
         <translation>Nowa pozycja</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="706"/>
+        <location filename="wmviewbase.ui" line="715"/>
         <source>Flash data &amp;export</source>
         <translation>&amp;Export danych flash</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="717"/>
+        <location filename="wmviewbase.ui" line="726"/>
         <source>Flash data &amp;import</source>
         <translation>&amp;Import danych flash</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="728"/>
-        <location filename="wmviewbase.ui" line="731"/>
+        <location filename="wmviewbase.ui" line="737"/>
+        <location filename="wmviewbase.ui" line="740"/>
         <source>&amp;Version</source>
         <translation>&amp;Wersja</translation>
     </message>
     <message utf8="true">
-        <location filename="wmviewbase.ui" line="734"/>
+        <location filename="wmviewbase.ui" line="743"/>
         <source>Übersicht Versionen</source>
         <translation>Przegląd wersji</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="742"/>
+        <location filename="wmviewbase.ui" line="751"/>
         <source>Unnamed</source>
         <translation>Nienazwany</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="750"/>
+        <location filename="wmviewbase.ui" line="759"/>
         <source>&amp;Selbsttest</source>
         <translation>&amp;Autotest</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="756"/>
+        <location filename="wmviewbase.ui" line="765"/>
         <source>Selbsttest starten</source>
         <translation>Start autotestu</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="764"/>
+        <location filename="wmviewbase.ui" line="773"/>
         <source>&amp;Release Info</source>
         <translation>&amp;Info wydania</translation>
     </message>
     <message>
-        <location filename="wmviewbase.ui" line="773"/>
+        <location filename="wmviewbase.ui" line="782"/>
         <source>Polnisch</source>
         <translation>Polski</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="118"/>
+        <location filename="wmviewbase.ui" line="787"/>
+        <source>Offsetabgleich WM3000</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wmviewbase.ui" line="792"/>
+        <source>Offsetmessung Kanal N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wmviewbase.ui" line="797"/>
+        <source>Offsetmessung Kanal X</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wmviewbase.ui" line="802"/>
+        <location filename="wmviewbase.ui" line="815"/>
+        <source>Offset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wmviewbase.ui" line="807"/>
+        <source>Offsetberechnung</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wmviewbase.cpp" line="139"/>
         <source>S&amp;top</source>
         <translation>S&amp;top</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="119"/>
+        <location filename="wmviewbase.cpp" line="140"/>
         <source>Messung anhalten</source>
         <translation>Zatrzymanie pomiaru</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="123"/>
+        <location filename="wmviewbase.cpp" line="144"/>
         <source>S&amp;tart</source>
         <translation>S&amp;tart</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="130"/>
+        <location filename="wmviewbase.cpp" line="151"/>
         <source>Gestartet</source>
         <translation>Uruchomiony</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="130"/>
+        <location filename="wmviewbase.cpp" line="151"/>
         <source>Gestoppt</source>
         <translation>Zatrzymany</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="131"/>
+        <location filename="wmviewbase.cpp" line="152"/>
         <source>Simulation</source>
         <translation>Symulacja</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="131"/>
+        <location filename="wmviewbase.cpp" line="152"/>
         <source>Reale Messung</source>
         <translation>Pomiar rzeczywisty</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="133"/>
+        <location filename="wmviewbase.cpp" line="154"/>
         <source>Justiert</source>
         <translation>Adiustowany</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="133"/>
+        <location filename="wmviewbase.cpp" line="154"/>
         <source>Nicht justiert</source>
         <translation>Nieadiustowany</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="135"/>
+        <location filename="wmviewbase.cpp" line="156"/>
         <source>!!SignalFrequenz!!</source>
         <translation>!!Częstotliwość sygnału!!</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="138"/>
-        <location filename="wmviewbase.cpp" line="142"/>
+        <location filename="wmviewbase.cpp" line="159"/>
+        <location filename="wmviewbase.cpp" line="163"/>
         <source>Keine</source>
         <translation>brak</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="166"/>
+        <location filename="wmviewbase.cpp" line="187"/>
         <source>Eigenfehlertabellen (*.oet)</source>
         <translation>Tabele błędów wzorca (*.oet)</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="167"/>
+        <location filename="wmviewbase.cpp" line="188"/>
         <source>Eigenfehlertabellen</source>
         <translation>Tabele błędów wzorca</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="317"/>
+        <location filename="wmviewbase.cpp" line="338"/>
         <source>Eigenfehlertabelle (*oet)</source>
         <translation>Tabela błędów wzorca (*.oet)</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="320"/>
+        <location filename="wmviewbase.cpp" line="341"/>
         <source>Speichern unter</source>
         <translation>Zapisz jako</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="337"/>
+        <location filename="wmviewbase.cpp" line="358"/>
         <source>Ergebnisdateien (*.xml)</source>
         <translation>Pliki wyników (*.xml)</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="339"/>
+        <location filename="wmviewbase.cpp" line="360"/>
         <source>Ergebnisdateien</source>
         <translation>Pliki wyników</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="486"/>
-        <location filename="wmviewbase.cpp" line="502"/>
+        <location filename="wmviewbase.cpp" line="509"/>
+        <location filename="wmviewbase.cpp" line="525"/>
         <source>Sitzung Name (*.ses)</source>
         <translation>Nazwa sesji (*.ses)</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="489"/>
+        <location filename="wmviewbase.cpp" line="512"/>
         <source>Sitzung speichern</source>
         <translation>Zapisz sesję</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="503"/>
+        <location filename="wmviewbase.cpp" line="526"/>
         <source>Sitzung laden</source>
         <translation>Załaduj sesję</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="605"/>
-        <location filename="wmviewbase.cpp" line="618"/>
+        <location filename="wmviewbase.cpp" line="628"/>
+        <location filename="wmviewbase.cpp" line="641"/>
         <source>Datei Name (*.xml)</source>
         <translation>Nazwa pliku (*.xml)</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="608"/>
+        <location filename="wmviewbase.cpp" line="631"/>
         <source>Justagedaten exportieren</source>
         <translation>Export danych adiustacji</translation>
     </message>
     <message>
-        <location filename="wmviewbase.cpp" line="621"/>
+        <location filename="wmviewbase.cpp" line="644"/>
         <source>Justagedaten importieren</source>
         <translation>Import danych adiustacji</translation>
     </message>
@@ -1662,158 +1755,199 @@ Wiersz : %2
 <context>
     <name>cWM3000I</name>
     <message utf8="true">
-        <location filename="wm3000i.cpp" line="192"/>
+        <location filename="wm3000i.cpp" line="218"/>
         <source>Übersteuerung</source>
         <translation>Przeciążenie</translation>
     </message>
     <message utf8="true">
-        <location filename="wm3000i.cpp" line="192"/>
+        <location filename="wm3000i.cpp" line="218"/>
         <source>Es ist eine Übersteuerung im grössten Bereich
 aufgetreten. Bitte überprüfen Sie die Messgrössen</source>
         <translation>Nastąpiło przeciążenie na najwyższym zakresie.
 Proszę zweryfikuj warunki obciążenia</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="194"/>
+        <location filename="wm3000i.cpp" line="220"/>
         <source>Selbstest</source>
         <translation>Autotest</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="194"/>
+        <location filename="wm3000i.cpp" line="220"/>
         <source>Test beendet
 Details stehen im Logfile</source>
         <translation>Test zakończony, szczegóły w LogFile</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="911"/>
+        <location filename="wm3000i.cpp" line="928"/>
         <source>Achtung !</source>
         <translation>Uwaga !</translation>
     </message>
     <message utf8="true">
-        <location filename="wm3000i.cpp" line="914"/>
+        <location filename="wm3000i.cpp" line="931"/>
         <source>Gerät ist nicht justiert !</source>
         <translation>Urządzenie nieadiustowane !</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="916"/>
+        <location filename="wm3000i.cpp" line="933"/>
         <source>
 Nicht identische Versionsnummer !</source>
         <translation>Nieidentyczny numer wersji !</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="918"/>
+        <location filename="wm3000i.cpp" line="935"/>
         <source>
 Nicht identische Seriennummer !</source>
         <translation>Nieidentyczny numer seryjny !</translation>
     </message>
     <message utf8="true">
-        <location filename="wm3000i.cpp" line="1803"/>
+        <location filename="wm3000i.cpp" line="1923"/>
+        <location filename="wm3000i.cpp" line="1982"/>
         <source>Berechnung läuft ...</source>
         <translation>Obliczanie w toku...</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="1862"/>
+        <location filename="wm3000i.cpp" line="2027"/>
         <source>Koeffizienten 0 setzen ...</source>
         <translation>Resetowanie współczynników...</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="1864"/>
-        <location filename="wm3000i.cpp" line="2624"/>
+        <location filename="wm3000i.cpp" line="2029"/>
+        <location filename="wm3000i.cpp" line="2350"/>
+        <location filename="wm3000i.cpp" line="3265"/>
         <source>Abbruch</source>
         <translation>Przerwij</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="1866"/>
+        <location filename="wm3000i.cpp" line="2031"/>
         <source>Phasenkorrekturkoeffizienten</source>
         <translation>Współczynniki korekty fazy</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="1953"/>
-        <location filename="wm3000i.cpp" line="2305"/>
+        <location filename="wm3000i.cpp" line="2118"/>
+        <location filename="wm3000i.cpp" line="2427"/>
+        <location filename="wm3000i.cpp" line="2901"/>
         <source>Konfiguration setzen ...</source>
         <translation>Ustawianie konfiguracji...</translation>
     </message>
     <message utf8="true">
-        <location filename="wm3000i.cpp" line="2006"/>
+        <location filename="wm3000i.cpp" line="2171"/>
+        <location filename="wm3000i.cpp" line="2472"/>
         <source>Einschwingzeit läuft</source>
         <translation>Czas ustalania się</translation>
     </message>
     <message utf8="true">
-        <location filename="wm3000i.cpp" line="2021"/>
         <source>Messung Kanal N, adc läuft</source>
-        <translation>Pomiar kanał N, ADC uruchomiony</translation>
+        <translation type="obsolete">Pomiar kanał N, ADC uruchomiony</translation>
     </message>
     <message utf8="true">
-        <location filename="wm3000i.cpp" line="2024"/>
+        <location filename="wm3000i.cpp" line="2186"/>
+        <location filename="wm3000i.cpp" line="2192"/>
         <source>Messung Kanal N, %1 läuft</source>
         <translation>Pomiar kanał N, %1 uruchomiony</translation>
     </message>
     <message utf8="true">
-        <location filename="wm3000i.cpp" line="2027"/>
         <source>Messung Kanal X, adc läuft</source>
-        <translation>Pomiar kanał X, ADC uruchomiony</translation>
+        <translation type="obsolete">Pomiar kanał X, ADC uruchomiony</translation>
     </message>
     <message utf8="true">
-        <location filename="wm3000i.cpp" line="2030"/>
+        <location filename="wm3000i.cpp" line="2189"/>
+        <location filename="wm3000i.cpp" line="2196"/>
         <source>Messung Kanal X, %1 läuft</source>
         <translation>Pomiar kanał X, %1 uruchomiony</translation>
     </message>
     <message utf8="true">
-        <location filename="wm3000i.cpp" line="2033"/>
-        <source>Messung Kanal X(ECT), %1 läuft</source>
-        <translation></translation>
-    </message>
-    <message utf8="true">
-        <location filename="wm3000i.cpp" line="2076"/>
+        <location filename="wm3000i.cpp" line="2242"/>
+        <location filename="wm3000i.cpp" line="2523"/>
         <source>Berechnung und Datenübertragung ...</source>
         <translation>Obliczanie i transmisja danych...</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2273"/>
+        <location filename="wm3000i.cpp" line="2348"/>
+        <source>Initialisierung...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wm3000i.cpp" line="2352"/>
+        <source>Offsetkorrekturen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="wm3000i.cpp" line="2489"/>
+        <source>Messung Kanal N %1, X %2 läuft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="wm3000i.cpp" line="2493"/>
+        <source>Messung Kanal N %1 läuft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="wm3000i.cpp" line="2498"/>
+        <source>Messung Kanal X %1 läuft</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wm3000i.cpp" line="2750"/>
+        <location filename="wm3000i.cpp" line="2779"/>
+        <source>Messung...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wm3000i.cpp" line="2751"/>
+        <source>Offsetmessung Kanal N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wm3000i.cpp" line="2780"/>
+        <source>Offsetmessung Kanal X</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="wm3000i.cpp" line="2869"/>
         <source>Selbstest ...</source>
         <translation>Autotest ...</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2276"/>
+        <location filename="wm3000i.cpp" line="2872"/>
         <source>Selbsttest</source>
         <translation>Autotest</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2314"/>
+        <location filename="wm3000i.cpp" line="2910"/>
         <source>Bereiche setzen ...</source>
         <translation>Ustawianie zakresów ...</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2329"/>
-        <location filename="wm3000i.cpp" line="2350"/>
+        <location filename="wm3000i.cpp" line="2924"/>
+        <location filename="wm3000i.cpp" line="2945"/>
         <source>Messung ...</source>
         <translation>Pomiar ...</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2339"/>
+        <location filename="wm3000i.cpp" line="2934"/>
         <source>Modus setzen ...</source>
         <translation>Ustawianie trybu ...</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2466"/>
+        <location filename="wm3000i.cpp" line="3061"/>
         <source>Keine Verbindung zu %1:%2
 </source>
         <translation>Brak połączenia z %1:%2</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2468"/>
+        <location filename="wm3000i.cpp" line="3063"/>
         <source>Host nicht gefunden.
 </source>
         <translation>Host nie znaleziony.</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2470"/>
+        <location filename="wm3000i.cpp" line="3065"/>
         <source>Host gefunden. Keine Verbindung zu Server.
 </source>
         <translation>Host znaleziony. Brak połączenia z serwerem.</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2472"/>
+        <location filename="wm3000i.cpp" line="3067"/>
         <source>Das Programm kann ohne Server nur
 im Simulations Modus betrieben werden.
 </source>
@@ -1821,39 +1955,39 @@ im Simulations Modus betrieben werden.
 jedynie w trybie symulacji.</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2475"/>
-        <location filename="wm3000i.cpp" line="2483"/>
-        <location filename="wm3000i.cpp" line="2494"/>
-        <location filename="wm3000i.cpp" line="2504"/>
+        <location filename="wm3000i.cpp" line="3070"/>
+        <location filename="wm3000i.cpp" line="3078"/>
+        <location filename="wm3000i.cpp" line="3089"/>
+        <location filename="wm3000i.cpp" line="3099"/>
         <source>TCP-Verbindung</source>
         <translation>Połączenie TCP</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2476"/>
-        <location filename="wm3000i.cpp" line="2487"/>
-        <location filename="wm3000i.cpp" line="2498"/>
-        <location filename="wm3000i.cpp" line="2508"/>
+        <location filename="wm3000i.cpp" line="3071"/>
+        <location filename="wm3000i.cpp" line="3082"/>
+        <location filename="wm3000i.cpp" line="3093"/>
+        <location filename="wm3000i.cpp" line="3103"/>
         <source>Programm&amp;Abbruch</source>
         <translation>&amp;Przerwij program</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2477"/>
-        <location filename="wm3000i.cpp" line="2488"/>
-        <location filename="wm3000i.cpp" line="2499"/>
-        <location filename="wm3000i.cpp" line="2509"/>
+        <location filename="wm3000i.cpp" line="3072"/>
+        <location filename="wm3000i.cpp" line="3083"/>
+        <location filename="wm3000i.cpp" line="3094"/>
+        <location filename="wm3000i.cpp" line="3104"/>
         <source>&amp;Wiederholen</source>
         <translation>&amp;Powtórzenie</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2478"/>
-        <location filename="wm3000i.cpp" line="2489"/>
-        <location filename="wm3000i.cpp" line="2500"/>
-        <location filename="wm3000i.cpp" line="2510"/>
+        <location filename="wm3000i.cpp" line="3073"/>
+        <location filename="wm3000i.cpp" line="3084"/>
+        <location filename="wm3000i.cpp" line="3095"/>
+        <location filename="wm3000i.cpp" line="3105"/>
         <source>&amp;Simulation</source>
         <translation>&amp;Symulacja</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2484"/>
+        <location filename="wm3000i.cpp" line="3079"/>
         <source>Fehler beim Schreiben von Daten
 fÃ¼r %1:%2 .
 Details stehen in LogFile.</source>
@@ -1868,7 +2002,7 @@ dla %1:%2 .
 Szczegóły w LogFile.</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2495"/>
+        <location filename="wm3000i.cpp" line="3090"/>
         <source>Unerwartete Antwort beim Lesen
 von %1:%2 erhalten.
 Details stehen in LogFile.</source>
@@ -1877,7 +2011,7 @@ podczas odczytu z %1:%2.
 Szczegóły w LogFile.</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2505"/>
+        <location filename="wm3000i.cpp" line="3100"/>
         <source>Device ist busy
 ( %1:%2 ).
 Details stehen in LogFile.</source>
@@ -1886,22 +2020,22 @@ Details stehen in LogFile.</source>
 Szczegóły w LogFile.</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2538"/>
+        <location filename="wm3000i.cpp" line="3133"/>
         <source>Wandlermesseinrichtung WM1000I</source>
         <translation>Urządzenie pomiarowe przekładników WM1000I</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2540"/>
+        <location filename="wm3000i.cpp" line="3135"/>
         <source>Wandlermesseinrichtung WM3000I</source>
         <translation>Urządzenie pomiarowe przekładników WM3000I</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2578"/>
+        <location filename="wm3000i.cpp" line="3185"/>
         <source>Amplituden Justage</source>
         <translation>Adiustacja amplitudy</translation>
     </message>
     <message>
-        <location filename="wm3000i.cpp" line="2578"/>
+        <location filename="wm3000i.cpp" line="3185"/>
         <source>Noch nicht implementiert</source>
         <translation>Nie wprowadzono jeszcze</translation>
     </message>
