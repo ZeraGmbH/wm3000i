@@ -96,8 +96,11 @@
 //                  mit gesetzt werden. *tst? antwortet jetzt richtig mit +0 oder +1. *opc? snchronisiert jetzt
 //                  auf fertig werden der konfiguration
 // v2.29 09.12.2019 bugfix : rücksetzen noOperationCompleteFlag wenn conf. ready
+// v2.30 19.11.2019 tausend und eine änderung für dc betrieb
+// v2.31 23.09.2020 einfach hochgezählt nach gefühlt jahrzehnten bis zum merge für dc betrieb
+// v2.32 16.11.2020 phasenjustage adc's wieder eingebaut und status gain, phase, offset vereinzelt.
 
-#define WMVersion "V2.29"
+#define WMVersion "V2.32"
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
