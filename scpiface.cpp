@@ -483,18 +483,9 @@ char* cSCPIFace::GetDeviceSTB()
 }
 
 
-int cSCPIFace::getOPCQState()
-{
-    return m_nOPCQState;
-}
-
-
->>>>>>> versuch opc? auf konfiguration zu synchronisieren
-=======
->>>>>>> some bugfixes on the way to synchronize *opc? queries to running configuration tasks
 void cSCPIFace::setOPCQState(opcStates state)
 {
-    if ((m_nOPCQState) == OQAS && (state == OQIS))
+    if ((m_nOPCQState == OQAS) && (state == OQIS))
     // d.h. es war eine *opc? abfrage während wir dabei waren zu konfigurieren, was jetzt abgeschlossen ist
     {
         QString s;
