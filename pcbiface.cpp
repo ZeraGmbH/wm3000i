@@ -56,9 +56,14 @@ void cPCBIFace::ActionHandler(int entryAHS)
     case JustFlashImportFinished:
     case JustFlashGetChksumFinished:
     case setPhaseNodeInfoFinished:
+    case setPhaseStatusFinished:
     case cmpPhaseCoefficientFinished:
+    case setOffsetNodeInfoFinished:
+    case setOffsetStatusFinished:
+    case cmpOffsetCoefficientFinished:
     case SetTModeFinished:
     case SetDiffAbsModeFinished:
+    case ReadOffsetCorrectionFinished:
     case ReadPhaseCorrectionFinished:	
     case ReadGainCorrectionFinished:
     case SetSyncTimingFinished:	
@@ -92,7 +97,7 @@ void cPCBIFace::ActionHandler(int entryAHS)
     case ReadRangeStart:
 	SendReadRangeCommand();
 	AHS++;
-	break;
+    break; // ReadRangeStart
 	
     case SwitchRangeStart:
 	SendSwitchRangeCommand();
@@ -139,16 +144,41 @@ void cPCBIFace::ActionHandler(int entryAHS)
 	AHS++;
 	break; // ReadPhaseCorrectionStart
 	
+    case ReadOffsetCorrectionStart:
+    SendReadOffsetCorrectionCommand();
+    AHS++;
+    break; // ReadOffsetCorrectionStart
+
     case setPhaseNodeInfoStart:
 	SendsetPhaseNInfoCommand();
 	AHS++;
-	break; // setPhaseNodeInfoStart
-	
+	break; // setPhaseNodeInfoStart	
+
+    case setPhaseStatusStart:
+    SendsetPhaseStatusCommand();
+    AHS++;
+    break; // setPhaseStatusStart
+
     case cmpPhaseCoefficientStart:
 	SendcmpPhaseCoefficientCommand();
 	AHS++;
-	break; // setPhaseNodeInfoStart
+    break; // cmpPhaseCoefficientStart
 	
+    case setOffsetNodeInfoStart:
+    SendsetOffsetNInfoCommand();
+    AHS++;
+    break; // setOffsetNodeInfoStart
+
+    case setOffsetStatusStart:
+    SendsetOffsetStatusCommand();
+    AHS++;
+    break; // setOffsetStatusStart
+
+    case cmpOffsetCoefficientStart:
+    SendcmpOffsetCoefficientCommand();
+    AHS++;
+    break; // cmpOffsetCoefficientStart
+
     case JustFlashProgStart:
 	SendJustFlashProgCommand();
 	AHS++;
@@ -309,6 +339,15 @@ void cPCBIFace::readPhaseCorrection(int ch, QString sRange, float actVal)
 }
 
 
+void cPCBIFace::readOffsetCorrection(int ch, QString sRange, float actVal)
+{
+    m_nP1 = ch;
+    m_sP1 = sRange;
+    m_fP1 = actVal;
+    m_ActTimer->start(0,ReadOffsetCorrectionStart);
+}
+
+
 void cPCBIFace::setPhaseNodeInfo(QString chn, QString rng, int index, float node, float arg)
 {
     m_sP1 = chn;
@@ -320,10 +359,44 @@ void cPCBIFace::setPhaseNodeInfo(QString chn, QString rng, int index, float node
 }
 
 
+void cPCBIFace::setPhaseStatus(QString chn, QString rng, int stat)
+{
+    m_sP1 = chn;
+    m_sP2 = rng;
+    m_nP1 = stat;
+    m_ActTimer->start(0,setPhaseStatusStart);
+}
+
+
+void cPCBIFace::setOffsetNodeInfo(QString chn, QString rng, int index, float node, float arg)
+{
+    m_sP1 = chn;
+    m_sP2 = rng;
+    m_nP1 = index;
+    m_fP1 = node;
+    m_fP2 = arg;
+    m_ActTimer->start(0,setOffsetNodeInfoStart);
+}
+
+
+void cPCBIFace::setOffsetStatus(QString chn, QString rng, int stat)
+{
+    m_sP1 = chn;
+    m_sP2 = rng;
+    m_nP1 = stat;
+    m_ActTimer->start(0,setOffsetStatusStart);
+}
+
 void cPCBIFace::cmpPhaseCoefficient(QString chn)
 {
     m_sP1 = chn;
     m_ActTimer->start(0,cmpPhaseCoefficientStart);
+}
+
+void cPCBIFace::cmpOffsetCoefficient(QString chn)
+{
+    m_sP1 = chn;
+    m_ActTimer->start(0,cmpOffsetCoefficientStart);
 }
 
 void cPCBIFace::JustFlashProgram()
@@ -466,9 +539,36 @@ void cPCBIFace::SendReadPhaseCorrectionCommand()
     iFaceSock->SendQuery(cmds);
 }
 
+
+void cPCBIFace::SendReadOffsetCorrectionCommand()
+{
+    QString cmds = QString("calc:ch%1:%2:coff %3?\n").arg(m_nP1).arg(m_sP1).arg(m_fP1);
+    iFaceSock->SendQuery(cmds);
+}
+
+
 void cPCBIFace::SendsetPhaseNInfoCommand()
 {
     QString cmds = QString("calc:%1:%2:pcn%3 %4,%5\n").arg(m_sP1).arg(m_sP2).arg(m_nP1).arg(m_fP1).arg(m_fP2);
+    iFaceSock->SendCommand(cmds);
+}
+
+
+void cPCBIFace::SendsetPhaseStatusCommand()
+{
+    QString cmds = QString("calc:%1:%2:pst %3\n").arg(m_sP1).arg(m_sP2).arg(m_nP1);
+    iFaceSock->SendCommand(cmds);
+}
+
+void cPCBIFace::SendsetOffsetNInfoCommand()
+{
+    QString cmds = QString("calc:%1:%2:ocn%3 %4,%5\n").arg(m_sP1).arg(m_sP2).arg(m_nP1).arg(m_fP1).arg(m_fP2);
+    iFaceSock->SendCommand(cmds);
+}
+
+void cPCBIFace::SendsetOffsetStatusCommand()
+{
+    QString cmds = QString("calc:%1:%2:ost %3\n").arg(m_sP1).arg(m_sP2).arg(m_nP1);
     iFaceSock->SendCommand(cmds);
 }
 
@@ -477,6 +577,12 @@ void cPCBIFace::SendcmpPhaseCoefficientCommand()
     QString cmds = QString("calc:%1:comp:cph\n").arg(m_sP1);
     iFaceSock->SendCommand(cmds);
 }   
+
+void cPCBIFace::SendcmpOffsetCoefficientCommand()
+{
+    QString cmds = QString("calc:%1:comp:coff\n").arg(m_sP1);
+    iFaceSock->SendCommand(cmds);
+}
 
 void cPCBIFace::SendJustFlashProgCommand()
 {

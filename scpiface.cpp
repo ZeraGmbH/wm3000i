@@ -299,9 +299,7 @@ char* cSCPIFace::OPCQuery()
         m_bnoOperationPendingFlag = true;
         setOPCQState(OQAS); // ansonsten merken wir uns daß eine *opc? anfrage war
     }
-
     return out;
-
 }
 
 
@@ -487,7 +485,7 @@ char* cSCPIFace::GetDeviceSTB()
 
 void cSCPIFace::setOPCQState(opcStates state)
 {
-    if ((m_nOPCQState) == OQAS && (state == OQIS))
+    if ((m_nOPCQState == OQAS) && (state == OQIS))
     // d.h. es war eine *opc? abfrage während wir dabei waren zu konfigurieren, was jetzt abgeschlossen ist
     {
         QString s;

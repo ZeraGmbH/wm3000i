@@ -48,11 +48,11 @@ HEADERS	+= bigletter.h \
     wmmeasconfigbase.h \
     wmrawactualconfigbase.h \
     csessionhelper.h \
-    releaseinfo.h
+    releaseinfo.h \
+    wmoffsetvalbase.h
 
-SOURCES	+= BigLetter.cpp \
+SOURCES	+= \
 	Logfile.cpp \
-	Range.cpp \
 	cmdinterpret.cpp \
 	complex.cpp \
 	confdata.cpp \
@@ -88,7 +88,10 @@ SOURCES	+= BigLetter.cpp \
     wmmeasconfigbase.cpp \
     wmrawactualconfigbase.cpp \
     csessionhelper.cpp \
-    releaseinfo.cpp
+    releaseinfo.cpp \
+    bigletter.cpp \
+    range.cpp \
+    wmoffsetvalbase.cpp
 
 
 FORMS	= confdialogbase.ui \
@@ -100,6 +103,7 @@ FORMS	= confdialogbase.ui \
 	wmoeviewbase.ui \
 	wmrawactualconfigbase.ui \
 	wmrawactualvalbase.ui \
+        wmoffsetvalbase.ui \
 	wmviewbase.ui
 
 

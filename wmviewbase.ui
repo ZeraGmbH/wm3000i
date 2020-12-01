@@ -93,6 +93,10 @@
     <addaction name="messungStartAction"/>
     <addaction name="messungSpeichernMesswerteAction"/>
     <addaction name="separator"/>
+    <addaction name="messungOffsetabgleichWM3000Action"/>
+    <addaction name="messungOffsetKanalNAction"/>
+    <addaction name="messungOffsetKanalXAction"/>
+    <addaction name="separator"/>
     <addaction name="messungSimulationAction"/>
    </widget>
    <widget class="QMenu" name="Ansicht">
@@ -101,6 +105,7 @@
     </property>
     <addaction name="ansichtFehlerMessungAction"/>
     <addaction name="ansichtIstwerteAction"/>
+    <addaction name="ansichtOffsetAction"/>
     <addaction name="ansichtEigenfehlerAction"/>
     <addaction name="ansichtDialogAction"/>
     <addaction name="ansichtEN61850Action"/>
@@ -140,6 +145,10 @@
     <addaction name="JustageAmplitudeAction"/>
     <addaction name="JustagePhaseAction"/>
     <addaction name="JustageKoeffBerechnungAction"/>
+    <addaction name="separator"/>
+    <addaction name="JustageOffsetAction"/>
+    <addaction name="JustageOffsetberechnungAction"/>
+    <addaction name="separator"/>
     <addaction name="justageFlashProgAction"/>
     <addaction name="justageFlasExportAction"/>
     <addaction name="justageFlashImportAction"/>
@@ -771,6 +780,39 @@
    </property>
    <property name="text">
     <string>Polnisch</string>
+   </property>
+  </action>
+  <action name="messungOffsetabgleichWM3000Action">
+   <property name="text">
+    <string>Offsetabgleich WM3000</string>
+   </property>
+  </action>
+  <action name="messungOffsetKanalNAction">
+   <property name="text">
+    <string>Offsetmessung Kanal N</string>
+   </property>
+  </action>
+  <action name="messungOffsetKanalXAction">
+   <property name="text">
+    <string>Offsetmessung Kanal X</string>
+   </property>
+  </action>
+  <action name="JustageOffsetAction">
+   <property name="text">
+    <string>Offset</string>
+   </property>
+  </action>
+  <action name="JustageOffsetberechnungAction">
+   <property name="text">
+    <string>Offsetberechnung</string>
+   </property>
+  </action>
+  <action name="ansichtOffsetAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Offset</string>
    </property>
   </action>
  </widget>

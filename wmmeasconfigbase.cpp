@@ -56,7 +56,7 @@ void WMMeasConfigBase::init()
 }
 
 
-void WMMeasConfigBase::ReceiveFormatInfoSlot(int m, int m2, int n, cFormatInfo* fi )
+void WMMeasConfigBase::ReceiveFormatInfoSlot(bool dc, int m, int m2, int n, cFormatInfo* fi )
 {
     int i;
     for(i = 0; i < n; i++, fi++)
@@ -64,6 +64,7 @@ void WMMeasConfigBase::ReceiveFormatInfoSlot(int m, int m2, int n, cFormatInfo* 
 
     m_nDisplayMode = m;
     m_nLPDisplayMode = m2;
+    dcMode = dc;
 
     ui->LPspinBoxFW->setValue(m_Format[0].FieldWidth);
     ui->LPspinBoxRS->setValue(m_Format[0].Resolution);
@@ -116,6 +117,18 @@ void WMMeasConfigBase::Actualize()
 
     ui->TotalRMSradioButton->setChecked(isTotalRMS);
     ui->H1radioButton->setChecked(!isTotalRMS);
+
+    if (dcMode)
+    {
+        ui->ANSIradioButton->setEnabled(false);
+        ui->H1radioButton->setEnabled(false);
+        ui->WgroupBox->setEnabled(false);
+    }
+    else
+    {
+        ui->ANSIradioButton->setEnabled(true);
+        ui->H1radioButton->setEnabled(true);
+    }
 }
 
 

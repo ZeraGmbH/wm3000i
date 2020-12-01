@@ -16,6 +16,7 @@
 
 #include "wmglobal.h"
 #include "widgeom.h"
+#include "confdata.h"
 #include "wmrawactualconfigbase.h"
 #include "tools.h"
 
@@ -41,13 +42,14 @@ public:
 public slots:
     virtual void ShowHideAVSlot( bool b );
     virtual void ReceiveAVDataSlot( cwmActValues * ActValues );
+    virtual void SetConfInfoSlot( cConfData * cd );
     bool LoadSession( QString session );
     void SaveSession( QString session );
     virtual void ReceiveVektorDispFormat( int m, int m2, int m3 );
 
 signals:
     void isVisibleSignal(bool);
-    void SendVektorDispFormat(int,int,int);
+    void SendVektorDispFormat(bool,int,int,int);
 
 protected:
     virtual void closeEvent( QCloseEvent * ce );
@@ -57,8 +59,10 @@ protected:
 
 private:
     Ui::WMRawActualValBase *ui;
+    int AmplPrimSekMode;
     cwmActValues m_ActValues;
     cWidgetGeometry m_widGeometry;
+    cConfData *m_pConfData;
     int AmplDispMode;
     int WinkelDispMode;
     int PrimSekDispMode;

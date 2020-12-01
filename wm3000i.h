@@ -63,7 +63,7 @@ enum wm3000ActionHandlerState {
     InitializationSetSamplingFrequency,	//20
     InitializationSetSamplingPSamples,
     InitializationSetAbsDiffMode,
-    InitializationSetTMode,
+    InitializationSetSenseMode,
     InitializationSetSyncSource,
     InitializationSetSyncTiming,
     InitializationSetDspSignalRouting,
@@ -110,7 +110,7 @@ enum wm3000ActionHandlerState {
     ConfigurationSetAbsDiffMode, // wie bei Initialization
 
     ConfigurationTestTMode,
-    ConfigurationSetTMode, // wie bei Initialization
+    ConfigurationSetSenseMode, // wie bei Initialization
     ConfigurationTestSyncMode,
     ConfigurationSetSyncSource, // wie bei Initialization
     ConfigurationTestSyncTiming,
@@ -150,6 +150,8 @@ enum wm3000ActionHandlerState {
     TriggerMeasureGetGainCorrCh1,
     TriggerMeasureGetPhaseCorrCh0,
     TriggerMeasureGetPhaseCorrCh1,			// 90
+    TriggerMeasureGetOffsetCorrCh0,
+    TriggerMeasureGetOffsetCorrCh1,
     TriggerMeasureCorrection,
     
     MeasureStart,
@@ -159,6 +161,8 @@ enum wm3000ActionHandlerState {
     MeasureGetGainCorrCh1,
     MeasureGetPhaseCorrCh0,
     MeasureGetPhaseCorrCh1, // 100
+    MeasureGetOffsetCorrCh0,
+    MeasureGetOffsetCorrCh1,
     MeasureCorrection, // hier ist messung zu ende
     
     MeasureLPStart,
@@ -189,15 +193,26 @@ enum wm3000ActionHandlerState {
     SenseProtectionOffResetMaximum,
     SenseProtectionOffFinished,
     
-    CmpPhCoeffStart,
-    CmpPhCoeffCh0,
-    CmpPhCoeffCh1,
-    CmpPhCoeffCh2,
-    CmpPhCoeffFinished,
+    CmpPhaseCoeffStart,
+    CmpPhaseCoeffCh0,
+    CmpPhaseCoeffCh1,
+    CmpPhaseCoeffCh2,
+    CmpPhaseSetStatus,
+    CmpPhaseSetStatus2,
+    CmpPhaseCoeffFinished,
+
+    CmpOffsetCoeffStart,
+    CmpOffsetCoeffCh0,
+    CmpOffsetCoeffCh1,
+    CmpOffsetCoeffCh2, // 140
+    CmpOffsetSetStatus,
+    CmpOffsetSetStatus2,
+    CmpOffsetCoeffFinished,
    
     PhaseNodeMeasStart,
-    PhaseNodeMeasCoefficientClearN,			// 120
-    PhaseNodeMeasCoefficientClearN2,
+    PhaseNodeMeasCoefficientClearNode,			// 120
+    PhaseNodeMeasCoefficientClearStatus,
+    PhaseNodeMeasCoefficientClearNodeStatus,
     PhaseNodeMeasCoefficientClearNFinished,
     PhaseNodeMeasBaseConfiguration,
     PhaseNodeMeasNodeConfig, // für jeden knoten muss etwas umkonfiguriert werden
@@ -207,7 +222,38 @@ enum wm3000ActionHandlerState {
     PhaseNodeMeasExec4,            
     PhaseNodeMeasExec5,
     PhaseNodeMeasFinished,			// 130
-    
+
+    OffsetMeasWM3000Start,
+    OffsetMeasWM3000CoefficientClearNode,
+    OffsetMeasWM3000CoefficientClearStatus,
+    OffsetMeasWM3000CoefficientClearNodeStatus,
+    OffsetMeasWM3000CoefficientClearNFinished,
+    OffsetMeasWM3000BaseConfiguration,
+    OffsetMeasWM3000Exec1, // 160
+    OffsetMeasWM3000Exec2,
+    OffsetMeasWM3000Exec3,
+    OffsetMeasWM3000Exec4,
+    OffsetMeasWM3000Exec5,
+    OffsetMeasWM3000Exec6,
+    OffsetMeasWM3000Finished,
+
+    OffsetMeasWM3000StartVar,
+    OffsetMeasWM3000BaseConfigurationVar,
+    OffsetMeasWM3000Exec1Var,
+    OffsetMeasWM3000Exec2Var, // 170
+    OffsetMeasWM3000Exec3Var,
+    OffsetMeasWM3000Exec4Var,
+    OffsetMeasWM3000Exec5Var,
+    OffsetMeasWM3000FinishedVar,
+
+    OffsetMeasChannelNStart,
+    OffsetMeasChannelNSync,
+    OffsetMeasChannelNFinished,
+
+    OffsetMeasChannelXStart,
+    OffsetMeasChannelXSync,
+    OffsetMeasChannelXFinished,
+
     JustageFlashProgStart,
     JustageFlashProgFinished,
     
@@ -241,13 +287,16 @@ enum wm3000ActionHandlerState {
 class tJustValues
 {
 public:
-    tJustValues(){ GainCorrCh0 = 1; GainCorrCh1 = 1; PhaseCorrCh0 = 0; PhaseCorrCh1 = 0;};
+    tJustValues(){ GainCorrCh0 = 1; GainCorrCh1 = 1; PhaseCorrCh0 = 0; PhaseCorrCh1 = 0; OffsetCorrCh0 = 0; OffsetCorrCh1 = 0; OffsetCorrDevN = 0; OffsetCorrDevX = 0;}
     float GainCorrCh0;
     float GainCorrCh1;
     float PhaseCorrCh0;
     float PhaseCorrCh1;
+    float OffsetCorrCh0;
+    float OffsetCorrCh1;
+    float OffsetCorrDevN;
+    float OffsetCorrDevX;
 };
-
 
 
 class cWMessageBox: public QMessageBox
@@ -283,6 +332,8 @@ public:
     void InitWM3000(); // einmal komplett initialisieren
     void setConventional(bool b);
     bool isConventional();
+    void setDC(bool b);
+    bool isDC();
 
 public slots:
      // slots, die vom hauptfenster aus aktiviert werden
@@ -293,8 +344,15 @@ public slots:
     void JustageFlashProgSlot(void);
     void JustageFlashExportSlot(QString);
     void JustageFlashImportSlot(QString);
+    void JustageOffsetSlot(void);
+    void JustageOffsetVarSlot();
+    void JustageOffsetBerechnungSlot(void);
+    void OffsetMessungChannelNSlot(void);
+    void OffsetMessungChannelXSlot(void);
     void SelfTestManuell();
     void SelfTestRemote();
+    void OffsetMessungChannelNRemote();
+    void OffsetMessungChannelXRemote();
     
     // slots, die vom bereichauswahl menu aktiviert werden
     void SetRangeSlot(cConfData*); 
@@ -318,8 +376,9 @@ private slots:
     void XIFaceDoneSlot(); // wenn gültige daten da sind vom einen oder anderen server
     void DspIFaceErrorSlot(); // wenn fehler aufgetreten sind am dsp server
     void pcbIFaceErrorSlot(); // dito für leitenkarten server
-    void PhaseJustSyncSlot(); // zur synchronisation des justageablaufes mit configuration und messung
-    void PhaseJustAbortSlot();
+    void PhaseJustSyncSlot(); // zur synchronisation des justageablaufes mit configuration und messung 
+    void OffsetJustSyncSlot(); // dito
+    void JustAbortSlot();
     void SelftestSyncSlot(); // zur synchronisation des selbsttest ablaufes mit configuration und messung
     void SelftestAbortSlot();
     void OverLoadMaxQuitSlot();
@@ -328,6 +387,7 @@ signals:
     void SendConfDataSignal(cConfData*); // konfigurationsdaten senden
     void SendOEDataSignal(cOwnError*); // eigenfehlerdaten senden
     void SendActValuesSignal(cwmActValues*); // istwerte senden
+    void SendJustValuesSignal(tJustValues*);
     void SendLPSignal(cwmActValues*); // es werden alle istwerte versendet, es sollaber nur der lp aktualisiert werden
     void SendIOStringSignal(QString); //  scpi input/output senden
     void SendLogFileSizeSignal(const long); // logfile grösse senden
@@ -343,6 +403,7 @@ signals:
     void SendVersionInfo(tVersSerial*); // wir versenden die versions , serial , chksum info 
     void AffectStatus(uchar, ushort); // zum setzen, rücksetzen der scpi status systeme
     void SelftestDone(int); // 0 ok  -1 fehler
+    void OffsetValue(double);
     void JustifiedSignal(bool);
     void FreqQuestionable(bool);
     
@@ -350,10 +411,12 @@ protected:
     tVersSerial SerialVersions; // serien nummer und version
     
     // listen für bereiche der messeinrichtung und auswahlwerte hierzu 
-    cWMRangeList m_sNXRangeList; // verkettete liste von absolut bereichen
+    cWMRangeList m_sNRangeList; // verkettete liste von absolut bereichen
+    cWMRangeList m_sXRangeList; // verkettete liste von absolut bereichen
     cWMRangeList m_sECTRangeList; // liste für die bereiche der elektronischen wandler
-    cPhaseCalcInfoList m_PhaseCalcInfoList; // liste mit bereichen, deren phasenkorrektur koeffizienten zu berechnen sind (kanal, bereich)
+    cPhaseCalcInfoList m_CalcInfoList; // liste mit bereichen, deren phasenkorrektur koeffizienten zu berechnen sind (kanal, bereich)
     cPhaseNodeMeasInfoList m_PhaseNodeMeasInfoList; // liste mit bereichinfo´s , und allen parameter die erforderlich siehe cPhaseNodeMeasInfo (wmglobal)
+    cOffsetMeasInfoList m_OffsetMeasInfoList; // dito
     QStringList m_SelftestInfoList;
     cTCPConfig TCPConfig; // information zur verbindung zu den servern
     
@@ -384,7 +447,12 @@ private:
 
     void SetPhaseCalcInfo();
     void SetPhaseNodeMeasInfo();
+    void SetOffsetCalcInfo();
+    void SetOffsetMeasInfo(int te, int tm);
+    void offsetCorrectionHash2File();
+    void readOffsetCorrectionFile();
     void SetSelfTestInfo(bool); // manuell oder remote
+    int signum(double value);
     
     QTimer *MeasureTimer;
     QTimer *MeasureLPTimer; 
@@ -410,18 +478,25 @@ private:
     cwmActValues ActValues;
     cDspMaxValues MaxValues;
     Q3ProgressDialog *m_pProgressDialog;
-    wm3000ActionHandlerState m_PhaseNodeMeasState; // hier merken wir uns wo´s weiter geht
-    wm3000ActionHandlerState m_SelftestState; // hier merken wir uns wo´s weiter geht
-    Q3ValueList<float> PhaseJustValueList;
-    QString m_sPhaseJustText;
+    /*wm3000ActionHandlerState*/ int m_PhaseNodeMeasState; // hier merken wir uns wo´s weiter geht
+    /*wm3000ActionHandlerState*/ int m_OffsetMeasState; // hier merken wir uns wo´s weiter geht
+    /*wm3000ActionHandlerState*/ int m_SelftestState; // hier merken wir uns wo´s weiter geht
+    Q3ValueList<float> JustValueList;
+    QHash<QString, double> adjOffsetCorrectionHash; // offset korrektur in lsb hier sammeln wir während des abgleiches
+    QHash<QString, double> measOffsetCorrectionHash; // wenn abgleich durchgelaufen ist werden die werte hierhin kopiert
+    QString m_sJustText;
     QPushButton* m_pAbortButton;
     QString JDataFile;
     QFile m_SelftestLogfile;
     QFile m_PhaseJustLogfile;
+    QFile m_OffsetJustLogfile;
+    QFile m_OffsetDatafile;
+    QFile m_NSAOffsetDatafile;
     cWMessageBox *m_OVLMsgBox;
     cWMessageBox *m_SelftestMsgBox;
     bool m_bConventional;
-
+    bool m_bDC;
+    bool m_bNoDCAdjust;
 };
 
 #endif    

@@ -42,15 +42,16 @@ public slots:
     virtual void ActualizeLoadPoint();
     bool LoadSession( QString session );
     void SaveSession( QString session );
-    virtual void ReceiveFormatInfoSlot( int m, int m2, int n, cFormatInfo * fi );
+    virtual void ReceiveFormatInfoSlot(int m, int m2, int n, cFormatInfo * fi );
 
 signals:
     void isVisibleSignal(bool);
-    void SendFormatInfoSignal(int, int, int, cFormatInfo*);
+    void SendFormatInfoSignal(bool, int, int, int, cFormatInfo*);
 
 protected:
     virtual void closeEvent( QCloseEvent * ce );
     virtual void resizeEvent( QResizeEvent * e );
+    virtual void showEvent( QShowEvent* e);
     virtual void moveEvent( QMoveEvent *);
     virtual void contextMenuEvent( QContextMenuEvent * );
 
@@ -69,6 +70,7 @@ private:
 
     void init();
     void destroy();
+    void cmpResize();
     virtual void ActualizeDisplay();
 
 private slots:

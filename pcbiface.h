@@ -51,12 +51,27 @@ enum pcbIFaceActionHandlerState {
     
     ReadPhaseCorrectionStart,
     ReadPhaseCorrectionFinished,
+
+    ReadOffsetCorrectionStart,
+    ReadOffsetCorrectionFinished,
         
     setPhaseNodeInfoStart,
     setPhaseNodeInfoFinished,
+
+    setPhaseStatusStart,
+    setPhaseStatusFinished,
     
     cmpPhaseCoefficientStart,
     cmpPhaseCoefficientFinished,
+
+    setOffsetNodeInfoStart,
+    setOffsetNodeInfoFinished,
+
+    setOffsetStatusStart,
+    setOffsetStatusFinished,
+
+    cmpOffsetCoefficientStart,
+    cmpOffsetCoefficientFinished,
         
     JustFlashProgStart,
     JustFlashProgFinished,
@@ -116,9 +131,14 @@ public:
     void setSyncTiming(int);
     void readGainCorrection(int, QString, float);
     void readPhaseCorrection(int, QString, float);
+    void readOffsetCorrection(int, QString, float);
     void GetAdjustmentStatus();
     void setPhaseNodeInfo(QString, QString, int, float, float);
+    void setPhaseStatus(QString, QString, int);
+    void setOffsetNodeInfo(QString, QString, int, float, float);
+    void setOffsetStatus(QString, QString, int);
     void cmpPhaseCoefficient(QString);
+    void cmpOffsetCoefficient(QString);
     void getStatusOVL();
     void resetStatusOVL();
     void SetSenseProtection(int);
@@ -152,8 +172,13 @@ private:
     void SendSetSyncTimingCommand();
     void SendReadGainCorrectionCommand();
     void SendReadPhaseCorrectionCommand();
+    void SendReadOffsetCorrectionCommand();
     void SendsetPhaseNInfoCommand();
+    void SendsetPhaseStatusCommand();
+    void SendsetOffsetNInfoCommand();
+    void SendsetOffsetStatusCommand();
     void SendcmpPhaseCoefficientCommand();
+    void SendcmpOffsetCoefficientCommand();
     
     void SendJustFlashProgCommand();
     void SendJustFlashExportCommand();
