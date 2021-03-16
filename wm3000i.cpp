@@ -161,6 +161,7 @@ cWM3000I::cWM3000I()
     
     // wir starten die timer erst nach erfolgreicher initialisierung ...oder doch nicht ?
     
+    m_MovingWindowFilter.setFilterLength(m_ConfData.m_nIntegrationTime); // volle sekunden
     MeasureTimer->start(m_ConfData.m_nIntegrationTime*1000); //  n*1000 msec
     RangeTimer->start(500); // 1000 ms 
     MeasureLPTimer->start(500);
@@ -1348,10 +1349,13 @@ case ConfigurationTestTMode:
 	    float *source = DspIFace->data(ActValData);
 	    float *dest = (float*) &ActValues.dspActValues;
 	    for (uint i=0; i< sizeof(ActValues.dspActValues)/sizeof(float);i++) *dest++ = *source++; 
-    
-	    // die hanningfenster korrektur findet hier statt weil bei simulation auch cmpactvalues
-	    // aufgerufen wird, die simulationsdaten aber ohne hanningfenster sind... weil einfacher
-	    
+
+        m_MovingWindowFilter.append(ActValues.dspActValues);
+        ActValues.dspActValues = m_MovingWindowFilter.getOutput();
+
+        // die hanningfenster korrektur findet hier statt weil bei simulation auch cmpactvalues
+        // aufgerufen wird, die simulationsdaten aber ohne hanningfenster sind... weil einfacher
+
 	    ActValues.dspActValues.rmsnf *= 1.63299; // hanning fenster korrektur    
 	    ActValues.dspActValues.rmsxf *= 1.63299; // dito    
 	    ActValues.dspActValues.ampl1nf *= 2.0; // dito 
@@ -1529,6 +1533,7 @@ case ConfigurationTestTMode:
     case RestartMeasurementStart:
 	if (m_ConfData.m_bSimulation) // im sim. modus wir der meastimer direkt gestartet
 	{
+        m_MovingWindowFilter.setFilterLength(m_ConfData.m_nIntegrationTime);
 	    MeasureTimer->start(m_ConfData.m_nIntegrationTime*1000);
 	    MeasureLPTimer->start(500);
 	    RangeTimer->start(500);
@@ -3801,7 +3806,8 @@ void cWM3000I::DspIFaceAsyncDataSlot(const QString& s) // für asynchrone meldun
     {
     case 1:  m_AsyncTimer->start(0,MeasureStart); // starten der statemachine für messwert aufnahme
 	  break; 
-    case 3: MeasureTimer->start(m_ConfData.m_nIntegrationTime*1000); //  n*1000 msec
+    case 3:  m_MovingWindowFilter.setFilterLength(m_ConfData.m_nIntegrationTime);
+      MeasureTimer->start(m_ConfData.m_nIntegrationTime*1000); //  n*1000 msec
 	  MeasureLPTimer->start(500);
 	  RangeTimer->start(500);
 	  m_bStopped = false;
