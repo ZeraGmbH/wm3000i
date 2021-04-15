@@ -49,7 +49,9 @@ HEADERS	+= bigletter.h \
     wmrawactualconfigbase.h \
     csessionhelper.h \
     releaseinfo.h \
-    wmoffsetvalbase.h
+    wmoffsetvalbase.h \
+    movingwindowfilter.h \
+    dspactvalues.h
 
 SOURCES	+= \
 	Logfile.cpp \
@@ -82,7 +84,6 @@ SOURCES	+= \
     wmoeviewbase.cpp \
     wmrawactualvalbase.cpp \
     en61850monitor.cpp \
-    confdialogbase.cpp \
     rangedialogbase.cpp \
     versionviewbase.cpp \
     wmmeasconfigbase.cpp \
@@ -91,7 +92,10 @@ SOURCES	+= \
     releaseinfo.cpp \
     bigletter.cpp \
     range.cpp \
-    wmoffsetvalbase.cpp
+    wmoffsetvalbase.cpp \
+    movingwindowfilter.cpp \
+    dspactvalues.cpp \
+    confdialogbase.cpp
 
 
 FORMS	= confdialogbase.ui \
