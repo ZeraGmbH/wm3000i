@@ -16,4 +16,16 @@ public:
     float phin, phix; // bogenmaß
 };
 
+
+class cDspFastRMSValues  // raw data, wie vom dsp geliefert
+{
+public:
+    cDspFastRMSValues(){}
+
+    float fastRMSN;
+    float fastRMSN1;
+    float fastRMSX;
+    float fastRMSX1;
+};
+
 #endif // DSPACTVALUES_H
