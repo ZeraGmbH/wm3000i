@@ -62,7 +62,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="Widget8">
       <attribute name="title">
@@ -74,7 +74,7 @@
          <x>11</x>
          <y>13</y>
          <width>132</width>
-         <height>172</height>
+         <height>182</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -595,13 +595,13 @@
              </sizepolicy>
             </property>
             <property name="minimum">
-             <number>4</number>
+             <number>1</number>
             </property>
             <property name="maximum">
-             <number>26</number>
+             <number>14</number>
             </property>
             <property name="value">
-             <number>16</number>
+             <number>14</number>
             </property>
            </widget>
           </item>

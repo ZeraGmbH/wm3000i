@@ -12,6 +12,7 @@
 #include "confdata.h"
 #include "complex.h"
 #include "range.h"
+#include "dspactvalues.h"
 
 #include "csessionhelper.h"
 
@@ -20,7 +21,7 @@
 //#define FVWM 1
 
 #define TheDevice "127.0.0.1"
-//#define TheDevice "192.168.6.142"
+//#define TheDevice "192.168.6.57"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
@@ -49,7 +50,7 @@
 // V1.05 23.02.2012 eine soft übersteuerung in  einem der beiden kanäle wird wie die hard übersteuerungauf beide kanäle übertragen
 // V1.06 22.03.2012 bereichautomatik nochmal geändert: overloadmax ist dann wenn beide kanäle im grössten bereich waren als übersteuerung erkannt wurde
 // V1.07 02.07.2012 auflösung winkel fehler in xml datei auf 5 nachkommastellen erhöht
-//V1.08 06.09.2012 bei der istwertabfrage über scpi lastpunkte auf kanal x umgestellt.
+// V1.08 06.09.2012 bei der istwertabfrage über scpi lastpunkte auf kanal x umgestellt.
 // V1.09 17.09.2012 kontextmenu für istwertanzeige um mrad erweitert, bei start des programms immer bereichautomatik ein,
 //                  bei ergebnisdatei, eigenfehlerdatei solte open anstatt save beim öffnen verwendet werden, nicht machbar unter qt3 wenn man default selection verwenden möchte.
 // v1.10 19.09.2012 in eparameter scalefactors eingeführt sonst fehler wenn /3 oder /w3 button
@@ -99,8 +100,15 @@
 // v2.30 19.11.2019 tausend und eine änderung für dc betrieb
 // v2.31 23.09.2020 einfach hochgezählt nach gefühlt jahrzehnten bis zum merge für dc betrieb
 // v2.32 16.11.2020 phasenjustage adc's wieder eingebaut und status gain, phase, offset vereinzelt.
+// v2.33 15.04.2021 es wird nach pps nur noch 1x über die eingestellte perioden anzahl gemessen.
+//                  hintergrund : es lässt sich so das rauschen des eingangssignals beurteilen.
+//                  die minimale anzahl perioden ist jetzt 1 anstatt 4.
+//                  die integrationszeit (sek.) ist jetzt als movingwindow filter ausgeführt.
+//                  das interface läuft jetzt stabil bei voller geschwindigkeit.
+//                  opc? liefert fertig erst nachdem alle conf. kommandos abgearbeitet wurden.
+//                  eth kommando, query hinzugefügt um en61850:sync:strong setzen und abfragen zu können
 
-#define WMVersion "V2.32"
+#define WMVersion "V2.33"
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
@@ -157,14 +165,7 @@ typedef Q3MemArray<float> cDspVarMemArray;
 typedef Q3PtrList<cDspVar> cDspVarPtrList;
 
 
-struct cDspActValues { // raw data, wie vom dsp geliefert
-    float kfkorrf; // kreisfrequenz  korrektur koeffizient
-    float rmsnf, ampl1nf;
-    float rmsxf, ampl1xf;
-    float dphif; // phix-phin  gefiltert im bogenmaß -pi....+pi
-    float tdsync; // zeit zwischen pps und 1'st sample auflösung 10nS
-    float phin, phix; // bogenmaß
-};
+
 
 
 struct cDspMaxValues { // raw data, die maxima
@@ -174,6 +175,7 @@ struct cDspMaxValues { // raw data, die maxima
 
 struct cwmActValues {  // wird an andere objekte gesendet
     cDspActValues dspActValues;
+    cDspFastRMSValues dspRMSValues;
     double TDSync;
     double Frequenz;
     double RMSN, RMSNSek;  // hier die je nach mode berechneten werte in SI einheiten primär, sekundär

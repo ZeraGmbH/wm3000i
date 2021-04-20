@@ -89,6 +89,7 @@ void cWM3000SCPIFace::setConfiguration(cConfData* cd)
 void cWM3000SCPIFace::ReceiveConfiguration(cConfData* cd)
 {
     m_ConfDataActual = /*m_ConfDataTarget = */ *cd;
+    m_ConfDataTarget = *cd; //versuch
 }
 
 
@@ -99,18 +100,18 @@ char* cWM3000SCPIFace::mGetScpiErrorAll()
     
     int n = m_ErrEventQueue.size();
     if (n == 0)
-	return mGetScpiError();
+        return mGetScpiError();
     else
     {
-	QString rm;
-	rm = mGetScpiError();
-	if (n > 1)
-	    for (int i = 1;i < n; i++)
-	    {
-		rm += ";";
-		rm += mGetScpiError();
-	    }
-	return sAlloc(rm);
+        QString rm;
+        rm = mGetScpiError();
+        if (n > 1)
+            for (int i = 1;i < n; i++)
+            {
+                rm += ";";
+                rm += mGetScpiError();
+            }
+        return sAlloc(rm);
     }
 }
 
@@ -529,7 +530,6 @@ char* cWM3000SCPIFace::mGetRange()
     QString s;
     
     int n = mMeasChannelList.findIndex( dedicatedChannel);
-    m_ConfDataTarget = m_ConfDataActual;
     
     switch (n)
     {
@@ -618,13 +618,11 @@ void cWM3000SCPIFace::mConfigurationApply(char*)
 
     emit SendConfiguration(&m_ConfDataTarget);
     SetnoOperFlag(false); // wir warten darauf daß konfigurieren fertig wird
-    m_ConfDataActual = m_ConfDataTarget;
 }
 
 
 char* cWM3000SCPIFace::mGetConfEnAppid()
 {
-    m_ConfDataTarget = m_ConfDataActual;
     QString s = QString("%1").arg(m_ConfDataActual.m_nEthTypeHeader & 0xFFFF,0,16);
     return sAlloc(s);
 }
@@ -635,16 +633,14 @@ void cWM3000SCPIFace::mSetConfEnAppid(char* s)
     ushort us;
     if ( GetParameter(&s, us, 0, 0xFFFF, 16, true) )
     {
-	m_ConfDataTarget.m_nEthTypeHeader &= 0xFFFF0000;
-	m_ConfDataTarget.m_nEthTypeHeader |= us;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_nEthTypeHeader &= 0xFFFF0000;
+        m_ConfDataTarget.m_nEthTypeHeader |= us;
     }
 }
 
 
 char* cWM3000SCPIFace::mGetConfEnVid()
 {
-    m_ConfDataTarget = m_ConfDataActual;
     QString s = QString("%1").arg(m_ConfDataActual.m_nPriorityTagged  & 0xFFF,0,16);
     return sAlloc(s);
 }
@@ -655,16 +651,14 @@ void cWM3000SCPIFace::mSetConfEnVid(char* s)
     ushort us;
     if ( GetParameter(&s, us, 0, 0xFFF, 16, true) )
     {
-	m_ConfDataTarget.m_nPriorityTagged &= 0xFFFFF000;
-	m_ConfDataTarget.m_nPriorityTagged |= us;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_nPriorityTagged &= 0xFFFFF000;
+        m_ConfDataTarget.m_nPriorityTagged |= us;
     }
 }
 
 
 char* cWM3000SCPIFace::mGetConfEnCfi()
 {
-    m_ConfDataTarget = m_ConfDataActual;
     QString s = QString("%1").arg((m_ConfDataActual.m_nPriorityTagged >> 12) & 1);
     return sAlloc(s);
 }
@@ -675,16 +669,14 @@ void cWM3000SCPIFace::mSetConfEnCfi(char* s)
     ushort us;
     if ( GetParameter(&s, us, 0, 1, 10, true) )
     {
-	m_ConfDataTarget.m_nPriorityTagged &= 0xFFFFEFFF;
-	m_ConfDataTarget.m_nPriorityTagged |= (us << 12);
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_nPriorityTagged &= 0xFFFFEFFF;
+        m_ConfDataTarget.m_nPriorityTagged |= (us << 12);
     }
 }
 
 
 char* cWM3000SCPIFace::mGetConfEnUPriority()
 {
-    m_ConfDataTarget = m_ConfDataActual;
     QString s = QString("%1").arg((m_ConfDataActual.m_nPriorityTagged >> 13) & 7);
     return sAlloc(s);
 }
@@ -695,16 +687,14 @@ void cWM3000SCPIFace::mSetConfEnUPriority(char* s)
     ushort us;
     if ( GetParameter(&s, us, 1, 7, 10, true) )
     {
-	m_ConfDataTarget.m_nPriorityTagged &= 0xFFFF1FFF;
-	m_ConfDataTarget.m_nPriorityTagged |= (us << 13);
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_nPriorityTagged &= 0xFFFF1FFF;
+        m_ConfDataTarget.m_nPriorityTagged |= (us << 13);
     }
 }
 
 
 char* cWM3000SCPIFace::mGetConfENFAsdu()
 {
-    m_ConfDataTarget = m_ConfDataActual;
     QString s = QString("%1").arg(m_ConfDataActual.FirstASDU);
     return sAlloc(s);
 }
@@ -715,15 +705,13 @@ void cWM3000SCPIFace::mSetConfENFAsdu(char* s)
     ushort us;
     if ( GetParameter(&s, us, 1, 8, 10, true) )
     {
-    m_ConfDataTarget.FirstASDU = us;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.FirstASDU = us;
     }
 }
 
 
 char* cWM3000SCPIFace::mGetConfENLAsdu()
 {
-    m_ConfDataTarget = m_ConfDataActual;
     QString s = QString("%1").arg(m_ConfDataActual.LastASDU);
     return sAlloc(s);
 }
@@ -732,17 +720,16 @@ char* cWM3000SCPIFace::mGetConfENLAsdu()
 void cWM3000SCPIFace::mSetConfENLAsdu(char* s)
 {
     ushort us;
+
     if ( GetParameter(&s, us, 1, 8, 10, true) )
     {
-    m_ConfDataTarget.LastASDU = us;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.LastASDU = us;
     }
 }
 
 
 char* cWM3000SCPIFace::mGetConfEnDSet()
 {
-    m_ConfDataTarget = m_ConfDataActual;
     QString s = QString("%1").arg(m_ConfDataActual.DataSet);
     return sAlloc(s);
 }
@@ -751,10 +738,10 @@ char* cWM3000SCPIFace::mGetConfEnDSet()
 void cWM3000SCPIFace::mSetConfEnDSet(char* s)
 {
     ushort us;
+
     if ( GetParameter(&s, us, 1, 8, 10, true) )
     {
-	m_ConfDataTarget.DataSet = us;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.DataSet = us;
     }
 }
 
@@ -762,7 +749,7 @@ void cWM3000SCPIFace::mSetConfEnDSet(char* s)
 char* cWM3000SCPIFace::mGetConfENMAdrWM3000()
 {
     QString s;
-    m_ConfDataTarget = m_ConfDataActual;
+
     s = m_ConfDataActual.m_MacDestAdr.GetMacAdress();
     return sAlloc(s);
 }
@@ -771,14 +758,13 @@ char* cWM3000SCPIFace::mGetConfENMAdrWM3000()
 void cWM3000SCPIFace::mSetConfENMAdrWM3000(char* s)
 {
     SetMacAdress(&s, m_ConfDataTarget.m_MacDestAdr);
-//    emit SendConfiguration(&m_ConfData);
 }
 
 
 char* cWM3000SCPIFace::mGetConfENMAdrMU()
 {
     QString s;
-    m_ConfDataTarget = m_ConfDataActual;
+
     s = m_ConfDataActual.m_MacSourceAdr.GetMacAdress();
     return sAlloc(s);
 }
@@ -787,16 +773,14 @@ char* cWM3000SCPIFace::mGetConfENMAdrMU()
 void cWM3000SCPIFace::mSetConfENMAdrMU(char* s)
 {
     SetMacAdress(&s, m_ConfDataTarget.m_MacSourceAdr);
-//    emit SendConfiguration(&m_ConfData);
 }
 
 
 char* cWM3000SCPIFace::mGetConfRatioEct()
 {
     QString rs;
-    m_ConfDataTarget = m_ConfDataActual;
+
     rs = QString("%1:%2").arg(m_ConfDataActual.m_ECTPrimary).arg(m_ConfDataActual.m_ECTSecondary);
-    
     return sAlloc(rs);
 }
 
@@ -806,9 +790,8 @@ void cWM3000SCPIFace::mSetConfRatioEct(char* s)
     QString sprim, ssek; 
     if ( GetTransformerRatio(&s, sprim, ssek,true) )
     {
-	m_ConfDataTarget.m_ECTPrimary = sprim;
-	m_ConfDataTarget.m_ECTSecondary = ssek;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_ECTPrimary = sprim;
+        m_ConfDataTarget.m_ECTSecondary = ssek;
     }
 }
 
@@ -816,9 +799,8 @@ void cWM3000SCPIFace::mSetConfRatioEct(char* s)
 char* cWM3000SCPIFace::mGetConfRatioChx()
 {
     QString rs;
-    m_ConfDataTarget = m_ConfDataActual;
+
     rs = QString("%1:%2").arg(m_ConfDataActual.m_XPrimary).arg(m_ConfDataActual.m_XSecondary);
-    
     return sAlloc(rs);
 }
 
@@ -826,11 +808,11 @@ char* cWM3000SCPIFace::mGetConfRatioChx()
 void cWM3000SCPIFace::mSetConfRatioChx(char* s)
 {
     QString sprim, ssek; 
+
     if ( GetTransformerRatio(&s, sprim, ssek,true) )
     {
-	m_ConfDataTarget.m_XPrimary = sprim;
-	m_ConfDataTarget.m_XSecondary = ssek;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_XPrimary = sprim;
+        m_ConfDataTarget.m_XSecondary = ssek;
     }
 }
 
@@ -838,21 +820,44 @@ void cWM3000SCPIFace::mSetConfRatioChx(char* s)
 char* cWM3000SCPIFace::mGetConfRatioChn()
 {
     QString rs;
-    m_ConfDataTarget = m_ConfDataActual;
+
     rs = QString("%1:%2").arg(m_ConfDataActual.m_NPrimary).arg(m_ConfDataActual.m_NSecondary);
-    
     return sAlloc(rs);
 }
 
 
 void cWM3000SCPIFace::mSetConfRatioChn(char* s)
 {
-    QString sprim, ssek; 
+    QString sprim, ssek;
+
     if ( GetTransformerRatio(&s, sprim, ssek, true) )
     {
-	m_ConfDataTarget.m_NPrimary = sprim;
-	m_ConfDataTarget.m_NSecondary = ssek;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_NPrimary = sprim;
+        m_ConfDataTarget.m_NSecondary = ssek;
+    }
+}
+
+
+char *cWM3000SCPIFace::mGetConfSyncStrong()
+{
+    QString rs;
+
+    if (m_ConfDataActual.m_bStrongEthSynchronisation)
+        rs = "1";
+    else
+        rs = "0";
+
+    return sAlloc(rs);
+}
+
+
+void cWM3000SCPIFace::mSetConfSyncStrong(char *s)
+{
+    ushort us;
+
+    if ( GetParameter(&s, us, 0, 1, 10, true) )
+    {
+        m_ConfDataTarget.m_bStrongEthSynchronisation = ( us ==1 );
     }
 }
 
@@ -860,7 +865,7 @@ void cWM3000SCPIFace::mSetConfRatioChn(char* s)
 char* cWM3000SCPIFace::mGetConfSyncPeriod()
 {
     QString rs;
-    m_ConfDataTarget = m_ConfDataActual;
+
     rs = QString("%1ms").arg(m_ConfDataActual.m_nTSync);
     return sAlloc(rs);
 }
@@ -869,10 +874,10 @@ char* cWM3000SCPIFace::mGetConfSyncPeriod()
 void cWM3000SCPIFace::mSetConfSyncPeriod(char* s)
 {
     ushort us;
+
     if ( GetParameter(&s, us, 500, 2500, 10, true))
     {
-	m_ConfDataTarget.m_nTSync = us;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_nTSync = us;
     }
 }
 
@@ -880,7 +885,7 @@ void cWM3000SCPIFace::mSetConfSyncPeriod(char* s)
 char* cWM3000SCPIFace::mGetConfSyncSource()
 {
    QString rs;
-   m_ConfDataTarget = m_ConfDataActual;
+
     rs = QString("%1,%2").arg(m_ConfDataActual.m_nSyncSource).arg(SSourceName[m_ConfDataActual.m_nSyncSource]);
     return sAlloc(rs);    
 }
@@ -889,10 +894,10 @@ char* cWM3000SCPIFace::mGetConfSyncSource()
 void cWM3000SCPIFace::mSetConfSyncSource(char* s)
 {
     int ss;
+
     if ( SearchEntry(&s, SSourceName, MaxSSource, ss, true) )
     {
-	m_ConfDataTarget.m_nSyncSource = ss;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_nSyncSource = ss;
     }	
 }
 
@@ -900,7 +905,7 @@ void cWM3000SCPIFace::mSetConfSyncSource(char* s)
 char* cWM3000SCPIFace::mGetConfMeasTInt()
 {
     QString rs;
-    m_ConfDataTarget = m_ConfDataActual;
+
     rs = QString("%1s").arg(m_ConfDataActual.m_nIntegrationTime);
     return sAlloc(rs);
 }
@@ -909,10 +914,10 @@ char* cWM3000SCPIFace::mGetConfMeasTInt()
 void cWM3000SCPIFace::mSetConfMeasTInt(char* s)
 {
     ushort us;
+
     if ( GetParameter(&s, us, 1, 20, 10, true))
     {
-	m_ConfDataTarget.m_nIntegrationTime = us;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_nIntegrationTime = us;
     }
 }
 
@@ -920,7 +925,7 @@ void cWM3000SCPIFace::mSetConfMeasTInt(char* s)
 char* cWM3000SCPIFace::mGetConfMeasMPeriod()
 {
     QString rs;
-    m_ConfDataTarget = m_ConfDataActual;
+
     rs = QString("%1").arg(m_ConfDataActual.m_nMeasPeriod);
     return sAlloc(rs);
 }
@@ -931,15 +936,13 @@ void cWM3000SCPIFace::mSetConfMeasMPeriod(char* s)
     ushort us;
     if (m_ConfDataTarget.m_nSRate == S256) // 256 samples/periode
     {
-        GetParameter(&s, us, 4, nmaxS80MeasPeriod, 10, true); // we set stb in case of err
-        m_ConfDataTarget.m_nMeasPeriod = us; // but send the value with apply
-	    //	emit SendConfiguration(&m_ConfData);
+        if (GetParameter(&s, us, 1, nmaxS256MeasPeriod, 10, true)) // we set stb in case of err
+            m_ConfDataTarget.m_nMeasPeriod = us; // but send the value with apply
 	}
     else
     {
-        GetParameter(&s, us, 4, nmaxS80MeasPeriod, 10, true);
-        m_ConfDataTarget.m_nMeasPeriod = us;
-        //	emit SendConfiguration(&m_ConfData);
+        if (GetParameter(&s, us, 1, nmaxS80MeasPeriod, 10, true))
+            m_ConfDataTarget.m_nMeasPeriod = us;
 	}
 }
 
@@ -947,7 +950,7 @@ void cWM3000SCPIFace::mSetConfMeasMPeriod(char* s)
 char* cWM3000SCPIFace::mGetConfMeasSRate()
 {
     QString rs;
-    m_ConfDataTarget = m_ConfDataActual;
+
     rs = SRatesName[m_ConfDataActual.m_nSRate];
     return sAlloc(rs);
 }
@@ -967,11 +970,6 @@ void cWM3000SCPIFace::mSetConfMeasSRate(char* s)
             m_ConfDataTarget.LastASDU = 1;
         if (m_ConfDataTarget.m_nSRate == S256)
             m_ConfDataTarget.LastASDU = 8;
-
-        //if (m_ConfDataTarget.m_nSRate == S256) // wir begrenzen die messperioden auf
-        //if (m_ConfDataTarget.m_nMeasPeriod > 16) // 18 signalperioden wenn 256samples/periode
-        //m_ConfDataTarget.m_nMeasPeriod = 16;
-        //	emit SendConfiguration(&m_ConfData);
     }
 }
 
@@ -979,9 +977,8 @@ void cWM3000SCPIFace::mSetConfMeasSRate(char* s)
 char* cWM3000SCPIFace::mGetConfMeasSFreq()
 {
      QString rs;
-     m_ConfDataTarget = m_ConfDataActual;
+
      rs = QString("%1Hz").arg(FreqName[m_ConfDataActual.m_nSFreq]);
-  
      return sAlloc(rs);
 }
 
@@ -992,9 +989,8 @@ void cWM3000SCPIFace::mSetConfMeasSFreq(char* s)
 
     if ( SearchEntry(&s, SFrequency, MaxFreq, fc, true) )
     {
-	m_ConfDataTarget.m_nSFreq = fc;
-    m_ConfDataTarget.m_fSFreq = SFrequency[fc];
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_nSFreq = fc;
+        m_ConfDataTarget.m_fSFreq = SFrequency[fc];
     }
 }
  
@@ -1002,9 +998,8 @@ void cWM3000SCPIFace::mSetConfMeasSFreq(char* s)
 char* cWM3000SCPIFace::mGetConfCompPhcTime()
 {
      QString rs;
-     m_ConfDataTarget = m_ConfDataActual;
+
      rs = QString("%1ms").arg(m_ConfDataActual.m_fxTimeShift);
-  
      return sAlloc(rs);
 }
 
@@ -1012,10 +1007,10 @@ char* cWM3000SCPIFace::mGetConfCompPhcTime()
 void cWM3000SCPIFace::mSetConfCompPhcTime(char* s)
 {
     double dtime;
+
     if ( GetParameter(&s, dtime, 0.0, 20.0, true) )// max. 20 ms
     {
-	m_ConfDataTarget.m_fxTimeShift = dtime;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_fxTimeShift = dtime;
     }
 }
 
@@ -1023,9 +1018,8 @@ void cWM3000SCPIFace::mSetConfCompPhcTime(char* s)
 char* cWM3000SCPIFace::mGetConfCompPhcPhase()
 {
      QString rs;
-     m_ConfDataTarget = m_ConfDataActual;
+
      rs = QString("%1°").arg(m_ConfDataActual.m_fxPhaseShift);
-  
      return sAlloc(rs);
 }
 
@@ -1035,15 +1029,13 @@ void cWM3000SCPIFace::mSetConfCompPhcPhase(char* s)
     double dphase;
     if ( GetParameter(&s, dphase, 0.0, 360.0, true) )
     {
-	m_ConfDataTarget.m_fxPhaseShift = dphase;
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_fxPhaseShift = dphase;
     }
 }
 
 
 char* cWM3000SCPIFace::mGetConfCompOecFile()
 {
-    m_ConfDataTarget = m_ConfDataActual;
     return sAlloc(m_ConfDataActual.m_sOETFile);
 }
 
@@ -1052,9 +1044,8 @@ void cWM3000SCPIFace::mSetConfCompOecFile(char* s)
 {
     if (SearchFile(s,true))
     {
-	m_ConfDataTarget.m_sOETFile = m_pParser->GetKeyword(&s);
-	m_ConfDataTarget.m_bOENewLoad = true; // 1x analysieren
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_sOETFile = m_pParser->GetKeyword(&s);
+        m_ConfDataTarget.m_bOENewLoad = true; // 1x analysieren
     }
 }
 
@@ -1063,11 +1054,10 @@ char* cWM3000SCPIFace::mGetConfCompOecOn()
 {
     QString rs;
  
-    m_ConfDataTarget = m_ConfDataActual;
     if (m_ConfDataActual.m_bOECorrection)
-	rs = "1";
+        rs = "1";
     else
-	rs = "0";
+        rs = "0";
     
     return sAlloc(rs);
 }
@@ -1077,11 +1067,10 @@ char *cWM3000SCPIFace::mGetConfCompOffskN()
 {
     QString rs;
 
-    m_ConfDataTarget = m_ConfDataActual;
     if (m_ConfDataActual.m_bOffsetCorrectionN)
-    rs = "1";
+        rs = "1";
     else
-    rs = "0";
+        rs = "0";
 
     return sAlloc(rs);
 }
@@ -1091,11 +1080,10 @@ char *cWM3000SCPIFace::mGetConfCompOffskX()
 {
     QString rs;
 
-    m_ConfDataTarget = m_ConfDataActual;
     if (m_ConfDataActual.m_bOffsetCorrectionX)
-    rs = "1";
+        rs = "1";
     else
-    rs = "0";
+        rs = "0";
 
     return sAlloc(rs);
 }
@@ -1104,10 +1092,10 @@ char *cWM3000SCPIFace::mGetConfCompOffskX()
 void cWM3000SCPIFace::mSetConfCompOecOn(char* s)
 {
     ushort us;
+
     if ( GetParameter(&s, us, 0, 1, 10, true) )	    
     {
-	m_ConfDataTarget.m_bOECorrection = ( us ==1 );
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_bOECorrection = ( us ==1 );
     }
 }
 
@@ -1115,10 +1103,10 @@ void cWM3000SCPIFace::mSetConfCompOecOn(char* s)
 void cWM3000SCPIFace::mSetConfCompOffskN(char* s)
 {
     ushort us;
+
     if ( GetParameter(&s, us, 0, 1, 10, true) )
     {
-    m_ConfDataTarget.m_bOffsetCorrectionN = ( us ==1 );
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_bOffsetCorrectionN = ( us ==1 );
     }
 }
 
@@ -1126,55 +1114,18 @@ void cWM3000SCPIFace::mSetConfCompOffskN(char* s)
 void cWM3000SCPIFace::mSetConfCompOffskX(char* s)
 {
     ushort us;
+
     if ( GetParameter(&s, us, 0, 1, 10, true) )
     {
-    m_ConfDataTarget.m_bOffsetCorrectionX = ( us ==1 );
-//	emit SendConfiguration(&m_ConfData);
+        m_ConfDataTarget.m_bOffsetCorrectionX = ( us ==1 );
     }
 }
 
-
-
-/*
-char* cWM3000SCPIFace::mGetConfCompModeCatalog()
-{
-    QString rs;
-    
-    rs = QString("%1,%2").arg(0).arg(CompName[0]);
-    for (int i = 1; i < MaxCompMode; i++)
-	rs = rs + ";" + QString("%1,%2").arg(i).arg(CompName[i]);
-     
-    return sAlloc(rs);
-}
-*/
-
-/*
-void cWM3000SCPIFace::mSetConfCompMode(char* s)
-{
-    int cm;
-    if ( SearchEntry(&s,CompName,MaxCompMode,cm,true) )
-    {
-	m_ConfDataTarget.m_nCompMode = cm;
-//	emit SendConfiguration(&m_ConfData);
-    }
-}
-*/
-
-/*
-char* cWM3000SCPIFace::mGetConfCompMode()
-{
-    QString rs;
-    rs = QString("%1,%2").arg(m_ConfDataActual.m_nCompMode).arg(CompName[m_ConfDataActual.m_nCompMode]);
-    return sAlloc(rs);
-}
-*/
 
 char* cWM3000SCPIFace::mGetConfOperModeCatalog()
 {
     QString rs;
  
-    m_ConfDataTarget = m_ConfDataActual;
-
     if (g_WMDevice->isConventional())
         rs = QString("%1,%2").arg(In_IxAbs).arg(MModeName[In_IxAbs]);
     else
@@ -1217,7 +1168,7 @@ void cWM3000SCPIFace::mSetConfOperMode(char* s)
 char* cWM3000SCPIFace::mGetConfOperMode()
 {
     QString rs;
-    m_ConfDataTarget = m_ConfDataActual;
+
     rs = QString("%1,%2").arg(m_ConfDataActual.m_nMeasMode).arg(MModeName[m_ConfDataActual.m_nMeasMode]);
     return sAlloc(rs);
 }
@@ -1226,8 +1177,6 @@ char* cWM3000SCPIFace::mGetConfOperMode()
 char* cWM3000SCPIFace::mGetConfOperSignalCatalog()
 {
     QString rs;
-
-    m_ConfDataTarget = m_ConfDataActual;
 
     rs = QString("%1,%2;%3,%4").arg(AC).arg(SModeName[AC])
                                .arg(DC).arg(SModeName[DC]);
@@ -1252,7 +1201,6 @@ void cWM3000SCPIFace::mSetConfOperSignal(char* s)
                AddEventError(ParameterNotAllowed);
             return;
         }
-//	emit SendConfiguration(&m_ConfData);
     }
     AddEventError(ParameterNotAllowed);
 }
@@ -1261,11 +1209,12 @@ void cWM3000SCPIFace::mSetConfOperSignal(char* s)
 char* cWM3000SCPIFace::mGetConfOperSignal()
 {
     QString rs;
-    m_ConfDataTarget = m_ConfDataActual;
+
     if (m_ConfDataActual.m_bDCmeasurement)
         rs = QString("%1,%2").arg(DC).arg(SModeName[DC]);
     else
         rs = QString("%1,%2").arg(AC).arg(SModeName[AC]);
+
     return sAlloc(rs);
 }
 
@@ -1277,12 +1226,12 @@ bool cWM3000SCPIFace::SearchEntry(char** s, char** sa, int max, int& n, bool chk
     
     if (chkEnd)
     {
-	QString par = m_pParser->GetKeyword(s);
-	if ( !par. isEmpty()  )
-	{
-	    AddEventError(InvalidSeparator); // macht agilent auch so
-	    return false;
-	}
+        QString par = m_pParser->GetKeyword(s);
+        if ( !par. isEmpty()  )
+        {
+            AddEventError(InvalidSeparator); // macht agilent auch so
+            return false;
+        }
     }
     
     inp = inp.upper(); // grossbuchstaben
@@ -1310,8 +1259,8 @@ bool cWM3000SCPIFace::SearchEntry(char** s, char** sa, int max, int& n, bool chk
     
     if (i == max)
     {
-	AddEventError(ParameterNotAllowed);
-	return false;
+        AddEventError(ParameterNotAllowed);
+        return false;
     }
     
     n = i;
@@ -1326,12 +1275,12 @@ bool cWM3000SCPIFace::SearchEntry(char** s, double* pdval, int max, int& n, bool
     
     if (chkEnd)
     {
-	QString par = m_pParser->GetKeyword(s);
-	if ( !par. isEmpty()  )
-	{
-	    AddEventError(InvalidSeparator); // macht agilent auch so
-	    return false;
-	}
+        QString par = m_pParser->GetKeyword(s);
+        if ( !par. isEmpty()  )
+        {
+            AddEventError(InvalidSeparator); // macht agilent auch so
+            return false;
+        }
     }
     
     double d;
@@ -1339,8 +1288,8 @@ bool cWM3000SCPIFace::SearchEntry(char** s, double* pdval, int max, int& n, bool
     
     if ( !ok ) 
     {
-	AddEventError(NumericDataError);
-	return ok;
+        AddEventError(NumericDataError);
+        return ok;
     }
     
     int i;
@@ -1350,8 +1299,8 @@ bool cWM3000SCPIFace::SearchEntry(char** s, double* pdval, int max, int& n, bool
     
     if (i == max) 
     {
-	AddEventError(ParameterNotAllowed); // wir haben den wert nicht gefunden
-	return false;
+        AddEventError(ParameterNotAllowed); // wir haben den wert nicht gefunden
+        return false;
     }
     
     n = i;
@@ -1366,12 +1315,12 @@ bool cWM3000SCPIFace::SearchEntry(char** s, int* pival, int max, int& n, bool ch
     
     if (chkEnd)
     {
-	QString par = m_pParser->GetKeyword(s);
-	if ( !par. isEmpty()  )
-	{
-	    AddEventError(InvalidSeparator); // macht agilent auch so
-	    return false;
-	}
+        QString par = m_pParser->GetKeyword(s);
+        if ( !par. isEmpty()  )
+        {
+            AddEventError(InvalidSeparator); // macht agilent auch so
+            return false;
+        }
     }
     
     int id;
@@ -1379,8 +1328,8 @@ bool cWM3000SCPIFace::SearchEntry(char** s, int* pival, int max, int& n, bool ch
     
     if ( !ok ) 
     {
-	AddEventError(NumericDataError);
-	return ok;
+        AddEventError(NumericDataError);
+        return ok;
     }
     
     int i;
@@ -1390,8 +1339,8 @@ bool cWM3000SCPIFace::SearchEntry(char** s, int* pival, int max, int& n, bool ch
     
     if (i == max) 
     {
-	AddEventError(ParameterNotAllowed); // wir haben den wert nicht gefunden
-	return false;
+        AddEventError(ParameterNotAllowed); // wir haben den wert nicht gefunden
+        return false;
     }
     
     n = i;
@@ -1406,18 +1355,18 @@ bool cWM3000SCPIFace::SearchFile(char* s, bool chkEnd)
 	return true;
     if (chkEnd)
     {
-	QString par = m_pParser->GetKeyword(&s);
-	if ( !par. isEmpty()  )
-	{
-	    AddEventError(InvalidSeparator); // macht agilent auch so
-	    return false;
-	}
+        QString par = m_pParser->GetKeyword(&s);
+        if ( !par. isEmpty()  )
+        {
+            AddEventError(InvalidSeparator); // macht agilent auch so
+            return false;
+        }
     }
     
     QFile f(inp);
     bool e = f.exists();
     if (!e)
-	AddEventError(FileNameError);
+        AddEventError(FileNameError);
     
     return e;
 }
@@ -1430,23 +1379,24 @@ bool cWM3000SCPIFace::GetParameter(char** s, ushort& us, bool chkEnd) // zeiger 
     ushort nPar = par.toUShort(&ok);
     if ( ok)  
     {
-	us = nPar;
-	if (chkEnd) 
-	{
-	    par = m_pParser->GetKeyword(s);
-	    if ( par.isEmpty() )
-		return ok;
-	    else
-	    {
-		AddEventError(InvalidSeparator); // macht agilent auch so
-		return false;
-	    }
-	}
-	else 
-	    return ok;
+        us = nPar;
+        if (chkEnd)
+        {
+            par = m_pParser->GetKeyword(s);
+            if ( par.isEmpty() )
+            return ok;
+            else
+            {
+                AddEventError(InvalidSeparator); // macht agilent auch so
+                return false;
+            }
+        }
+        else
+            return ok;
     }
     else 
-	AddEventError(NumericDataError);
+        AddEventError(NumericDataError);
+
     return ok;
 }   
 
@@ -1458,27 +1408,28 @@ bool cWM3000SCPIFace::GetParameter(char** s, ushort& us, int min, int max, int b
     ushort nPar = par.toUShort(&ok,base);
     if ( ok)  
     {
-	us = nPar;
-	if (chkEnd) 
-	{
-	    par = m_pParser->GetKeyword(s);
-	    if ( ! par.isEmpty() )
-	    {
-		AddEventError(InvalidSeparator); // macht agilent auch so
-		return false;
-	    }
-	}
+        us = nPar;
+        if (chkEnd)
+        {
+            par = m_pParser->GetKeyword(s);
+            if ( ! par.isEmpty() )
+            {
+                AddEventError(InvalidSeparator); // macht agilent auch so
+                return false;
+            }
+        }
 
-	if ( (nPar < min) || (nPar >max) )
-	{
-		AddEventError(ParameterNotAllowed); 
-		return false;
-	}    
-	
-	return ok;
+        if ( (nPar < min) || (nPar >max) )
+        {
+            AddEventError(ParameterNotAllowed);
+            return false;
+        }
+
+        return ok;
     }
     else 
-	AddEventError(NumericDataError);
+        AddEventError(NumericDataError);
+
     return ok;
 }   
 
@@ -1489,27 +1440,27 @@ bool cWM3000SCPIFace::GetParameter(char** s, double& d, double min, double max, 
     double Par = par.toDouble(&ok);
     if ( ok)  
     {
-	if (chkEnd) 
-	{
-	    par = m_pParser->GetKeyword(s);
-	    if ( ! par.isEmpty() )
-	    {
-		AddEventError(InvalidSeparator);
-		return false;
-	    }
-	}
-	
-	if ( (Par < min) || (Par > max) )
-	{
-		AddEventError(ParameterNotAllowed); 
-		return false;
-	}
-	
-	d = Par;
-	return ok;
+        if (chkEnd)
+        {
+            par = m_pParser->GetKeyword(s);
+            if ( ! par.isEmpty() )
+            {
+                AddEventError(InvalidSeparator);
+                return false;
+            }
+        }
+
+        if ( (Par < min) || (Par > max) )
+        {
+            AddEventError(ParameterNotAllowed);
+            return false;
+        }
+
+        d = Par;
+        return ok;
     }
     else 
-	AddEventError(NumericDataError);
+        AddEventError(NumericDataError);
     
     return ok;
 }   
@@ -1520,11 +1471,11 @@ bool cWM3000SCPIFace::GetParameter(char** s, QString& par,bool chkEnd) // zeiger
     par = m_pParser->GetKeyword(s); // holt den parameter aus dem kommando
     if (chkEnd) 
     {
-	if (!(m_pParser->GetKeyword(s)).isEmpty())
-	{
-	    AddEventError(InvalidSeparator); // macht agilent auch so
-	    return false;
-	}
+        if (!(m_pParser->GetKeyword(s)).isEmpty())
+        {
+            AddEventError(InvalidSeparator); // macht agilent auch so
+            return false;
+        }
     }
     
     return true;
@@ -1547,14 +1498,14 @@ bool cWM3000SCPIFace::GetTransformerRatio(char** s, QString& ps, QString& ss, bo
     
     if (chkEnd && !(m_pParser->GetKeyword(s)).isEmpty() )
     {
-	AddEventError(InvalidSeparator);
-	return false;
+        AddEventError(InvalidSeparator);
+        return false;
     }	
 	
     if ( par[0].isEmpty() || par[1].isEmpty() )
     {
-	AddEventError(MissingParameter);
-	return false;
+        AddEventError(MissingParameter);
+        return false;
     }
     
     for ( i = 0; i < 2; i++)
@@ -1566,8 +1517,8 @@ bool cWM3000SCPIFace::GetTransformerRatio(char** s, QString& ps, QString& ss, bo
     
     if ( !ok)
     {
-	AddEventError(ParameterNotAllowed);
-	return false;
+        AddEventError(ParameterNotAllowed);
+        return false;
     }
     
     ps = par[0];
@@ -1582,18 +1533,18 @@ void cWM3000SCPIFace::SetMacAdress(char** s, cETHAdress& leth)
     QString par = m_pParser->GetKeyword(s);
     if (!m_pParser->GetKeyword(s).isEmpty() )
     {
-	AddEventError(InvalidSeparator);
-	return;
+        AddEventError(InvalidSeparator);
+        return;
     }
     
     if (par.isEmpty())
     {
-	AddEventError(MissingParameter);
-	return;
+        AddEventError(MissingParameter);
+        return;
     }
     
     if (!leth.SetMacAdress(par))
-	AddEventError(ParameterNotAllowed);    
+            AddEventError(ParameterNotAllowed);
 }
 
 
@@ -1601,22 +1552,28 @@ void cWM3000SCPIFace::ExecuteCommand(int entryState) // ausführen eines common 
 {
     static int EXS = ExecCmdIdle; // execution state
     static int CmdPart;
+    static QString CmdInProgress;
     QString s;
     
-    if ( entryState == ExecCmdStart )  { // wir bekommen neues kommando
-	if (EXS != ExecCmdIdle) { // sind aber noch nicht fertig
-	    EXSFifo.push_back(m_sCommand);  // wir merken uns das kommondo wir was starten sollten
-	    
-	    return; // und sind fertig
-	}
-	else // oder wir sind fertig und 
-	    EXS = entryState; // wir starten es
+    if ( entryState == ExecCmdStart )
+    { // wir bekommen neues kommando
+        if (EXS != ExecCmdIdle)
+        { // sind aber noch nicht fertig
+            EXSFifo.push_back(m_sCommand);  // wir merken uns das kommondo wir was starten sollten
+
+            return; // und sind fertig
+        }
+        else
+        {// oder wir sind fertig und
+            CmdInProgress = m_sCommand;
+            EXS = entryState; // wir starten es
+        }
     }
     
     else
 	
     if (entryState != 	ExecCmdContinue)
-	EXS = entryState; // wenns dann nicht continue ist gehen wir  dahin, wo die bearbeiten routine uns hinhaben will
+        EXS = entryState; // wenns dann nicht continue ist gehen wir  dahin, wo die bearbeiten routine uns hinhaben will
         
     switch (EXS)    
     {
@@ -1630,11 +1587,13 @@ void cWM3000SCPIFace::ExecuteCommand(int entryState) // ausführen eines common 
     case ExecCmdPart:
 	{
 	    QString cmd;
-	    cmd = m_sCommand.section(';',CmdPart,CmdPart); // ein teil kommando ... falls es mehrere sind
+        cmd = CmdInProgress.section(';',CmdPart,CmdPart); // ein teil kommando ... falls es mehrere sind
 	    if ( cmd.length() > 0 ) // wir haben ein kommando
-		m_pCmdTimer->start(0, cmd);
+        {
+            m_pCmdTimer->start(0, cmd);
+        }
 	    else
-		m_pSMachineTimer->start(0, ExecCmdFinished); // kommando fertig
+            m_pSMachineTimer->start(0, ExecCmdFinished); // kommando fertig
 
 	    break;
 	}
@@ -1903,6 +1862,7 @@ void cWM3000SCPIFace::SCPICmd( int cmd,char* s) {
 		  case SetConfRatioEct: mSetConfRatioEct(s);break;
 		  case SetConfRatioChx: mSetConfRatioChx(s);break;
 		  case SetConfRatioChn: mSetConfRatioChn(s);break;
+          case SetConfSyncStrong: mSetConfSyncStrong(s);break;
 		  case SetConfSyncPeriod: mSetConfSyncPeriod(s);break;
 		  case SetConfSyncSource: mSetConfSyncSource(s);break;
 		  case SetConfMeasTInt: mSetConfMeasTInt(s);break;
@@ -1922,8 +1882,8 @@ void cWM3000SCPIFace::SCPICmd( int cmd,char* s) {
 		  }
 	      else
 	      {
-		  AddEventError(CommandProtected);
-		  m_pSMachineTimer->start(0, ExecCmdFinished);
+              AddEventError(CommandProtected);
+              m_pSMachineTimer->start(0, ExecCmdFinished);
 	      }
 	  }
 	
@@ -1959,6 +1919,7 @@ void cWM3000SCPIFace::SCPICmd( int cmd,char* s) {
 	case SetConfRatioEct: 
 	case SetConfRatioChx:
 	case SetConfRatioChn: 
+    case SetConfSyncStrong:
 	case SetConfSyncPeriod: 
 	case SetConfSyncSource:
 	case SetConfMeasTInt: 
@@ -2040,6 +2001,7 @@ char* cWM3000SCPIFace::SCPIQuery( int cmd, char* s) {
 	case GetConfRatioEct: an = mGetConfRatioEct();break;
 	case GetConfRatioChx: an = mGetConfRatioChx();break;
 	case GetConfRatioChn: an = mGetConfRatioChn();break;
+    case GetConfSyncStrong: an = mGetConfSyncStrong();break;
 	case GetConfSyncPeriod: an = mGetConfSyncPeriod();break;
 	case GetConfSyncSource: an = mGetConfSyncSource();break;
     case GetConfMeasTInt: an = mGetConfMeasTInt();break;
@@ -2105,6 +2067,7 @@ char* cWM3000SCPIFace::SCPIQuery( int cmd, char* s) {
 	case GetConfRatioEct:
 	case GetConfRatioChx:
 	case GetConfRatioChn:
+    case GetConfSyncStrong:
 	case GetConfSyncPeriod:
 	case GetConfSyncSource:
     case GetConfMeasTInt:
@@ -2165,15 +2128,18 @@ cNodeSCPI* Configuration;
         cNodeSCPI* ConfigurationMeasureSRate;
         cNodeSCPI* ConfigurationMeasureMPeriod;
         cNodeSCPI* ConfigurationMeasureIntegrationTime;
-    cNodeSCPI* ConfigurationSynchronization; 					      	                                			    cNodeSCPI* ConfigurationSynchronizationSource;
+    cNodeSCPI* ConfigurationSynchronization;
+        cNodeSCPI* ConfigurationSynchronizationStrong;
+        cNodeSCPI* ConfigurationSynchronizationSource;
         cNodeSCPI* ConfigurationSynchronizationPeriod;
     cNodeSCPI* ConfigurationRatio;
         cNodeSCPI* ConfigurationRatioN;
         cNodeSCPI* ConfigurationRatioX;
         cNodeSCPI* ConfigurationRatioECT;
-    cNodeSCPI* ConfigurationEN61850; 					   		                                                      cNodeSCPI* ConfigurationEN61850MacAdress;
-        cNodeSCPI* ConfigurationEN61850MacAdressMergingUnit;
-        cNodeSCPI* ConfigurationEN61850MacAdressWM3000;
+    cNodeSCPI* ConfigurationEN61850;
+        cNodeSCPI* ConfigurationEN61850MacAdress;
+            cNodeSCPI* ConfigurationEN61850MacAdressMergingUnit;
+            cNodeSCPI* ConfigurationEN61850MacAdressWM3000;
         cNodeSCPI* ConfigurationEN61850DataSet;
         cNodeSCPI* ConfigurationEN61850FAsdu;
         cNodeSCPI* ConfigurationEN61850LAsdu;
@@ -2196,11 +2162,11 @@ cNodeSCPI* ReadLoadpoint;
 	      
 	     
 cNodeSCPI* Sense;
-                   cNodeSCPI* SenseChannel;
-                                      cNodeSCPI* SenseChannelCatalog;
-                   cNodeSCPIVar* SenseCName;
-	                        cNodeSCPI* SenseCNameRange;
-			               cNodeSCPI* SenseCNameRangeCatalog;
+    cNodeSCPI* SenseChannel;
+        cNodeSCPI* SenseChannelCatalog;
+    cNodeSCPIVar* SenseCName;
+        cNodeSCPI* SenseCNameRange;
+            cNodeSCPI* SenseCNameRangeCatalog;
 
 cNodeSCPI* Store;
     cNodeSCPI* StoreChannelNOffset;
@@ -2208,36 +2174,36 @@ cNodeSCPI* Store;
 	
 				       
 cNodeSCPI* Status;
-                   cNodeSCPI* StatusStandard;
-	     cNodeSCPI* StatusOperation;	 
-	                        cNodeSCPI* StatusOperationEvent;
-		          cNodeSCPI* StatusOperationCondition;		
-		          cNodeSCPI* StatusOperationEnable;	
-		          cNodeSCPI* StatusOperationNTransition;	  
-		          cNodeSCPI* StatusOperationPTransition;	  
-	     cNodeSCPI* StatusQuestionable;	 
-	                        cNodeSCPI* StatusQuestionableEvent;
-		          cNodeSCPI* StatusQuestionableCondition;		
-		          cNodeSCPI* StatusQuestionableEnable;	  
-		          cNodeSCPI* StatusQuestionableNTransition;		  
-		          cNodeSCPI* StatusQuestionablePTransition;	  
+    cNodeSCPI* StatusStandard;
+    cNodeSCPI* StatusOperation;
+        cNodeSCPI* StatusOperationEvent;
+        cNodeSCPI* StatusOperationCondition;
+        cNodeSCPI* StatusOperationEnable;
+        cNodeSCPI* StatusOperationNTransition;
+        cNodeSCPI* StatusOperationPTransition;
+    cNodeSCPI* StatusQuestionable;
+        cNodeSCPI* StatusQuestionableEvent;
+        cNodeSCPI* StatusQuestionableCondition;
+        cNodeSCPI* StatusQuestionableEnable;
+        cNodeSCPI* StatusQuestionableNTransition;
+        cNodeSCPI* StatusQuestionablePTransition;
 			  
-	     cNodeSCPI* StatusEN61850;
-		          cNodeSCPI* StatusEN61850DataCount;
-		          cNodeSCPI* StatusEN61850Error;
-	  	          cNodeSCPI* StatusEN61850SynclostCount;
-		          cNodeSCPI* StatusEN61850Clear;
+        cNodeSCPI* StatusEN61850;
+            cNodeSCPI* StatusEN61850DataCount;
+            cNodeSCPI* StatusEN61850Error;
+            cNodeSCPI* StatusEN61850SynclostCount;
+            cNodeSCPI* StatusEN61850Clear;
 
 			  
 cNodeSCPI* System;
-                   cNodeSCPI* SystemVersion;
-		           cNodeSCPI* SystemVersionDevice;	   
-		           cNodeSCPI* SystemVersionPCB;
-		           cNodeSCPI* SystemVersionDSP;
-	     cNodeSCPI* SystemSerial;
-	     cNodeSCPI* SystemError;
-	                         cNodeSCPI* SystemErrorCount;
-		           cNodeSCPI* SystemErrorAll;
+    cNodeSCPI* SystemVersion;
+        cNodeSCPI* SystemVersionDevice;
+        cNodeSCPI* SystemVersionPCB;
+        cNodeSCPI* SystemVersionDSP;
+    cNodeSCPI* SystemSerial;
+    cNodeSCPI* SystemError;
+        cNodeSCPI* SystemErrorCount;
+        cNodeSCPI* SystemErrorAll;
 		          		   
 // cNodeScpi (QString,tNodeSpec,cNode*,cNode*,SCPICmdType,SCPICmdType); 
 // konstruktor, sNodeName, nNodedef, pNextNode, pNewLevelNode, Cmd, Query				
@@ -2326,7 +2292,8 @@ cNode* cWM3000SCPIFace::InitScpiCmdTree(cNode* cn) {
     ConfigurationRatioX=new cNodeSCPI("X",isQuery | isCommand,ConfigurationRatioECT,NULL,SetConfRatioChx,GetConfRatioChx);
     ConfigurationRatioN=new cNodeSCPI("N",isQuery | isCommand,ConfigurationRatioX,NULL,SetConfRatioChn,GetConfRatioChn);
     ConfigurationRatio=new cNodeSCPI("RATIO",isNode,ConfigurationEN61850,ConfigurationRatioN,nixCmd,nixCmd);
-    ConfigurationSynchronizationPeriod=new cNodeSCPI("PERIOD",isQuery | isCommand,NULL,NULL,SetConfSyncPeriod,GetConfSyncPeriod);
+    ConfigurationSynchronizationStrong=new cNodeSCPI("STRONG",isQuery | isCommand,NULL,NULL,SetConfSyncStrong,GetConfSyncStrong);
+    ConfigurationSynchronizationPeriod=new cNodeSCPI("PERIOD",isQuery | isCommand,ConfigurationSynchronizationStrong,NULL,SetConfSyncPeriod,GetConfSyncPeriod);
     ConfigurationSynchronizationSource=new cNodeSCPI("SOURCE",isQuery | isCommand,ConfigurationSynchronizationPeriod,NULL,SetConfSyncSource,GetConfSyncSource);
     ConfigurationSynchronization=new cNodeSCPI("SYNCRONISATION",isNode,ConfigurationRatio,ConfigurationSynchronizationSource,nixCmd,nixCmd);
     ConfigurationMeasureIntegrationTime=new cNodeSCPI("INTEGRATIONTIME",isQuery | isCommand,NULL,NULL,SetConfMeasTInt,GetConfMeasTInt);
@@ -2334,7 +2301,6 @@ cNode* cWM3000SCPIFace::InitScpiCmdTree(cNode* cn) {
     ConfigurationMeasureSRate=new cNodeSCPI("SRATE",isQuery | isCommand,ConfigurationMeasureMPeriod,NULL,SetConfMeasSRate,GetConfMeasSRate);
     ConfigurationMeasureSigFrequency=new cNodeSCPI("SIGFREQUENCY",isQuery | isCommand,ConfigurationMeasureSRate,NULL,SetConfMeasSFreq,GetConfMeasSFreq);
     ConfigurationMeasure=new cNodeSCPI("MEASURE",isNode,ConfigurationSynchronization,ConfigurationMeasureSigFrequency,nixCmd,nixCmd);
-
 
     ConfigurationComputationPHCorrectionTime=new cNodeSCPI("TIME",isQuery | isCommand,NULL,NULL,SetConfCompPhcTime,GetConfCompPhcTime);
     ConfigurationComputationPHCorrectionPhase=new cNodeSCPI("PHASE",isQuery | isCommand,ConfigurationComputationPHCorrectionTime,NULL,SetConfCompPhcPhase,GetConfCompPhcPhase);
