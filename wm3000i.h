@@ -336,6 +336,8 @@ public:
     bool isConventional();
     void setDC(bool b);
     bool isDC();
+    void setNewSamplerates(bool b);
+    bool isNewSamplerates();
 
 public slots:
      // slots, die vom hauptfenster aus aktiviert werden
@@ -444,6 +446,7 @@ private:
     
     CWMRange* DummyRange;
  
+    int getSampleRate(int sr);
     void SetDspWMVarList();
     void SetDspWMCmdList();
 
@@ -501,6 +504,7 @@ private:
     cWMessageBox *m_SelftestMsgBox;
     bool m_bConventional;
     bool m_bDC;
+    bool m_bNewSamplerates;
     bool m_bNoDCAdjust;
 };
 

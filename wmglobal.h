@@ -20,8 +20,8 @@
 
 //#define FVWM 1
 
-#define TheDevice "127.0.0.1"
-//#define TheDevice "192.168.6.57"
+//#define TheDevice "127.0.0.1"
+#define TheDevice "192.168.6.42"
 
 // V1.00 setzt auf wm3000u V1.04
 // V1.01 zusätzliche anzeige lastpunkt relativ zu X kanal eingebaut
@@ -107,8 +107,16 @@
 //                  das interface läuft jetzt stabil bei voller geschwindigkeit.
 //                  opc? liefert fertig erst nachdem alle conf. kommandos abgearbeitet wurden.
 //                  eth kommando, query hinzugefügt um en61850:sync:strong setzen und abfragen zu können
+// v2.34 10.05.2012 es sollen die neuen sample rate für die non conventional wandler integriert werden
+//                  im groben: das konfigurations menu muss angepasst werden. es gibt verriegelungen
+//                  zwischen samplerate und signalfrequenz. die anzahl der signalperioden ist samplerate
+//                  abhängig. die anzahl der asdu's in einer apdu ist ebenfalls davon abhängig. das scpi
+//                  interface musste angepasst werden. der automatische phasenabgleich war entsprechend
+//                  zu erweitern. die neue version läuft nur mit dem leiterkarten server ab v2.09.
 
-#define WMVersion "V2.33"
+
+#define WMVersion "V2.34"
+
 
 #define wm3000iHome QDir::homePath()
 // #define ServerCommLogFilePath "/usr/share/wm3000i/log/ServerComm.log"
@@ -127,8 +135,13 @@
 const int nmaxRecentOEFiles = 5;
 const int nmaxRecentMVFiles = 5;
 const int nmaxRecentSESFiles = 5;
-const int nmaxS80MeasPeriod = 40;
-const int nmaxS256MeasPeriod = 14;
+
+const int nmaxS80MeasPeriod = 49;
+const int nmaxS96MeasPeriod = 41;
+const int nmaxS240MeasPeriod = 16;
+const int nmaxS256MeasPeriod = 15;
+const int nmaxS288MeasPeriod = 13;
+
 const float TDBase = 100.0e6; // 100 mhz auflösung für td messung (pps->1. sample)
 
 enum DisplayModes {ANSI,IEC,MaxCompMode}; // compmodi
@@ -138,7 +151,7 @@ enum VekPrimSekModes {prim, sek};
 enum VekWinkelModes {mathpos, techpos}; // winkel anzeige math. pos. bzw. techn. pos.
 enum SyncSources {Intern,Extern,MaxSSource}; // sync sources
 enum SignalFreqs {F16,F50,F60,MaxFreq}; // -> feste abtastfrequenzen
-enum SampleRates {S80,S256,MaxSRate}; // abtastraten
+enum SampleRates {S80,S96,S240,S256,S288,MaxSRate}; // abtastraten
 // alt jetzt sensemode enum tsmode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, adcXadcN = 5, sensXadcNECT = 11}; // testmodi innerhalb der hardware
 enum SenseMode {sensNsensX, adcNadcX, sensNadcX, sensXadcN, sensNsensX0V, anzSenseMode}; // sense modes innerhalb der hardware
 enum JustMode {sensNadcXPhase, sensXadcNPhase, sensECTadcNPhase, sensNsensXOffset, sensNOffset, sensXOffset, sensECTOffset, adcNPhase, adcXPhase}; // justage modes
