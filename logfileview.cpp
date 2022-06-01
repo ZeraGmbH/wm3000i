@@ -9,6 +9,7 @@
 //Added by qt3to4:
 #include <QResizeEvent>
 #include <QCloseEvent>
+#include <QTime>
 
 #include "wmglobal.h"
 #include "logfileview.h"
@@ -43,7 +44,7 @@ void CLogFileView::ShowHideLogFileSlot(bool b)
 
 void CLogFileView::AddLogTextSlot(const QString& s)
 {	
-    m_loglist.append(s.stripWhiteSpace()); // neue daten in die liste
+    m_loglist.append(QTime::currentTime().toString("HH:mm:ss:zzz") + ": " + s.stripWhiteSpace()); // neue daten in die liste
 }    
 
 
